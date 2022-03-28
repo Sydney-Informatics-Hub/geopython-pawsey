@@ -1,5 +1,5 @@
 ---
-title: "SIH Python for Geoscientists"
+title: "Introduction to Machine Learning with Python for Mineral Exploration"
 ---
 # Readme
 
@@ -7,7 +7,7 @@ All of the jupyter notebooks are in the `_ipynb` notebook.
 
 Python for geosciences SIH materials
 
-Rendered at: https://sydney-informatics-hub.github.io/geopython/
+Rendered at: https://sydney-informatics-hub.github.io/geopython-pawsey
 
 - All notebooks go into `_ipynb` folder
 - Run the below command to render them into markdown files in the right place

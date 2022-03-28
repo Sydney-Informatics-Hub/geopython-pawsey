@@ -9,11 +9,7 @@ output:
 
 This course is aimed at researchers, students, and industry professionals who want to learn about the capabilities of Python and get experience using it applied to real-world problems. This course will introduce you to foundations of Python programming. We will utilise common geoscience data types (geospatial, temporal, vector, raster, etc) to demonstrate a variety of practical workflows and showcase fundamental capabilities of Python. We will carry out exploratory, analytical, computational and machine learning analyses on these datasets. At the end of the course you will be able to adapt these workflows to your own datasets. 
 
-The course is presented by the <a href="https://www.sydney.edu.au/research/facilities/sydney-informatics-hub.html">Sydney Informatics Hub</a> on behalf of the <a href="https://pesa.com.au/events/pesa-qld-online-course-introduction-to-python-for-geoscience/">Petroleum Exploration Society of Australia</a>.
-
-<figure>
-  <img src="fig/pesa.jpg" style="margin:10px;width:400px"/>
-</figure>
+The course is presented by the <a href="https://www.sydney.edu.au/research/facilities/sydney-informatics-hub.html">Sydney Informatics Hub</a> for <a href="https://datascienceweek.org/">Pawsey Data Science Week 2022</a>.
 
 <figure>
   <img src="fig/SIH_logo.jpg" style="margin:10px;width:400px"/>
@@ -29,13 +25,14 @@ We also aim to cultivate a **data community**, organising monthly [Hacky Hours](
 
 # Trainers
 * Nathaniel (Nate) Butterworth (PhD Computational Geophysics), nathaniel.butterworth@sydney.edu.au
-* Darya Vanichkina (PhD Bioinformatics, FHEA) 
-* Jianzhou Zhao (PhD Environmental Engineering)
-* Kristian Maras (MSc Quant Fin)
+* Mike?
 
 # Course pre-requisites and setup requirements
 
-No previous programming experience is required, but **Session 1 is a pre-requisite for the other sessions**. Training will be delivered online, so you will need access to a modern computer with a stable internet connection and around 5GB of storage space downloaded prior to the course. Participants are encouraged to setup a Python environment on their local computer (as per the [Setup Instructions](https://sydney-informatics-hub.github.io/geopython/setup.html) provided), but participation using other platforms/environments can be supported where necessary.
+A fundamental grasp on Python will be beneficial for attendees,  but we will step through the workflow in a simplified approach. You should be able to recognise a for loop, and if-else statements, know about importing modules, and understand the commands for how a simple plot is made in matplotlib. The Carpentries Python course will be more than adequate: https://swcarpentry.github.io/python-novice-inflammation/
+Domain knowledge of exploration or geoscience will be helpful and most relevant, but these workflows can be applied to any similar datasets.
+
+Training will be delivered online, so you will need access to a modern computer with a stable internet connection. You can setup and run everything locally but support during the course will only be provided for our cloud-hosted Python instances.
 
 # Venue, online via Zoom
 Participants will be provided with a Zoom link. Trainers will be broadcasting from Sydney.
@@ -43,7 +40,7 @@ Participants will be provided with a Zoom link. Trainers will be broadcasting fr
 # Zoom etiquette and how we interact
 Everything will be done via Zoom. Sessions will be recorded for attendees only, and it is set up to only record the host shared screen and host audio. We will try and get these uploaded to this site as soon as possible. 
 
-Please interrupt whenever you want! Ideally, have your camera on and interact as much as possible. There will be someone monitoring the chat-window with any questions you would like to post there.  Four hours is a long Zoom session so we have plenty of scheduled breaks combined with a mix of content to be delivered as demos, plus sections as independent exercises, but most of the course will be pretty-hands on with everyone writing their own code. 
+Please interrupt whenever you want! Ideally, have your camera on and interact as much as possible. There will be someone monitoring the chat-window with any questions you would like to post there.  Three hours is a long Zoom session so we have plenty of scheduled breaks combined with a mix of content to be delivered as demos, plus sections as independent exercises, but most of the course will be pretty-hands on with everyone writing their own code. 
 
 We will use Zoom break-out rooms if needed with the Trainers.
 
@@ -63,39 +60,16 @@ Our full CoC, with incident reporting guidelines, is available at [https://pages
 
 
 # General session timings
+# Date & Time (in AEST-Sydney time):	
 
-* Start at 12:35pm promptly. 
-* 5 min to discuss feedback and summarise previous week.
-* 1 hour of content.
-* 10 min break.
-* 1 hour content
-* 10 min break
-* 1 hour content
-* 10 min break
-* Until 16:25pm summary + hack session til close. This will be an opportunity to get one-on-one support, or we will deviate from lesson plans if interesting questions arise. If there are particular problems or datasets you would be interested in solving/exploring, email us in advanced and we can either do it as a group (if appropriate) or break out into smaller groups.
-
-
-# Date & Time (in AEST-Brisbane time):	
-
-We will be working through the following general content over our 4 sessions together.
-
-**Session 01 Python fundamentals**
-Wed April 21, 12:30 pm - 4:30 pm (AEST)
-
-**Session 02 Specialist python libraries and data analysis for geoscience**
-Wed April 28, 12:30 pm - 4:30 pm (AEST)
-
-**Session 03 Pattern recognition and prediction in geoscience**
-Wed May 5, 12:30 pm - 4:30 pm (AEST)
-
-**Session 04 Large data and long running workflow strategies**
-Wed May 12, 12:30 pm - 4:30 pm (AEST)
+**Session 01 ML fundamentals**
+Mon May 9 XX am
 
 <br>
 
 # Setup Instructions
 
-Please complete the [Setup Instructions](https://sydney-informatics-hub.github.io/geopython/setup.html) **before the course**.
+Please complete the [Setup Instructions](https://sydney-informatics-hub.github.io/geopython-pawsey/setup.html) **before the course**.
 
 If you have any trouble, please get in contact with us ASAP.
 
