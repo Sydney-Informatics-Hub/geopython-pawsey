@@ -1,0 +1,15 @@
+*.pyc
+*~
+.DS_Store
+.ipynb_checkpoints
+.sass-cache
+__pycache__
+_site
+.Rproj.user
+.Rhistory
+.RData
+data/*
+
+# Code editors
+*.sublime-*
+*.pdf
