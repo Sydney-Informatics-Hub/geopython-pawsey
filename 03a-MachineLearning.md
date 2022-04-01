@@ -22,7 +22,7 @@ Below is an animation of the tectonomagmatic evolution of the South American pla
 
 ![SegmentLocal](./fig/MullerConvergenceSmall.gif "segment")
 
-## Start by importing most of the modules we need
+## Import most of the modules we need
 By convention module loads go at the top of your workflows.
 
 
@@ -53,8 +53,7 @@ import shapefile
 
 ```
 
-### Now load in the data
-
+## Load in the data
 
 
 ```python
@@ -63,334 +62,73 @@ ml_data=pandas.read_csv("../data/ml_data_points.csv",index_col=0)
 ```
 
 
+    ---------------------------------------------------------------------------
+
+    FileNotFoundError                         Traceback (most recent call last)
+
+    <ipython-input-2-654421b52a61> in <module>
+          1 #Use pandas to load in the machine learning dataset
+    ----> 2 ml_data=pandas.read_csv("../data/ml_data_points.csv",index_col=0)
+    
+
+    c:\users\nbutter\miniconda3\envs\geopy\lib\site-packages\pandas\io\parsers.py in parser_f(filepath_or_buffer, sep, delimiter, header, names, index_col, usecols, squeeze, prefix, mangle_dupe_cols, dtype, engine, converters, true_values, false_values, skipinitialspace, skiprows, skipfooter, nrows, na_values, keep_default_na, na_filter, verbose, skip_blank_lines, parse_dates, infer_datetime_format, keep_date_col, date_parser, dayfirst, cache_dates, iterator, chunksize, compression, thousands, decimal, lineterminator, quotechar, quoting, doublequote, escapechar, comment, encoding, dialect, error_bad_lines, warn_bad_lines, delim_whitespace, low_memory, memory_map, float_precision)
+        674         )
+        675 
+    --> 676         return _read(filepath_or_buffer, kwds)
+        677 
+        678     parser_f.__name__ = name
+
+
+    c:\users\nbutter\miniconda3\envs\geopy\lib\site-packages\pandas\io\parsers.py in _read(filepath_or_buffer, kwds)
+        446 
+        447     # Create the parser.
+    --> 448     parser = TextFileReader(fp_or_buf, **kwds)
+        449 
+        450     if chunksize or iterator:
+
+
+    c:\users\nbutter\miniconda3\envs\geopy\lib\site-packages\pandas\io\parsers.py in __init__(self, f, engine, **kwds)
+        878             self.options["has_index_names"] = kwds["has_index_names"]
+        879 
+    --> 880         self._make_engine(self.engine)
+        881 
+        882     def close(self):
+
+
+    c:\users\nbutter\miniconda3\envs\geopy\lib\site-packages\pandas\io\parsers.py in _make_engine(self, engine)
+       1112     def _make_engine(self, engine="c"):
+       1113         if engine == "c":
+    -> 1114             self._engine = CParserWrapper(self.f, **self.options)
+       1115         else:
+       1116             if engine == "python":
+
+
+    c:\users\nbutter\miniconda3\envs\geopy\lib\site-packages\pandas\io\parsers.py in __init__(self, src, **kwds)
+       1889         kwds["usecols"] = self.usecols
+       1890 
+    -> 1891         self._reader = parsers.TextReader(src, **kwds)
+       1892         self.unnamed_cols = self._reader.unnamed_cols
+       1893 
+
+
+    pandas\_libs\parsers.pyx in pandas._libs.parsers.TextReader.__cinit__()
+
+
+    pandas\_libs\parsers.pyx in pandas._libs.parsers.TextReader._setup_parser_source()
+
+
+    FileNotFoundError: [Errno 2] File ../data/ml_data_points.csv does not exist: '../data/ml_data_points.csv'
+
+
+
 ```python
 #Print out the dataset so we can see what it looks like
 ml_data
 ```
 
-
-
-
-<div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>0 Present day longitude (degrees)</th>
-      <th>1 Present day latitude (degrees)</th>
-      <th>2 Reconstructed longitude (degrees)</th>
-      <th>3 Reconstructed latitude (degrees)</th>
-      <th>4 Age (Ma)</th>
-      <th>5 Time before mineralisation (Myr)</th>
-      <th>6 Seafloor age (Myr)</th>
-      <th>7 Segment length (km)</th>
-      <th>8 Slab length (km)</th>
-      <th>9 Distance to trench edge (km)</th>
-      <th>...</th>
-      <th>11 Subducting plate parallel velocity (km/Myr)</th>
-      <th>12 Overriding plate normal velocity (km/Myr)</th>
-      <th>13 Overriding plate parallel velocity (km/Myr)</th>
-      <th>14 Convergence normal rate (km/Myr)</th>
-      <th>15 Convergence parallel rate (km/Myr)</th>
-      <th>16 Subduction polarity (degrees)</th>
-      <th>17 Subduction obliquity (degrees)</th>
-      <th>18 Distance along margin (km)</th>
-      <th>19 Subduction obliquity signed (radians)</th>
-      <th>20 Ore Deposits Binary Flag (1 or 0)</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>0</th>
-      <td>-66.28</td>
-      <td>-27.37</td>
-      <td>-65.264812</td>
-      <td>-28.103781</td>
-      <td>6.0</td>
-      <td>0.0</td>
-      <td>48.189707</td>
-      <td>56.08069</td>
-      <td>2436.30907</td>
-      <td>2436.30907</td>
-      <td>...</td>
-      <td>40.63020</td>
-      <td>-17.43987</td>
-      <td>12.20271</td>
-      <td>102.31471</td>
-      <td>28.82518</td>
-      <td>5.67505</td>
-      <td>15.73415</td>
-      <td>2269.19769</td>
-      <td>0.274613</td>
-      <td>1.0</td>
-    </tr>
-    <tr>
-      <th>1</th>
-      <td>-69.75</td>
-      <td>-30.50</td>
-      <td>-67.696759</td>
-      <td>-31.970639</td>
-      <td>12.0</td>
-      <td>0.0</td>
-      <td>52.321162</td>
-      <td>56.09672</td>
-      <td>2490.68735</td>
-      <td>2490.68735</td>
-      <td>...</td>
-      <td>39.60199</td>
-      <td>-22.80622</td>
-      <td>13.40127</td>
-      <td>115.35820</td>
-      <td>27.39401</td>
-      <td>5.78937</td>
-      <td>13.35854</td>
-      <td>1823.34107</td>
-      <td>0.233151</td>
-      <td>1.0</td>
-    </tr>
-    <tr>
-      <th>2</th>
-      <td>-66.65</td>
-      <td>-27.27</td>
-      <td>-65.128689</td>
-      <td>-28.374772</td>
-      <td>9.0</td>
-      <td>0.0</td>
-      <td>53.506085</td>
-      <td>55.77705</td>
-      <td>2823.54951</td>
-      <td>2823.54951</td>
-      <td>...</td>
-      <td>45.32425</td>
-      <td>-18.08485</td>
-      <td>11.27500</td>
-      <td>100.24282</td>
-      <td>34.62444</td>
-      <td>8.97218</td>
-      <td>19.05520</td>
-      <td>2269.19769</td>
-      <td>0.332576</td>
-      <td>1.0</td>
-    </tr>
-    <tr>
-      <th>3</th>
-      <td>-66.61</td>
-      <td>-27.33</td>
-      <td>-65.257928</td>
-      <td>-28.311094</td>
-      <td>8.0</td>
-      <td>0.0</td>
-      <td>51.317135</td>
-      <td>55.90088</td>
-      <td>2656.71724</td>
-      <td>2656.71724</td>
-      <td>...</td>
-      <td>43.13319</td>
-      <td>-17.78538</td>
-      <td>11.72618</td>
-      <td>101.21965</td>
-      <td>31.92962</td>
-      <td>7.42992</td>
-      <td>17.50782</td>
-      <td>2269.19769</td>
-      <td>0.305569</td>
-      <td>1.0</td>
-    </tr>
-    <tr>
-      <th>4</th>
-      <td>-66.55</td>
-      <td>-27.40</td>
-      <td>-65.366917</td>
-      <td>-28.257580</td>
-      <td>7.0</td>
-      <td>0.0</td>
-      <td>49.340097</td>
-      <td>56.09011</td>
-      <td>2547.29585</td>
-      <td>2547.29585</td>
-      <td>...</td>
-      <td>40.57322</td>
-      <td>-17.43622</td>
-      <td>12.23778</td>
-      <td>102.25748</td>
-      <td>28.80235</td>
-      <td>5.65657</td>
-      <td>15.73067</td>
-      <td>2269.19769</td>
-      <td>0.274552</td>
-      <td>1.0</td>
-    </tr>
-    <tr>
-      <th>...</th>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-    </tr>
-    <tr>
-      <th>296</th>
-      <td>-78.67</td>
-      <td>-6.73</td>
-      <td>-70.657487</td>
-      <td>-11.057387</td>
-      <td>39.0</td>
-      <td>0.0</td>
-      <td>62.727249</td>
-      <td>56.14919</td>
-      <td>5373.67650</td>
-      <td>1076.30110</td>
-      <td>...</td>
-      <td>13.21524</td>
-      <td>-25.08597</td>
-      <td>12.24246</td>
-      <td>60.45651</td>
-      <td>-7.46828</td>
-      <td>-22.30925</td>
-      <td>7.04216</td>
-      <td>4708.08568</td>
-      <td>-0.122909</td>
-      <td>0.0</td>
-    </tr>
-    <tr>
-      <th>297</th>
-      <td>-75.09</td>
-      <td>-13.69</td>
-      <td>-37.112536</td>
-      <td>-19.124363</td>
-      <td>121.0</td>
-      <td>0.0</td>
-      <td>30.740063</td>
-      <td>54.09642</td>
-      <td>269.79929</td>
-      <td>269.79929</td>
-      <td>...</td>
-      <td>-39.68330</td>
-      <td>11.56758</td>
-      <td>7.99788</td>
-      <td>-19.41449</td>
-      <td>-59.05957</td>
-      <td>-46.36908</td>
-      <td>71.80290</td>
-      <td>3761.82099</td>
-      <td>1.253197</td>
-      <td>0.0</td>
-    </tr>
-    <tr>
-      <th>298</th>
-      <td>-71.31</td>
-      <td>-14.91</td>
-      <td>-38.398992</td>
-      <td>-21.934657</td>
-      <td>151.0</td>
-      <td>0.0</td>
-      <td>17.739843</td>
-      <td>53.93117</td>
-      <td>323.86191</td>
-      <td>323.86191</td>
-      <td>...</td>
-      <td>-3.42257</td>
-      <td>-17.25992</td>
-      <td>-22.78837</td>
-      <td>8.88338</td>
-      <td>-7.68381</td>
-      <td>-40.99490</td>
-      <td>40.85864</td>
-      <td>3378.69739</td>
-      <td>-0.713118</td>
-      <td>0.0</td>
-    </tr>
-    <tr>
-      <th>299</th>
-      <td>-70.61</td>
-      <td>-17.25</td>
-      <td>-37.243172</td>
-      <td>-24.160112</td>
-      <td>145.0</td>
-      <td>0.0</td>
-      <td>11.744395</td>
-      <td>53.94534</td>
-      <td>163.59542</td>
-      <td>163.59542</td>
-      <td>...</td>
-      <td>-2.26253</td>
-      <td>14.87833</td>
-      <td>0.05195</td>
-      <td>2.36178</td>
-      <td>-23.78566</td>
-      <td>-38.97366</td>
-      <td>84.32944</td>
-      <td>3160.06366</td>
-      <td>-1.471826</td>
-      <td>0.0</td>
-    </tr>
-    <tr>
-      <th>300</th>
-      <td>-76.13</td>
-      <td>-11.60</td>
-      <td>-43.993914</td>
-      <td>-16.965040</td>
-      <td>101.0</td>
-      <td>0.0</td>
-      <td>35.880790</td>
-      <td>54.85460</td>
-      <td>1190.90698</td>
-      <td>1190.90698</td>
-      <td>...</td>
-      <td>40.29418</td>
-      <td>-31.96652</td>
-      <td>41.93348</td>
-      <td>71.76161</td>
-      <td>-29.57451</td>
-      <td>-38.50603</td>
-      <td>22.39762</td>
-      <td>4093.90633</td>
-      <td>-0.390912</td>
-      <td>0.0</td>
-    </tr>
-  </tbody>
-</table>
-<p>301 rows × 21 columns</p>
-</div>
-
-
-
-
-
-
 There are 21 columns (python (usually) counts from 0) representing different parameters. Some of these parameters may be useful for us. Some are not. The final column contains a binary flag representing whether there is a known porphyry copper deposit at that location or not. The "non-deposits" are required to train our Machine Learning classifier what a porphyry deposit looks like, and also, what a porphyry deposit doesn't look like!
 
-### Now let's perform our machine learning binary classification.
-
+## Perform Machine Learning binary classification.
 
 
 ```python
@@ -398,9 +136,10 @@ There are 21 columns (python (usually) counts from 0) representing different par
 ml_data_np=ml_data.values
 
 #Set the indices of the parameters (features) to include in the ML
-params=[0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20]
-# Alternatively try any 4 features you'd like to include!
+#params=[0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19]
+# Alternatively try include any set of features you'd like to include!
 #params=[6,9,14,17] 
+params=[16,17,18,19] 
 
 
 #Save the number of parameters we have chosen
@@ -418,11 +157,6 @@ print("Shape of ML data array: ", ml_data_norm.shape)
 print("Positive (deposits) examples: ",np.shape(ml_data_np[ml_data_np[:,20]==1,:]))
 print("Negative (non-deposits) examples: ",np.shape(ml_data_np[ml_data_np[:,20]==0,:]))
 ```
-
-    Shape of ML data array:  (301, 21)
-    Positive (deposits) examples:  (147, 21)
-    Negative (non-deposits) examples:  (154, 21)
-
 
 
 ```python
@@ -446,42 +180,6 @@ print(targets)
 print("Prediction (actual result):")
 print(rf.predict(features))
 ```
-
-    Make the classifiers
-    Random Forest...
-    Done RF
-    RF Scores:  [1. 1. 1. 1. 1. 1. 1. 1. 1. 1.]
-    SCORE Mean: 1.00 STD: 0.00 
-    
-    Targets (expected result):
-    [1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1.
-     1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1.
-     1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1.
-     1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1.
-     1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1.
-     1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1.
-     1. 1. 1. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0.
-     0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0.
-     0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0.
-     0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0.
-     0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0.
-     0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0.
-     0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0.]
-    Prediction (actual result):
-    [1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1.
-     1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1.
-     1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1.
-     1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1.
-     1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1.
-     1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1. 1.
-     1. 1. 1. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0.
-     0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0.
-     0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0.
-     0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0.
-     0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0.
-     0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0.
-     0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0.]
-
 
 
 ```python
@@ -510,36 +208,6 @@ plt.show()
 
 ```
 
-    Importance 	 Feature
-    0.012 		 0 Present day longitude (degrees)
-    0.011 		 1 Present day latitude (degrees)
-    0.051 		 2 Reconstructed longitude (degrees)
-    0.015 		 3 Reconstructed latitude (degrees)
-    0.058 		 4 Age (Ma)
-    0.000 		 5 Time before mineralisation (Myr)
-    0.037 		 6 Seafloor age (Myr)
-    0.014 		 7 Segment length (km)
-    0.027 		 8 Slab length (km)
-    0.026 		 9 Distance to trench edge (km)
-    0.017 		 10 Subducting plate normal velocity (km/Myr)
-    0.010 		 11 Subducting plate parallel velocity (km/Myr)
-    0.021 		 12 Overriding plate normal velocity (km/Myr)
-    0.012 		 13 Overriding plate parallel velocity (km/Myr)
-    0.021 		 14 Convergence normal rate (km/Myr)
-    0.011 		 15 Convergence parallel rate (km/Myr)
-    0.011 		 16 Subduction polarity (degrees)
-    0.025 		 17 Subduction obliquity (degrees)
-    0.008 		 18 Distance along margin (km)
-    0.016 		 19 Subduction obliquity signed (radians)
-    0.598 		 20 Ore Deposits Binary Flag (1 or 0)
-
-
-
-    
-![png](03a-MachineLearning_files/03a-MachineLearning_11_1.png)
-    
-
-
 Now if we can measure the tectonomagmatic properties at some point. Based on our trained classifier we can predict a probability that porphyry copper deposits have formed
 
 
@@ -551,11 +219,15 @@ pRF=np.array(rf.predict_proba(features))
 print("Done RF")
 ```
 
-    RF...
-    Done RF
 
+```python
+#Now you have a working ML model. You can use NEW DATA (you go and collect in the field or whatever)
+#to make predictions
+newdata = np.array([[0.5, -0.6, -0.7,  0.2]])
+rf.predict_proba(newdata)
+```
 
-## Maps!
+## Mapping the ML result
 
 
 ```python
@@ -564,15 +236,6 @@ data = scipy.io.netcdf.netcdf_file(filename,'r')
 
 data.variables
 ```
-
-
-
-
-    OrderedDict([('X', <scipy.io.netcdf.netcdf_variable at 0x269572f8f48>),
-                 ('Y', <scipy.io.netcdf.netcdf_variable at 0x269572f82c8>),
-                 ('elev', <scipy.io.netcdf.netcdf_variable at 0x269551f4788>)])
-
-
 
 
 ```python
@@ -584,10 +247,6 @@ topoZ=np.array(data.variables['elev'][:])
 #Good practice, is to close the file when done (for safety and memory saving)
 data.close()
 ```
-
-    c:\users\nbutter\miniconda3\envs\geopy\lib\site-packages\scipy\io\netcdf.py:317: RuntimeWarning: Cannot close a netcdf_file opened with mmap=True, when netcdf_variables or arrays referring to its data still exist. All data arrays obtained from such files refer directly to data on disk, and must be copied before the file can be cleanly closed. (See netcdf_file docstring for more information on mmap.)
-      ), category=RuntimeWarning)
-
 
 
 ```python
@@ -618,14 +277,7 @@ plt.title("Bathymetry and Topography of the World \n (ETOPO5 2020)")
 plt.show()
 ```
 
-
-    
-![png](03a-MachineLearning_files/03a-MachineLearning_17_0.png)
-    
-
-
-### For loops plotting shapefiles
-
+## Plotting shapefiles with for loops
 
 
 ```python
@@ -652,13 +304,7 @@ for i, nshp in enumerate(range(Nshp)):
 plt.show()
 ```
 
-
-    
-![png](03a-MachineLearning_files/03a-MachineLearning_19_0.png)
-    
-
-
-### Make a prettier map
+## Cartopy for a prettier map
 
 
 
@@ -748,18 +394,6 @@ print("Added deposit probability")
 plt.show()
 ```
 
-    Made base map
-    Added topo
-    Added shapes
-    Added deposit probability
-
-
-
-    
-![png](03a-MachineLearning_files/03a-MachineLearning_21_1.png)
-    
-
-
 ## Exercise
 Do the same analysis but using a different Machine Learning algorithm for your classification. You can use this as a guide for picking a good classification algorithm [https://scikit-learn.org/stable/tutorial/machine_learning_map/index.html](https://scikit-learn.org/stable/tutorial/machine_learning_map/index.html). 
 Present your results on a map, and compare it with the Random Forest method. 
@@ -783,3 +417,8 @@ GPlates2.0. https://www.gplates.org/
 </div>
 
 
+
+
+```python
+
+```

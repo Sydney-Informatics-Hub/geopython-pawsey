@@ -301,7 +301,7 @@ $(document).ready(function () {
 </li>
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-    Session 1
+    Sessions
      
     <span class="caret"></span>
   </a>
@@ -310,55 +310,13 @@ $(document).ready(function () {
       <a href="00-intro.html">Introduction</a>
     </li>
     <li>
-      <a href="01a-fundamentals.html">Fundamentals</a>
-    </li>
-  </ul>
-</li>
-<li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-    Session 2
-     
-    <span class="caret"></span>
-  </a>
-  <ul class="dropdown-menu" role="menu">
-    <li>
-      <a href="01b-dataframes.html">Useful Python packages for different data types</a>
+      <a href="01-build_the_data.html">Building an ML dataset</a>
     </li>
     <li>
-      <a href="02a-mapping.html">Mapping with Cartopy</a>
-    </li>
-  </ul>
-</li>
-<li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-    Session 3
-     
-    <span class="caret"></span>
-  </a>
-  <ul class="dropdown-menu" role="menu">
-    <li>
-      <a href="03a-MachineLearning.html">Machine Learning</a>
+      <a href="02-explore_the_data.html">Exploring the data</a>
     </li>
     <li>
-      <a href="03b-DeepLearningTS.html">Deep Learning &amp; Time Series</a>
-    </li>
-    <li>
-      <a href="02b-Clustering.html">Numerical approaches</a>
-    </li>
-  </ul>
-</li>
-<li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-    Session 4
-     
-    <span class="caret"></span>
-  </a>
-  <ul class="dropdown-menu" role="menu">
-    <li>
-      <a href="04a-SimpleSpeedUps.html">Simple Speed Ups</a>
-    </li>
-    <li>
-      <a href="04b-DaskDataframes.html">Dask data frames</a>
+      <a href="03a-MachineLearing.html">Machine Learning</a>
     </li>
   </ul>
 </li>
@@ -379,8 +337,15 @@ $(document).ready(function () {
 </div>
 
 
+<p>We will be connecting Jupyter Notebook Servers hosted on Pawsey’s Nimbus Cloud. Each server has been pre-configured with the data and code ready to run through these tutorials. Everyone will be issued with a unique web address. Go to this site and you are ready to go.</p>
+<p>If you are arriving here in the future or would like to set up the environment on your local machine instead, follow these instructions:</p>
+<div id="download-the-data" class="section level1">
+<h1>1. Download the data</h1>
+<p>Download the data (280 MB inflated to 500 MB) for all the exercises from here:</p>
+<p><a href="https://cloudstor.aarnet.edu.au/plus/s/IfOvRpOXhJyqTT0">https://cloudstor.aarnet.edu.au/plus/s/IfOvRpOXhJyqTT0</a></p>
+</div>
 <div id="get-a-python-client" class="section level1">
-<h1>1. Get a Python client</h1>
+<h1>2. Get a Python client</h1>
 <p>We generally use and recommend Miniconda Python distribution: <a href="https://docs.conda.io/en/latest/miniconda.html">https://docs.conda.io/en/latest/miniconda.html</a>. But feel free to use whatever one works for you (and the course materials). We will be using Miniconda3-py37_4.8.3.</p>
 <p>You can get this specific version here for:</p>
 <ul>
@@ -389,7 +354,6 @@ $(document).ready(function () {
 <li><p><a href="https://repo.anaconda.com/miniconda/Miniconda3-py37_4.8.3-Linux-x86_64.sh">Linux Download</a></p></li>
 </ul>
 <p>Follow the prompts (the default recommendations in the installer are generally fine.) Once installed, launch an “Anaconda Prompt” from the Start Menu / Applications Folder to begin your Python adventure.</p>
-<p><img src="fig/setup00.png" /></p>
 <p><br></p>
 </div>
 <div id="setup-your-python-environment-install-required-packages-and-libraries" class="section level1">
@@ -404,53 +368,20 @@ $(document).ready(function () {
 <li>Assuming you have downloaded the <em>environment.yml</em> file to your Downloads folder. Type in the below command on a Windows machine at the prompt. This should take about 15 minutes to download (~1GB of data) and install the environment packages:</li>
 </ul>
 <pre class="sh"><code>conda env create --name geopy --file=C:\Users\nbutter\Downloads\environment.yml</code></pre>
-<p><img src="fig/setup02.png" /></p>
 <p>If you are working on a Mac or Linux machine, the following will work:</p>
 <pre class="sh"><code>conda env create -f ~/Downloads/environment.yml</code></pre>
 <p><br></p>
-<p>Upon successful completion the command prompt should look like this:</p>
+<p>Upon successful completion the command prompt should look like this: <img src="fig/setup02.png" /></p>
 <p><img src="fig/setup03.png" /></p>
 <p><br></p>
 <p>After the installation completes, activate the new environment with the following command:</p>
-<pre class="python"><code>conda activate geopy</code></pre>
-<p>At anytime in the future you can install additional packages or create separate environments. We will discuss this more in the course. This particular environment should have the correct balance of versions with any dependencies accounted for.</p>
-<p>Also, setup your workspace where we will be creating files and generating data, you can do this in your prompt (or just in Windows Explorer/OSX Finder). For me I will be working in top-level folder on my Desktop called <code>geopython</code> and a subdirectory called <code>notebooks</code>.</p>
-<pre class="sh"><code>cd C:\Users\nbutter\Desktop\
-mkdir geopython
-cd geopython
-mkdir notebooks</code></pre>
-<p><img src="fig/setup-python.png" /></p>
-<p><br></p>
-<div id="launching-the-jupyterpython-notebook" class="section level2">
-<h2>Launching the Jupyter/Python Notebook</h2>
-<p>Now you have built your environment with all the packages we need, you can launch it. We will be working mostly with Python Notebooks to run Python (as opposed to running an interpreter on the command line/prompt). Each time you restart your work you will have to follow these steps:</p>
-<ul>
-<li>Launch an Anaconda Prompt (or equivalent).</li>
-<li>Change directories to your workspace.</li>
-<li>Activate the <code>geopy</code> environment.</li>
-<li>Launch the Jupyter/Python Notebook server.</li>
-</ul>
-<pre class="sh"><code>cd C:\Users\nbutter\Desktop\geopython
+<pre class="python"><code>conda activate geopy
+cd C:\Users\nbutter\Desktop\geopython
 conda activate geopy
 jupyter notebook</code></pre>
 <p><img src="fig/jupyter.png" /></p>
 <p>This will launch the Notebook server (and may automatically launch a web-browser and take you to the page). If the Notebook does not automatically start, copy the generated link into a browser.</p>
 <p><img src="fig/jupyter_browser.png" /></p>
-<p><br></p>
-</div>
-</div>
-<div id="download-the-data" class="section level1">
-<h1>3. Download the data</h1>
-<p>Download the data (280 MB inflated to 500 MB) for all the exercises from here:</p>
-<p><a href="https://cloudstor.aarnet.edu.au/plus/s/IfOvRpOXhJyqTT0">https://cloudstor.aarnet.edu.au/plus/s/IfOvRpOXhJyqTT0</a></p>
-<p>Extract this to a directory you can work in. Your file tree should look like something like this</p>
-<p><img src="fig/setup-folder.png" /></p>
-<pre><code>.
-|-- geopython
-|   +-- notebooks
-|   +-- data
-|       |   +-- ...
-</code></pre>
 <p><br></p>
 </div>
 <div id="other-options" class="section level1">

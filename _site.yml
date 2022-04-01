@@ -10,33 +10,18 @@ navbar:
       href: setup.html
     - text: "AWS Backup instructions"
       href: AWSinstuctionsStudents.html
-  - text: "Session 1"
+  - text: "Sessions"
     menu:
     - text: "Introduction"
       href: 00-intro.html
-    - text: "Fundamentals"
-      href: 01a-fundamentals.html
-
-  - text: "Session 2"
-    menu:
-    - text: "Useful Python packages for different data types"
-      href: 01b-dataframes.html
-    - text: "Mapping with Cartopy"
-      href: 02a-mapping.html
-  - text: "Session 3"
-    menu:
+    - text: "Building an ML dataset"
+      href: 01-build_the_data.html
+    - text: "Exploring the data"
+      href: 02-explore_the_data.html
     - text: "Machine Learning"
-      href: 03a-MachineLearning.html
-    - text: "Deep Learning & Time Series"
-      href: 03b-DeepLearningTS.html
-    - text: "Numerical approaches"
-      href: 02b-Clustering.html
-  - text: "Session 4"
-    menu:
-    - text: "Simple Speed Ups"
-      href: 04a-SimpleSpeedUps.html
-    - text: "Dask data frames"
-      href: 04b-DaskDataframes.html
+      href: 03a-MachineLearing.html
+
+
 output:
   html_document:
     theme: simplex

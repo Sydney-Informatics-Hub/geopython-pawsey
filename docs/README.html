@@ -11,7 +11,7 @@
 
 
 
-<title>Python for Geoscientists</title>
+<title>Introduction to Machine Learning with Python for Mineral Exploration</title>
 
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -431,78 +431,30 @@ div.tocify {
 
 
 
-<h1 class="title toc-ignore">Python for Geoscientists</h1>
+<h1 class="title toc-ignore">Introduction to Machine Learning with Python for Mineral Exploration</h1>
 
 </div>
 
 
-<div id="questions" class="section level3 questions">
-<h3>Questions</h3>
+<div id="readme" class="section level1">
+<h1>Readme</h1>
+<p>All of the jupyter notebooks are in the <code>_ipynb</code> notebook.</p>
+<p>Python for geosciences SIH materials</p>
+<p>Rendered at: <a href="https://sydney-informatics-hub.github.io/geopython-pawsey" class="uri">https://sydney-informatics-hub.github.io/geopython-pawsey</a></p>
 <ul>
-<li>What is Python?</li>
-<li>Why do you want to learn Python?</li>
+<li>All notebooks go into <code>_ipynb</code> folder</li>
+<li>Run the below command to render them into markdown files in the right place</li>
 </ul>
-</div>
-<div id="objectives" class="section level3 objectives">
-<h3>Objectives</h3>
-<ul>
-<li>Understand the Python ecosystem and other tools.</li>
-</ul>
-</div>
-<p>This course we will introduce you to foundations of Python programming. We will utilise common geosicence data types (geospatial, temporal, vector, raster, etc) to demonstrate a variety of practical workflows and showcase fundamental capabilities of Python. We will carry out exploratory, analytical, computational and machine learning analyses on these datasets. At the end of the course you will be able to adapt these workflows to your own datasets.</p>
-<p>The course is presented by the Sydney Informatics Hub on behalf of the Petroleum Exploration Society of Australia.</p>
-<div id="what-is-python" class="section level1">
-<h1>What is Python?</h1>
-<p>The Python programming language was written in the 1980’s. It is an interpreted and high-level language, this makes it easy to use for rapid development with lots of flexibility. Version 2.0 was released in 2000. Version 3.0 was released in 2008 (the current version is 3.9.0).</p>
-<p>I use it everyday to:</p>
-<ul>
-<li>Automate tasks (do things millions of times easily)</li>
-<li>Calculate big numbers (can solve most computational problems)</li>
-<li>Format and analyse data</li>
-<li>Process images</li>
-</ul>
-<p>There are many comparable languages (e.g. R, Julia, C++, bash, Matlab, Java). But there are a few reasons to favour Python:</p>
-<ul>
-<li>Python is free and open-source.</li>
-<li>There is a large community of people using it all over the world on different projects, which means there is a lot of help and documentation.</li>
-<li>There are <a href="https://github.com/search?l=Python&amp;q=python&amp;type=Repositories">millions</a> of codes, packages, libraries, and extensions. Some that leverage other programming languages to make your Python tasks fast, efficient and capable of doing whatever you need it to.</li>
-</ul>
-</div>
-<div id="how-do-we-use-python-terminals-and-notebooks." class="section level1">
-<h1>How do we use Python? Terminals and Notebooks.</h1>
-<p>Traditionally one writes a “Python script file”, like a recipe of instructions, and Python executes the script.</p>
-<p>Simply, you can create python files in a text editor:</p>
-<pre><code>print(&quot;Hello World&quot;)</code></pre>
-<p>Save this as <code>hello.py</code> and execute it with <code>python hello.py</code>.</p>
-<p>As you go deeper into Python, you will see more advanced syntax:</p>
-<pre><code>#!/usr/bin/env python
-
-&#39;&#39;&#39;
-A Python program which greets the Earth!
-Nathaniel Butterworth
-PESA/SIH Python course
-
-usage: python helloworld_advanced.py
-&#39;&#39;&#39;
-
-def main():
-    print(&quot;Hello World! This is basically the same result, but a different way to get there.&quot;)
-
-if __name__ == &#39;__main__&#39;:
-    main()</code></pre>
-<p>Once again, you can save this in a text editor as <code>hello_advanced.py</code> and execute with <code>python hello_advanced.py</code>.</p>
-<p>You can also start a Python IDE session, and execute commands one by one.</p>
-<p>A handy tool is the Jupyter Notebook (modelled from Mathematica’s Notebooks), that we will predominately be using throughout this course. They are good for the kind of non-development focused Python tasks you may need.</p>
-<p>There are also online environments that can host Python code and notebooks for you.</p>
-<p>Throughout the course you will see when and why to use different environments.</p>
-<p>Now let’s get into in the practical session!</p>
-<div id="key-points" class="section level3 keypoints">
-<h3>Key points</h3>
-<ul>
-<li>Python is a programming language.</li>
-<li>There is a rich ecosystem of tools around creating and deploying Python code.</li>
-</ul>
-</div>
+<pre><code>bash _generate_site_from_ipynb.sh
+#Generally add whatever files you have created
+git add docs/*_files/*
+git add *_files/*
+git commit -am &quot;your comments&quot;
+git push</code></pre>
+<p>You can browse the result locally by exploring the html files created (note: sometimes figures display locally but not on web and the other way around too.)</p>
+<hr />
+<p>When you want to convert the notebooks to pdf for the students, use the following command:</p>
+<pre class="sh"><code>jupyter nbconvert --execute --to pdf notebook.ipynb</code></pre>
 </div>
 
 

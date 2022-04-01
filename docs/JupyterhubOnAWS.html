@@ -11,7 +11,7 @@
 
 
 
-<title>Python for Geoscientists</title>
+<title>JupyterhubOnAWS.utf8.md</title>
 
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -431,77 +431,102 @@ div.tocify {
 
 
 
-<h1 class="title toc-ignore">Python for Geoscientists</h1>
 
 </div>
 
 
-<div id="questions" class="section level3 questions">
-<h3>Questions</h3>
-<ul>
-<li>What is Python?</li>
-<li>Why do you want to learn Python?</li>
-</ul>
+<div id="instructor-instructions---setting-up-jupyterhub-on-aws" class="section level2">
+<h2>Instructor instructions - setting up Jupyterhub on AWS</h2>
+<p>The first steps are adapted from TLJH instuctions <a href="https://tljh.jupyter.org/en/latest/install/amazon.html">here</a></p>
+<ol style="list-style-type: decimal">
+<li><p>Select a <strong>Ubuntu Server 18.04 LTS (HVM), SSD Volume Type - ami-</strong> instance (the one maintained by Canonical as per the TLJH screenshots in the documentation)</p></li>
+<li><p>Choose a <strong>t3.small</strong> node type for testing - it’s the smallest that supports TLJH. Note that this does not have a free tier, but running it for a few hours costs approximately $0.10 in my experience.</p>
+<p>For “production” PESA try <code>m5a.8xlarge</code> in US-Ohio (this gives 32 vCPU and 128 Gb RAM).</p></li>
+</ol>
+<p>In theory, you are meant to be able to use a custom command to install TLJH in one go, and paste it into the user script box. Unfortunately, none of the flags have worked for me, and the installation script itself sometimes works and sometimes doesn’t - so I recommend doing this over the ssh after the instance has been created.</p>
+<pre class="sh"><code>#!/bin/bash
+curl -L https://tljh.jupyter.org/bootstrap.py \
+  | sudo python3 - \
+    --admin myusername --show-progress-page --plugin tljh-repo2docker # can also in theory use a requirements.txt file here</code></pre>
+<ol start="3" style="list-style-type: decimal">
+<li><p>When selecting storage, request General Purpose SSD (gp2) for most workloads; according to TLJH Provisioned IOPS SSD (io1) is the highest-performant when performance is critical. I have only used gp2 so far.</p></li>
+<li><p>[Only the first time you set up] After downloading the AWS <code>.pem</code> file, make sure to <code>chmod 600</code> it as otherwise you get a permissions error.</p></li>
+</ol>
+<pre class="sh"><code>chmod 600 ~/Desktop/pesaaws1.pem</code></pre>
+<div id="section" class="section level3">
+<h3></h3>
 </div>
-<div id="objectives" class="section level3 objectives">
-<h3>Objectives</h3>
-<ul>
-<li>Understand the Python ecosystem and other tools.</li>
-</ul>
+<div id="installing-tljh" class="section level3">
+<h3>Installing TLJH</h3>
+<ol style="list-style-type: decimal">
+<li><code>ssh</code> into the server via the Public IPv4 DNS provided in the instance details. <code>ubuntu</code> is the admin username for the root ubuntu user, and you’ll need root privileges for the below</li>
+</ol>
+<pre class="sh"><code>ssh -i ~/Desktop/pesaaws1.pem ubuntu@ec2-18-220-114-100.us-east-2.compute.amazonaws.com</code></pre>
+<div class="figure">
+<img src="fig/JupyterhubOnAWS/image-20210423141931861.png" alt="" />
+<p class="caption">image-20210423141931861</p>
 </div>
-<p>This course we will introduce you to foundations of Python programming. We will utilise common geosicence data types (geospatial, temporal, vector, raster, etc) to demonstrate a variety of practical workflows and showcase fundamental capabilities of Python. We will carry out exploratory, analytical, computational and machine learning analyses on these datasets. At the end of the course you will be able to adapt these workflows to your own datasets.</p>
-<p>The course is presented by the Sydney Informatics Hub on behalf of the Petroleum Exploration Society of Australia.</p>
-<div id="what-is-python" class="section level1">
-<h1>What is Python?</h1>
-<p>The Python programming language was written in the 1980’s. It is an interpreted and high-level language, this makes it easy to use for rapid development with lots of flexibility. Version 2.0 was released in 2000. Version 3.0 was released in 2008 (the current version is 3.9.0).</p>
-<p>I use it everyday to:</p>
-<ul>
-<li>Automate tasks (do things millions of times easily)</li>
-<li>Calculate big numbers (can solve most computational problems)</li>
-<li>Format and analyse data</li>
-<li>Process images</li>
-</ul>
-<p>There are many comparable languages (e.g. R, Julia, C++, bash, Matlab, Java). But there are a few reasons to favour Python:</p>
-<ul>
-<li>Python is free and open-source.</li>
-<li>There is a large community of people using it all over the world on different projects, which means there is a lot of help and documentation.</li>
-<li>There are <a href="https://github.com/search?l=Python&amp;q=python&amp;type=Repositories">millions</a> of codes, packages, libraries, and extensions. Some that leverage other programming languages to make your Python tasks fast, efficient and capable of doing whatever you need it to.</li>
-</ul>
+<ol start="2" style="list-style-type: decimal">
+<li>Install TLJH using the following command</li>
+</ol>
+<pre class="sh"><code>curl -L https://tljh.jupyter.org/bootstrap.py \
+  | sudo python3 - \
+    --admin myusername #--user-requirements-txt-url https://raw.githubusercontent.com/data-8/materials-sp18/master/requirements.txt</code></pre>
+<ol start="3" style="list-style-type: decimal">
+<li></li>
+</ol>
 </div>
-<div id="how-do-we-use-python-terminals-and-notebooks." class="section level1">
-<h1>How do we use Python? Terminals and Notebooks.</h1>
-<p>Traditionally one writes a “Python script file”, like a recipe of instructions, and Python executes the script.</p>
-<p>Simply, you can create python files in a text editor:</p>
-<pre><code>print(&quot;Hello World&quot;)</code></pre>
-<p>Save this as <code>hello.py</code> and execute it with <code>python hello.py</code>.</p>
-<p>As you go deeper into Python, you will see more advanced syntax:</p>
-<pre><code>#!/usr/bin/env python
-
-&#39;&#39;&#39;
-A Python program which greets the Earth!
-Nathaniel Butterworth
-PESA/SIH Python course
-
-usage: python helloworld_advanced.py
-&#39;&#39;&#39;
-
-def main():
-    print(&quot;Hello World! This is basically the same result, but a different way to get there.&quot;)
-
-if __name__ == &#39;__main__&#39;:
-    main()</code></pre>
-<p>Once again, you can save this in a text editor as <code>hello_advanced.py</code> and execute with <code>python hello_advanced.py</code>.</p>
-<p>You can also start a Python IDE session, and execute commands one by one.</p>
-<p>A handy tool is the Jupyter Notebook (modelled from Mathematica’s Notebooks), that we will predominately be using throughout this course. They are good for the kind of non-development focused Python tasks you may need.</p>
-<p>There are also online environments that can host Python code and notebooks for you.</p>
-<p>Throughout the course you will see when and why to use different environments.</p>
-<p>Now let’s get into in the practical session!</p>
-<div id="key-points" class="section level3 keypoints">
-<h3>Key points</h3>
-<ul>
-<li>Python is a programming language.</li>
-<li>There is a rich ecosystem of tools around creating and deploying Python code.</li>
-</ul>
+<div id="getting-the-data-and-notebooks---do-this-before-creating-users" class="section level3">
+<h3>Getting the data and notebooks - do this BEFORE creating users</h3>
+<p>Create a folder as recommended <a href="https://tljh.jupyter.org/en/latest/howto/content/share-data.html#howto-content-share-data">in these instructions</a></p>
+<pre class="sh"><code>sudo mkdir -p /srv/
+# you may need to chmod it but I can&#39;t figure out the optimal permissions
+# sudo chmod 777 data</code></pre>
+<p>Open a terminal on your <strong>local machine</strong> and upload the data to the AWS machine with the following command:</p>
+<pre class="sh"><code>sudo scp -r -i ~/Desktop/pesaaws1.pem * ubuntu@ec2-3-141-195-91.us-east-2.compute.amazonaws.com:/srv/data/</code></pre>
+<p>To grab from <strong>cloudstor</strong> (recommended):</p>
+<pre class="sh"><code>cd /srv/
+sudo wget https://cloudstor.aarnet.edu.au/plus/s/62la9C8dn5vjAaa/download
+sudo apt-get install -y unzip
+sudo unzip download</code></pre>
+<p>Then create a soft link to the data directory with the following command.</p>
+<pre class="sh"><code>sudo ln -s /srv/geopython/data /etc/skel/data
+sudo ln -s /srv/geopython/notebooks /etc/skel/notebooks</code></pre>
+<p>It should now be visible for any new user created.</p>
+<p><strong>The geopython workshop also requires graphviz</strong></p>
+<pre class="sh"><code>sudo apt install graphviz</code></pre>
+</div>
+</div>
+<div id="installing-packages" class="section level2">
+<h2>Installing packages</h2>
+<p>Install the packages you need into the base environment.</p>
+<p>We use the Anaconda package manager for our training, and share installation instructions using a conda <code>environment.yml</code> file. If you instead have a pip requirements.txt file, you could have used the <code>--user-requirements-txt-url</code> flag at the end of the TLJH install above to install all of the packages in one go.</p>
+<p>Modify the base conda environment for all users:</p>
+<pre class="sh"><code>export PATH=/opt/tljh/user/bin:${PATH}
+sudo -E conda env update -n base -f /srv/geopython/environment.yml</code></pre>
+</div>
+<div id="adding-users" class="section level2">
+<h2>Adding users</h2>
+<p>Launch the jupyterhub by following the Public IPv4 address indicated for the EC2 instance, changing the https: at the beginning of the url to http:</p>
+<p>Ignoring the unsecurity warnings, log in using the administrator login and a random password (make sure to write this down) to see the jupyter hub.</p>
+<p>Go to the Control Panel -&gt; Admin interface and click the <code>Add Users</code> button.</p>
+<p>Manually paste usernames you’d like into the box.</p>
+<hr />
+<p>Notes on getting our specific notebooks to work</p>
+<pre class="python"><code>#Import dask dataframe modules
+import dask.dataframe as dd
+#NOTE: to run this example (with diagrams) you will need to &quot;pip install graphviz&quot; and donwload graphviz
+#https://graphviz.org/download/
+import os
+# Nate has the below; replace
+#os.environ[&quot;PATH&quot;] += os.pathsep + &#39;C:/APPS/Graphviz/bin&#39;
+os.chdir(&#39;/home/jupyter-user8/&#39;)
+# may need to replace data file to dd.read_csv(&quot;data/ml_data_points.csv&quot;)</code></pre>
+<p>Note: mpi example at end of notebook 4 will not work</p>
+<hr />
+<div id="using-cloudwatch-agent-to-monitor-usage" class="section level3">
+<h3>Using cloudwatch agent to monitor usage</h3>
+<p>Needed to create an IAM role as describe <a href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/create-iam-roles-for-cloudwatch-agent.html">here</a> once</p>
 </div>
 </div>
 

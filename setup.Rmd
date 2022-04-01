@@ -6,7 +6,22 @@ output:
     toc_float: false
 ---
 
-# 1. Get a Python client
+
+We will be connecting Jupyter Notebook Servers hosted on Pawsey's Nimbus Cloud. 
+Each server has been pre-configured with the data and code ready to run through these tutorials.
+Everyone will be issued with a unique web address.
+Go to this site and you are ready to go.
+
+If you are arriving here in the future or would like to set up the environment on your local machine instead, follow these instructions:
+
+# 1. Download the data
+
+Download the data (280 MB inflated to 500 MB) for all the exercises from here:
+
+[https://cloudstor.aarnet.edu.au/plus/s/IfOvRpOXhJyqTT0](https://cloudstor.aarnet.edu.au/plus/s/IfOvRpOXhJyqTT0)
+
+
+# 2. Get a Python client
 We generally use and recommend Miniconda Python distribution: [https://docs.conda.io/en/latest/miniconda.html](https://docs.conda.io/en/latest/miniconda.html). But feel free to use whatever one works for you (and the course materials). We will be using Miniconda3-py37_4.8.3.
 
 You can get this specific version here for:
@@ -19,8 +34,6 @@ You can get this specific version here for:
 
 Follow the prompts (the default recommendations in the installer are generally fine.) 
 Once installed, launch an "Anaconda Prompt" from the Start Menu / Applications Folder to begin your Python adventure. 
-
-![](fig/setup00.png)
 
 <br>
 
@@ -40,8 +53,6 @@ Next we need to set up an environment with all the additional packages and libra
 conda env create --name geopy --file=C:\Users\nbutter\Downloads\environment.yml
 ```
 
-![](fig/setup02.png)
-
 If you are working on a Mac or Linux machine, the following will work:
 ```sh
 conda env create -f ~/Downloads/environment.yml
@@ -50,6 +61,7 @@ conda env create -f ~/Downloads/environment.yml
 <br>
 
 Upon successful completion the command prompt should look like this:
+![](fig/setup02.png)
 
 ![](fig/setup03.png)
 
@@ -58,33 +70,6 @@ Upon successful completion the command prompt should look like this:
 After the installation completes, activate the new environment with the following command:
 ```python
 conda activate geopy
-```
-
-At anytime in the future you can install additional packages or create separate environments. We will discuss this more in the course. This particular environment should have the correct balance of versions with any dependencies accounted for.
-
-Also, setup your workspace where we will be creating files and generating data, you can do this in your prompt (or just in Windows Explorer/OSX Finder). For me I will be working in top-level folder on my Desktop called ```geopython``` and a subdirectory called ```notebooks```.
-
-```sh
-cd C:\Users\nbutter\Desktop\
-mkdir geopython
-cd geopython
-mkdir notebooks
-```
-
-![](fig/setup-python.png)
-
-<br>
-
-## Launching the Jupyter/Python Notebook
-
-Now you have built your environment with all the packages we need, you can launch it. We will be working mostly with Python Notebooks to run Python (as opposed to running an interpreter on the command line/prompt). Each time you restart your work you will have to follow these steps:
-
-* Launch an Anaconda Prompt (or equivalent).
-* Change directories to your workspace.
-* Activate the ```geopy``` environment.
-* Launch the Jupyter/Python Notebook server.
-
-```sh
 cd C:\Users\nbutter\Desktop\geopython
 conda activate geopy
 jupyter notebook
@@ -95,30 +80,6 @@ jupyter notebook
 This will launch the Notebook server (and may automatically launch a web-browser and take you to the page). If the Notebook does not automatically start, copy the generated link into a browser.
 
 ![](fig/jupyter_browser.png)
-
-
-<br>
-
-# 3. Download the data
-
-Download the data (280 MB inflated to 500 MB) for all the exercises from here:
-
-[https://cloudstor.aarnet.edu.au/plus/s/IfOvRpOXhJyqTT0](https://cloudstor.aarnet.edu.au/plus/s/IfOvRpOXhJyqTT0)
-
-Extract this to a directory you can work in.
-Your file tree should look like something like this
-
-![](fig/setup-folder.png)
-
-
-```
-.
-|-- geopython
-|   +-- notebooks
-|   +-- data
-|       |   +-- ...
-
-```
 
 
 <br>
