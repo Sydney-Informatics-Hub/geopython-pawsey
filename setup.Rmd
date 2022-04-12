@@ -22,6 +22,29 @@ Download the data (280 MB inflated to 500 MB) for all the exercises from here:
 
 
 # 2. Get a Python client
+
+wget https://repo.anaconda.com/miniconda/Miniconda3-py39_4.11.0-Linux-x86_64.sh
+
+conda install -c conda-forge scikit-learn seaborn
+pip install jupyterlab
+
+# 3. To setup the Jupyter notebook server (unsecured) on a Pawsey instance
+
+jupyter notebook --generate-config
+vi ~/.jupyter/jupyter_notebook_config.py
+#c.NotebookApp.ip = 'localhost' –> change to c.NotebookApp.ip = '*'
+
+#open python and generate a password
+from notebook.auth import passwd; passwd()
+#Paste the result in
+c.NotebookApp.password = ''
+
+nohup jupyter notebook &
+ps -ef | grep python
+kill -9 <id>
+
+
+
 We generally use and recommend Miniconda Python distribution: [https://docs.conda.io/en/latest/miniconda.html](https://docs.conda.io/en/latest/miniconda.html). But feel free to use whatever one works for you (and the course materials). We will be using Miniconda3-py37_4.8.3.
 
 You can get this specific version here for:

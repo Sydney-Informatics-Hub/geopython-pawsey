@@ -12,12 +12,11 @@ This course is aimed at researchers, students, and industry professionals who wa
 The course is presented by the <a href="https://www.sydney.edu.au/research/facilities/sydney-informatics-hub.html">Sydney Informatics Hub</a> for <a href="https://datascienceweek.org/">Pawsey Data Science Week 2022</a>.
 
 <figure>
-  <a href="https://www.sydney.edu.au/research/facilities/sydney-informatics-hub.html">
+  
+  <a href="https://datascienceweek.org/">
   <img src="fig/pawsey-logo-beige.webp" style="margin:10px;width:200px"/>
   </a>
-</figure>
-<figure>
-  <a href="https://datascienceweek.org/">
+  <a href="https://www.sydney.edu.au/research/facilities/sydney-informatics-hub.html">
   <img src="fig/SIH_logo.jpg" style="margin:10px;width:200px"/>
   </a>
 </figure>
@@ -33,11 +32,14 @@ We also aim to cultivate a **data community**, organising monthly [Hacky Hours](
 **Data Science Week (DSW)** aims to bring together a community of data scientists, technologists, educators and more to raise awareness around data science, network, and share ideas with like-minded peers. Check out and register for some of the great Data Science Week events at [www.datascienceweek.org](https://datascienceweek.org); from May 9-13, 2022.
 
 
+<br>
+
 # Trainers
 
 * Nathaniel Butterworth (PhD Computational Geophysics), nathaniel.butterworth@sydney.edu.au
 * Michael Lynch (Software Engineer)
 
+<br>
 
 # Course pre-requisites and setup requirements
 
@@ -46,6 +48,7 @@ Domain knowledge of exploration or geoscience will be helpful and most relevant,
 
 Training will be delivered online, so you will need access to a modern computer with a stable internet connection. You can setup and run everything locally but support during the course will only be provided for our cloud-hosted Python instances.
 
+<br>
 
 # Venue, online via Zoom
 Participants will be provided with a Zoom link. Trainers will be broadcasting from Sydney.
@@ -53,6 +56,7 @@ Participants will be provided with a Zoom link. Trainers will be broadcasting fr
 ## Zoom etiquette and how we interact
 Sessions will be recorded for attendees only, and it is set up to only record the host shared screen and host audio. We will try and get these uploaded to this site as soon as possible. Please interrupt whenever you want! Ideally, have your camera on and interact as much as possible. There will be someone monitoring the chat-window with any questions you would like to post there.  Three hours is a long Zoom session so we have plenty of scheduled breaks combined with a mix of content to be delivered as demos, plus sections as independent exercises, but most of the course will be pretty-hands on with everyone writing their own code. We will use Zoom break-out rooms if needed with the Trainers.
 
+<br>
 
 # Code of Conduct
 We expect all attendees of our training to follow our code of conduct, including bullying, harassment and discrimination prevention policies.
@@ -67,15 +71,18 @@ In order to foster a positive and professional learning environment we encourage
 
 Our full CoC, with incident reporting guidelines, is available at [https://pages.github.sydney.edu.au/informatics/sih_codeofconduct/](https://pages.github.sydney.edu.au/informatics/sih_codeofconduct/)
 
+<br>
 
 # Date & Time:	
 
 Monday May 9, 2022, 9am - 12pm (AWST-Perth time)
 
+<br>
 
 # Setup Instructions
 
-You will be provided with a Nimbus Cloud Virtual Machine hosting a Jupyter Notebook server. You will connect via a web-browser directly to the interface.
+You will be provided with a Nimbus Cloud Virtual Machine hosting a Jupyter Notebook server. You will connect via a web-browser directly to the interface. If you would like to configure everything locally, please see the [Setup Pages](!Setup)
+
 
 
 

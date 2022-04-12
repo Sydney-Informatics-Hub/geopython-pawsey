@@ -1,13 +1,21 @@
-# Spatial data mining with machine learning to reveal mineral exploration targets under cover in the Gawler Craton, South Australia
-*Nathaniel Butterworth and Nicholas Barnett-Moore*
+# Building Machine Learning Datasets
+
+All machine learning problems begin with a dataset, and before we can perform any kind of inference on that dataset we must create/wrangle/build it. This is often the most time-consuming and hard part of a successful machine learning workflow. There is no single procedure here, as all data is different, although there are a few simple methods we can take to make a useful dataset.
+
+We will be using data from a submitted Manuscript (Butterworth and Barnett-Moore 2020) which was a finalist in the [Unearthed, ExploreSA: Gawler Challenge](https://unearthed.solutions/u/competitions/exploresa). You can visit the [original repo here](https://github.com/natbutter/gawler-exploration)
 
 
-Last updated 24th September 2020
 
-This notebook covers the full workflow and produces the final figures and grids. It should be as simple as running each cell.
-Read the comments throughout the code along with the paper for a full understanding. 
-
-Contact: nathaniel.butterworth@sydney.edu.au
+```python
+import shapefile
+import pandas as pd
+import numpy as np
+import scipy
+from scipy import io
+import time
+import matplotlib.pyplot as plt
+import cartopy.crs as ccrs
+```
 
 
 ```python
@@ -151,16 +159,21 @@ def shapeExplore(point,shapes,recs,record):
     return(-9999.)
 ```
 
-# Part 1 
-### Wrangling the raw data
+# Goal: Create a table of data containing "targets" and "predictor variables"
+
+The targets in an ML context can be a simple binary 1 or 0, or could be some category. It is the "feature" of a dataset that we want to learn about!
+
+The "predictor/feature variables" are the quatities that may have some causal relationship with the the targets.
+
+
 
 ### Deposit locations - mine and mineral occurances
-The most importantt dataset for this workflow is the currently known locations of mineral occurences. Using the data we already know about these known-deposits we will build a model to predict where future occurences will be.
+The most important dataset for this workflow is the currently known locations of mineral occurences. Using the data we already know about these known-deposits we will build a model to predict where future occurences will be.
 
 
 ```python
 #Set the filename
-mineshape="SA-DATA/MinesMinerals/mines_and_mineral_occurrences_all.shp"
+mineshape="data/MinesMinerals/mines_and_mineral_occurrences_all.shp"
 
 #Set shapefile attributes and assign
 sf = shapefile.Reader(mineshape)
@@ -498,13 +511,13 @@ df
 ```python
 #We are building a model to target the Gawler region specifically.
 #Load in the Gawler target region boundary
-gawlshape="SA-DATA/GCAS_Boundary/GCAS_Boundary.shp"
+gawlshape="data/SA/SA_STATE_POLYGON_shp"
 shapeRead = shapefile.Reader(gawlshape)
 shapes  = shapeRead.shapes()
 
 #Save the boundary xy pairs in arrays we will use throughout the workflow
-xval = [x[0] for x in shapes[0].points]
-yval = [x[1] for x in shapes[0].points]
+xval = [x[0] for x in shapes[1].points]
+yval = [x[1] for x in shapes[1].points]
 ```
 
 ### Set the commodity we want to target
@@ -534,6 +547,327 @@ print("Shape of "+ commname, comm.shape)
     Shape of Mn (115, 43)
 
 
+
+```python
+comm
+```
+
+
+
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>MINDEP_NO</th>
+      <th>DEP_NAME</th>
+      <th>REFERENCE</th>
+      <th>COMM_CODE</th>
+      <th>COMMODS</th>
+      <th>COMMOD_MAJ</th>
+      <th>COMM_SPECS</th>
+      <th>GCHEM_ASSC</th>
+      <th>DISC_YEAR</th>
+      <th>CLASS_CODE</th>
+      <th>...</th>
+      <th>NORTHING</th>
+      <th>ZONE</th>
+      <th>LONGITUDE</th>
+      <th>LATITUDE</th>
+      <th>SVY_METHOD</th>
+      <th>HORZ_ACC</th>
+      <th>SRCE_MAP</th>
+      <th>SRCE_CNTRE</th>
+      <th>COMMENTS</th>
+      <th>O_MAP_SYMB</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>8488</td>
+      <td>WESTERN SPUR</td>
+      <td>Env 3959</td>
+      <td>Fe, Mn</td>
+      <td>Iron, Manganese</td>
+      <td>Fe</td>
+      <td>ELMT</td>
+      <td></td>
+      <td>1981.0</td>
+      <td>PROSPECT</td>
+      <td>...</td>
+      <td>6693381.50</td>
+      <td>54</td>
+      <td>139.179436</td>
+      <td>-29.877637</td>
+      <td>Sourced from documents (PLANS, ENV, RB,etc)</td>
+      <td>50.0</td>
+      <td></td>
+      <td>near hole VP 2</td>
+      <td></td>
+      <td>Nww</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>4184</td>
+      <td>WILKOWIE HUT</td>
+      <td>Env 3959</td>
+      <td>Mn</td>
+      <td>Manganese</td>
+      <td>Mn</td>
+      <td>ELMT</td>
+      <td></td>
+      <td>1980.0</td>
+      <td>OCCURRENCE</td>
+      <td>...</td>
+      <td>6669627.24</td>
+      <td>54</td>
+      <td>138.808767</td>
+      <td>-30.086296</td>
+      <td>Google Earth image</td>
+      <td>20.0</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td>Q</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>4221</td>
+      <td>DEPOT SPRINGS EAST</td>
+      <td>MSC #85</td>
+      <td>Mn</td>
+      <td>Manganese</td>
+      <td>Mn</td>
+      <td>ELMT</td>
+      <td></td>
+      <td>1949.0</td>
+      <td>OCCURRENCE</td>
+      <td>...</td>
+      <td>6629681.53</td>
+      <td>54</td>
+      <td>138.752281</td>
+      <td>-30.445684</td>
+      <td>Google Earth image</td>
+      <td>200.0</td>
+      <td>250k meis</td>
+      <td>pit?</td>
+      <td>1.7km E of Depot Springs</td>
+      <td>dw</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>8350</td>
+      <td>JUBILEE</td>
+      <td>RB 26/111</td>
+      <td>Mn</td>
+      <td>Manganese</td>
+      <td>Mn</td>
+      <td>ELMT</td>
+      <td></td>
+      <td>1949.0</td>
+      <td>OCCURRENCE</td>
+      <td>...</td>
+      <td>6619531.54</td>
+      <td>54</td>
+      <td>138.530506</td>
+      <td>-30.533225</td>
+      <td>Sourced from documents (PLANS, ENV, RB,etc)</td>
+      <td>200.0</td>
+      <td>plan 50-471</td>
+      <td></td>
+      <td>plan 50-471, MR 91, pp 205</td>
+      <td>dw</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>8349</td>
+      <td>STUART CREEK</td>
+      <td>RB 26/111</td>
+      <td>Mn</td>
+      <td>Manganese</td>
+      <td>Mn</td>
+      <td>ELMT</td>
+      <td></td>
+      <td>1949.0</td>
+      <td>OCCURRENCE</td>
+      <td>...</td>
+      <td>6616651.50</td>
+      <td>54</td>
+      <td>138.887019</td>
+      <td>-30.565479</td>
+      <td>Google Earth image</td>
+      <td>200.0</td>
+      <td></td>
+      <td>dark o/c</td>
+      <td>Mining review 091, pp 205.</td>
+      <td>dw</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>110</th>
+      <td>254</td>
+      <td>TUMBY SOUTH</td>
+      <td>Bull 37</td>
+      <td>Cu, Mn</td>
+      <td>Copper, Manganese</td>
+      <td>Cu</td>
+      <td>ELMT</td>
+      <td></td>
+      <td>1899.0</td>
+      <td>OCCURRENCE</td>
+      <td>...</td>
+      <td>6200974.46</td>
+      <td>53</td>
+      <td>136.059715</td>
+      <td>-34.327929</td>
+      <td>GPS Standalone Navigational</td>
+      <td>10.0</td>
+      <td>59-91</td>
+      <td>Stephen Shaft</td>
+      <td></td>
+      <td>TQr</td>
+    </tr>
+    <tr>
+      <th>111</th>
+      <td>533</td>
+      <td>CUTTLEFISH</td>
+      <td>MSC #19</td>
+      <td>Mn</td>
+      <td>Manganese</td>
+      <td>Mn</td>
+      <td>ELMT</td>
+      <td>Mn-(P)</td>
+      <td>1897.0</td>
+      <td>OCCURRENCE</td>
+      <td>...</td>
+      <td>6041551.48</td>
+      <td>54</td>
+      <td>138.016821</td>
+      <td>-35.733084</td>
+      <td>GPS Standalone Navigational</td>
+      <td>10.0</td>
+      <td></td>
+      <td>adit</td>
+      <td>sample # 54561, Fe-rich o/c,</td>
+      <td>Nni</td>
+    </tr>
+    <tr>
+      <th>112</th>
+      <td>1644</td>
+      <td>NEALES FLAT</td>
+      <td>RB 56/127</td>
+      <td>Mn</td>
+      <td>Manganese</td>
+      <td>Mn</td>
+      <td>ELMT</td>
+      <td>Mn</td>
+      <td>1962.0</td>
+      <td>OCCURRENCE</td>
+      <td>...</td>
+      <td>6208721.50</td>
+      <td>54</td>
+      <td>139.250036</td>
+      <td>-34.250155</td>
+      <td>Google Earth image</td>
+      <td>50.0</td>
+      <td>Plans FO1035 and S03399</td>
+      <td>rough centre of MC</td>
+      <td></td>
+      <td>go</td>
+    </tr>
+    <tr>
+      <th>113</th>
+      <td>5031</td>
+      <td>ROCK VALLEY</td>
+      <td>RB 61/121</td>
+      <td>Fe, Mn</td>
+      <td>Iron, Manganese</td>
+      <td>Fe</td>
+      <td>ELMT</td>
+      <td>Fe-Mn</td>
+      <td>1961.0</td>
+      <td>OCCURRENCE</td>
+      <td>...</td>
+      <td>6190251.47</td>
+      <td>53</td>
+      <td>135.905480</td>
+      <td>-34.425866</td>
+      <td>Sourced from documents (PLANS, ENV, RB,etc)</td>
+      <td>50.0</td>
+      <td></td>
+      <td>near hole Rock Valley RD 1</td>
+      <td></td>
+      <td>dw</td>
+    </tr>
+    <tr>
+      <th>114</th>
+      <td>255</td>
+      <td>WHITE FLAT</td>
+      <td>RB 81/66</td>
+      <td>Mn</td>
+      <td>Manganese</td>
+      <td>Mn</td>
+      <td>ELMT</td>
+      <td>Mn</td>
+      <td>1968.0</td>
+      <td>PROSPECT</td>
+      <td>...</td>
+      <td>6181001.47</td>
+      <td>53</td>
+      <td>135.835578</td>
+      <td>-34.509779</td>
+      <td>Sourced from documents (PLANS, ENV, RB,etc)</td>
+      <td>100.0</td>
+      <td>Plan !981-00119</td>
+      <td>PIT</td>
+      <td></td>
+      <td>TQr</td>
+    </tr>
+  </tbody>
+</table>
+<p>115 rows × 43 columns</p>
+</div>
+
+
+
 ## Wrangle the geophysical and geological datasets
 Each geophysical dataset could offer instight into various commodities. Here we load in the pre-processed datasets and prepare them for further manipulations, data-mining, and machine learning.
 
@@ -542,9 +876,9 @@ Each geophysical dataset could offer instight into various commodities. Here we 
 
 ```python
 #Read in the data
-data_res=pd.read_csv("SA-DATA/Resistivity/AusLAMP_MT_Gawler.xyzr",
-                     sep='\s+',header=0,names=['lat','lon','depth','resistivity'])
-data_res.head()
+data_res=pd.read_csv("data/AusLAMP_MT_Gawler_25.xyzr",
+                     sep=',',header=0,names=['lat','lon','depth','resistivity'])
+data_res
 ```
 
 
@@ -610,53 +944,82 @@ data_res.head()
       <td>-25.0</td>
       <td>1.9885</td>
     </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>11003</th>
+      <td>-35.127716</td>
+      <td>142.399588</td>
+      <td>-25.0</td>
+      <td>2.0079</td>
+    </tr>
+    <tr>
+      <th>11004</th>
+      <td>-35.230939</td>
+      <td>142.408396</td>
+      <td>-25.0</td>
+      <td>2.0084</td>
+    </tr>
+    <tr>
+      <th>11005</th>
+      <td>-35.365124</td>
+      <td>142.419903</td>
+      <td>-25.0</td>
+      <td>2.0085</td>
+    </tr>
+    <tr>
+      <th>11006</th>
+      <td>-35.539556</td>
+      <td>142.434958</td>
+      <td>-25.0</td>
+      <td>2.0076</td>
+    </tr>
+    <tr>
+      <th>11007</th>
+      <td>-35.766303</td>
+      <td>142.454694</td>
+      <td>-25.0</td>
+      <td>2.0049</td>
+    </tr>
   </tbody>
 </table>
+<p>11008 rows × 4 columns</p>
 </div>
 
 
 
 
 ```python
-#Simplify the dataframe with some vectors
-lon_res=data_res.lon.values
-lat_res=data_res.lat.values
-depth_res=data_res.depth.values
-res_res=data_res.resistivity.values
+im=plt.scatter(data_res.lon,data_res.lat,c=data_res.resistivity)
+plt.plot(xval,yval,'grey',linewidth=0.5,label='SA')
+plt.plot(comm.LONGITUDE, comm.LATITUDE, marker='o', linestyle='', color='y')
+plt.colorbar(im)
 ```
 
 
-```python
-#Split the data into unique depth layers
-f=[]
-for i in data_res.depth.unique():
-    f.append(data_res[data_res.depth==i].values)
 
-f=np.array(f)
-print("Resitivity in:", np.shape(f))
 
-#Print unique depth layers
-#[print(i) for i in data_res.depth.unique()]
-```
-
-    Resitivity in: (63, 11008, 4)
+    <matplotlib.colorbar.Colorbar at 0x22f4f09f508>
 
 
 
-```python
-#Set an array we can interrogate values of later
-#This is the same for all resistivity vectors
-lonlatres=np.c_[f[0,:,1],f[0,:,0]]
-lonres=f[0,:,1]
-latres=f[0,:,0]
-```
+
+    
+![png](01-build_the_data_files/01-build_the_data_15_1.png)
+    
+
 
 ### Faults and dykes vector polylines
 
 
 ```python
 #Get fault data neo
-faultshape="SA-DATA/Neoproterozoic - Ordovician faults_shp/Neoproterozoic - Ordovician faults.shp"
+faultshape="data/Faults/Faults.shp"
 shapeRead = shapefile.Reader(faultshape)
 shapes  = shapeRead.shapes()
 Nshp    = len(shapes)
@@ -666,142 +1029,147 @@ for i in range(0,Nshp):
     for j in shapes[i].points:
         faultsNeo.append([j[0],j[1]])
 faultsNeo=np.array(faultsNeo)
+p
+faultsNeo
 ```
+
+
+
+
+    array([[133.46269605, -27.41825034],
+           [133.46770683, -27.42062991],
+           [133.4723624 , -27.42259841],
+           ...,
+           [138.44613353, -35.36560605],
+           [138.44160669, -35.36672662],
+           [138.43805501, -35.36793484]])
+
+
 
 
 ```python
-#Get fault data archean
-faultshape="SA-DATA/Archaean - Early Mesoproterozoic faults_shp/Archaean - Early Mesoproterozoic faults.shp"
-shapeRead = shapefile.Reader(faultshape)
-shapes  = shapeRead.shapes()
-Nshp    = len(shapes)
-
-faultsArch=[]
-for i in range(0,Nshp):
-    for j in shapes[i].points:
-        faultsArch.append([j[0],j[1]])
-faultsArch=np.array(faultsArch)
+plt.plot(faultsNeo[:,0],faultsNeo[:,1],'.',markersize=0.1)
+plt.plot(comm.LONGITUDE, comm.LATITUDE, marker='o', linestyle='', color='y')
+plt.plot(xval,yval,'grey',linewidth=0.5,label='SA')
 ```
 
 
-```python
-#Get fault data dolerite dykes swarms
-faultshape="SA-DATA/Gairdner Dolerite_shp/Gairdner Dolerite.shp"
-shapeRead = shapefile.Reader(faultshape)
-shapes  = shapeRead.shapes()
-Nshp    = len(shapes)
 
-faultsGair=[]
-for i in range(0,Nshp):
-    for j in shapes[i].points:
-        faultsGair.append([j[0],j[1]])
-faultsGair=np.array(faultsGair)
-```
+
+    [<matplotlib.lines.Line2D at 0x22f4f0f9b88>]
+
+
+
+
+    
+![png](01-build_the_data_files/01-build_the_data_18_1.png)
+    
+
 
 ### Netcdf formatted raster grids
 
 
 ```python
-#TODO: Should be cleaned up and put into dictionary or similar.
-#For now, reading individual datasets is fine
-x1,y1,z1 = readnc("SA-DATA/aster-AlOH-cont.nc")
-x2,y2,z2 = readnc("SA-DATA/aster-AlOH-comp.nc")
-x3,y3,z3 = readnc("SA-DATA/aster-FeOH-cont.nc")
-x4,y4,z4 = readnc("SA-DATA/aster-Ferric-cont.nc")
-x5,y5,z5 = readnc("SA-DATA/aster-Ferrous-cont.nc")
-x6,y6,z6 = readnc("SA-DATA/aster-Ferrous-index.nc")
-x7,y7,z7 = readnc("SA-DATA/aster-MgOH-comp.nc")
-x8,y8,z8 = readnc("SA-DATA/aster-MgOH-cont.nc")
-x9,y9,z9 = readnc("SA-DATA/aster-green.nc")
-x10,y10,z10 = readnc("SA-DATA/aster-kaolin.nc")
-x11,y11,z11 = readnc("SA-DATA/aster-opaque.nc")
-x12,y12,z12 = readnc("SA-DATA/aster-quartz.nc")
-x13,y13,z13 = readnc("SA-DATA/aster-regolith-b3.nc")
-x14,y14,z14 = readnc("SA-DATA/aster-regolith-b4.nc")
-x15,y15,z15 = readnc("SA-DATA/aster-silica.nc")
-x16,y16,z16 = readnc("SA-DATA/sa-base-elev.nc")
-x17,y17,z17 = readnc("SA-DATA/sa-dem.nc")
-x18,y18,z18 = readnc("SA-DATA/sa-base-dtb.nc")
-x19,y19,z19 = readnc("SA-DATA/sa-mag-2vd.nc")
-x20,y20,z20 = readnc("SA-DATA/sa-mag-rtp.nc")
-x21,y21,z21 = readnc("SA-DATA/sa-mag-tmi.nc")
-x22,y22,z22 = readnc("SA-DATA/sa-rad-dose.nc")
-x23,y23,z23 = readnc("SA-DATA/sa-rad-k.nc")
-x24,y24,z24 = readnc("SA-DATA/sa-rad-th.nc")
-x25,y25,z25 = readnc("SA-DATA/sa-rad-u.nc")
-x26,y26,z26 = readnc("SA-DATA/sa-grav.nc")
+#Define a function to read the netcdf files
+def readnc(filename):
+    tic=time.time()
+    rasterfile=filename
+    data = scipy.io.netcdf_file(rasterfile,'r')
+    xdata=data.variables['lon'][:]
+    ydata=data.variables['lat'][:]
+    zdata=np.array(data.variables['Band1'][:])
+
+    toc=time.time()
+    print("Loaded", rasterfile, "in", f'{toc-tic:.2f}s')
+    print("Spacing x", f'{xdata[2]-xdata[1]:.2f}', "y", f'{ydata[2]-ydata[1]:.2f}', np.shape(zdata),np.min(xdata),np.max(xdata),np.min(ydata),f'{np.max(ydata):.2f}')
+
+    return(xdata,ydata,zdata)
 ```
 
-    /workspace/SA-DATA/aster-AlOH-cont.nc in 0.023343324661254883
-    spacing x 0.010000000000019327 y 0.00999999999999801 (1238, 1200) 129.004775 140.994775 -38.374825 -26.004825000000004
-    /workspace/SA-DATA/aster-AlOH-comp.nc in 0.016492128372192383
-    spacing x 0.010000000000019327 y 0.00999999999999801 (1238, 1200) 129.004775 140.994775 -38.374825 -26.004825000000004
-    /workspace/SA-DATA/aster-FeOH-cont.nc in 0.012454509735107422
-    spacing x 0.010000000000019327 y 0.00999999999999801 (1238, 1200) 129.004775 140.994775 -38.374825 -26.004825000000004
-    /workspace/SA-DATA/aster-Ferric-cont.nc in 0.012809514999389648
-    spacing x 0.010000000000019327 y 0.00999999999999801 (1238, 1200) 129.004775 140.994775 -38.374825 -26.004825000000004
-    /workspace/SA-DATA/aster-Ferrous-cont.nc in 0.011875629425048828
-    spacing x 0.010000000000019327 y 0.00999999999999801 (1238, 1200) 129.004775 140.994775 -38.374825 -26.004825000000004
-    /workspace/SA-DATA/aster-Ferrous-index.nc in 0.002715587615966797
-    spacing x 0.010000000000019327 y 0.00999999999999801 (1238, 1200) 129.004775 140.994775 -38.374825 -26.004825000000004
-    /workspace/SA-DATA/aster-MgOH-comp.nc in 0.01164865493774414
-    spacing x 0.010000000000019327 y 0.00999999999999801 (1238, 1200) 129.004775 140.994775 -38.374825 -26.004825000000004
-    /workspace/SA-DATA/aster-MgOH-cont.nc in 0.012345552444458008
-    spacing x 0.010000000000019327 y 0.00999999999999801 (1238, 1200) 129.004775 140.994775 -38.374825 -26.004825000000004
-    /workspace/SA-DATA/aster-green.nc in 0.013841867446899414
-    spacing x 0.010000000000019327 y 0.00999999999999801 (1238, 1200) 129.004775 140.994775 -38.374825 -26.004825000000004
-    /workspace/SA-DATA/aster-kaolin.nc in 0.021282672882080078
-    spacing x 0.010000000000019327 y 0.00999999999999801 (1238, 1200) 129.004775 140.994775 -38.374825 -26.004825000000004
-    /workspace/SA-DATA/aster-opaque.nc in 0.021758079528808594
-    spacing x 0.010000000000019327 y 0.00999999999999801 (1238, 1200) 129.004775 140.994775 -38.374825 -26.004825000000004
-    /workspace/SA-DATA/aster-quartz.nc in 0.015913009643554688
-    spacing x 0.010000000000019327 y 0.00999999999999801 (1238, 1200) 129.00452499999997 140.99452499999998 -38.37423888888889 -26.004238888888892
-    /workspace/SA-DATA/aster-regolith-b3.nc in 0.025715112686157227
-    spacing x 0.010000000000019327 y 0.00999999999999801 (1238, 1200) 129.004775 140.994775 -38.374825 -26.004825000000004
-    /workspace/SA-DATA/aster-regolith-b4.nc in 0.0213468074798584
-    spacing x 0.010000000000019327 y 0.00999999999999801 (1238, 1200) 129.004775 140.994775 -38.374825 -26.004825000000004
-    /workspace/SA-DATA/aster-silica.nc in 0.0226438045501709
-    spacing x 0.010000000000019327 y 0.00999999999999801 (1238, 1200) 129.00452499999997 140.99452499999998 -38.37423888888889 -26.004238888888892
-    /workspace/SA-DATA/sa-base-elev.nc in 0.01804804801940918
-    spacing x 0.010000000000019327 y 0.00999999999999801 (1208, 1201) 129.005 141.005 -38.065 -25.994999999999997
-    /workspace/SA-DATA/sa-dem.nc in 0.012423038482666016
-    spacing x 0.010000000000019327 y 0.00999999999999801 (1208, 1201) 129.005 141.005 -38.065 -25.994999999999997
-    /workspace/SA-DATA/sa-base-dtb.nc in 0.0037720203399658203
-    spacing x 0.010000000000019327 y 0.00999999999999801 (1208, 1201) 129.005 141.005 -38.065 -25.994999999999997
-    /workspace/SA-DATA/sa-mag-2vd.nc in 0.013543128967285156
-    spacing x 0.010000000000019327 y 0.00999999999999801 (1208, 1201) 129.005 141.005 -38.065 -25.994999999999997
-    /workspace/SA-DATA/sa-mag-rtp.nc in 0.012284994125366211
-    spacing x 0.010000000000019327 y 0.00999999999999801 (1208, 1201) 129.005 141.005 -38.065 -25.994999999999997
-    /workspace/SA-DATA/sa-mag-tmi.nc in 0.022088289260864258
-    spacing x 0.010000000000019327 y 0.00999999999999801 (1208, 1201) 129.005 141.005 -38.065 -25.994999999999997
-    /workspace/SA-DATA/sa-rad-dose.nc in 0.01431417465209961
-    spacing x 0.010000000000019327 y 0.00999999999999801 (1208, 1201) 129.005 141.005 -38.065 -25.994999999999997
-    /workspace/SA-DATA/sa-rad-k.nc in 0.0068814754486083984
-    spacing x 0.010000000000019327 y 0.00999999999999801 (1208, 1201) 129.005 141.005 -38.065 -25.994999999999997
-    /workspace/SA-DATA/sa-rad-th.nc in 0.20752930641174316
-    spacing x 0.010000000000019327 y 0.00999999999999801 (1208, 1201) 129.005 141.005 -38.065 -25.994999999999997
-    /workspace/SA-DATA/sa-rad-u.nc in 0.22171664237976074
-    spacing x 0.010000000000019327 y 0.00999999999999801 (1208, 1201) 129.005 141.005 -38.065 -25.994999999999997
-    /workspace/SA-DATA/sa-grav.nc in 0.2518177032470703
-    spacing x 0.010000000000019327 y 0.00999999999999801 (1208, 1201) 129.005 141.005 -38.065 -25.994999999999997
+
+```python
+#TODO: Should be cleaned up and put into dictionary or similar.
+#For now, reading individual datasets is fine
+x1,y1,z1 = readnc("data/sa-dem.nc")
+x2,y2,z2 = readnc("data/sa-mag-tmi.nc")
+x3,y3,z3 = readnc("data/sa-grav.nc")
+```
+
+    Loaded data/sa-dem.nc in 0.02s
+    Spacing x 0.01 y 0.01 (1208, 1201) 129.005 141.005 -38.065 -25.99
+    Loaded data/sa-mag-tmi.nc in 0.01s
+    Spacing x 0.01 y 0.01 (1208, 1201) 129.005 141.005 -38.065 -25.99
+    Loaded data/sa-grav.nc in 0.01s
+    Spacing x 0.01 y 0.01 (1208, 1201) 129.005 141.005 -38.065 -25.99
+
+
+
+```python
+plt.pcolormesh(x1,y1,z1,cmap='Greys',shading='auto')
+plt.plot(comm.LONGITUDE, comm.LATITUDE, marker='o', linestyle='', color='y')
+plt.plot(xval,yval,'grey',linewidth=0.5,label='SA')
+```
+
+
+
+
+    [<matplotlib.lines.Line2D at 0x22f4f47af88>]
+
+
+
+
+    
+![png](01-build_the_data_files/01-build_the_data_22_1.png)
+    
 
 
 ### Categorical Geology in vector polygons
 
 
 ```python
-#Surface Geology, have converted unique map units to intger
-geolshape=shapefile.Reader("SA-DATA/7MGeology/geology_simp.shp")
-
-recsGeol    = geolshape.records()
-shapesGeol  = geolshape.shapes()
-
 #Archean basement geology
-geolshape=shapefile.Reader("SA-DATA/Archaean_Early_Mesoprterzoic_polygons_shp/Archaean - Early Mesoproterozoic polygons.shp")
+geolshape=shapefile.Reader("data/Archaean_Early_Mesoprterzoic_polygons_shp/geology_archaean.shp")
 
 recsArch   = geolshape.records()
 shapesArch  = geolshape.shapes()
 ```
+
+
+```python
+color = plt.cm.rainbow(np.linspace(0, 1, len(shapesArch)))
+for i,c in enumerate(color): #, range(len(shapesArch)):
+    boundary = shapesArch[i].points
+    xs = [x for x, y in shapesArch[i].points]
+    ys = [y for x, y in shapesArch[i].points]
+    plt.fill(xs,ys,c=c)
+    
+plt.plot(comm.LONGITUDE, comm.LATITUDE, marker='o', linestyle='', color='y')
+plt.plot(xval,yval,'grey',linewidth=0.5,label='SA')
+```
+
+
+
+
+    [<matplotlib.lines.Line2D at 0x22f4f0dc388>]
+
+
+
+
+    
+![png](01-build_the_data_files/01-build_the_data_25_1.png)
+    
+
+
+
+```python
+
+```
+
+## Take a moment to appreciate the various methods you have used just to load the data!
+
+Now, we need to assign the values of each of these geophyiscal datasets (predictor variables) to the target class (i.e. mineral deposit locations). 
+The assumption being that the occurnece of some mineral deposit (e.g. Cu) is a function of x1, x2, x3, x4, x5, x6. 
+Where the Resitivity is x1, the distance to a Neoprotezoic fault is x2, the value of DEM, magnetic TMI, and Gravity is x3, x4, and x5, and the geologica basement unit name is x6.
 
 # Part 2 - Spatial data mining of datasets
 
@@ -921,14 +1289,6 @@ categorical_features=[
 ]
 ```
 
-
-```python
-print("Number of geophysical layers: ", len(numerical_features))
-```
-
-    Number of geophysical layers:  92
-
-
 ### Generate the non-deposit dataset
 
 This step is important. There are numerous ways to generate our non-deposit set, each with different benefits and trade-offs.
@@ -980,7 +1340,7 @@ ax.coastlines()
 ax.margins(0.05) # 5% padding to the map boundary so we can see the true extent nicely
 
 ax.plot(comm.LONGITUDE, comm.LATITUDE, marker='o', linestyle='', color='y')
-ax.plot(lons_rand,lats_rand,marker='.',linestyle='',color='k')
+#ax.plot(lons_rand,lats_rand,marker='.',linestyle='',color='k')
 plt.plot(xval,yval,label='Gawler')
 
 plt.show()
@@ -988,7 +1348,7 @@ plt.show()
 
 
     
-![png](01-build_the_data_files/01-build_the_data_30_0.png)
+![png](01-build_the_data_files/01-build_the_data_33_0.png)
     
 
 
@@ -2261,7 +2621,7 @@ plt.legend(loc=7)
 
 
     
-![png](01-build_the_data_files/01-build_the_data_52_2.png)
+![png](01-build_the_data_files/01-build_the_data_55_2.png)
     
 
 
@@ -2312,7 +2672,7 @@ plt.show()
 
 
     
-![png](01-build_the_data_files/01-build_the_data_54_0.png)
+![png](01-build_the_data_files/01-build_the_data_57_0.png)
     
 
 
@@ -2339,7 +2699,7 @@ plt.plot(pRF[:,1])
 
 
     
-![png](01-build_the_data_files/01-build_the_data_55_2.png)
+![png](01-build_the_data_files/01-build_the_data_58_2.png)
     
 
 
@@ -2478,7 +2838,7 @@ plt.show()
 
 
     
-![png](01-build_the_data_files/01-build_the_data_60_1.png)
+![png](01-build_the_data_files/01-build_the_data_63_1.png)
     
 
 

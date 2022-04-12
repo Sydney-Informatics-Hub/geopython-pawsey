@@ -346,6 +346,14 @@ $(document).ready(function () {
 </div>
 <div id="get-a-python-client" class="section level1">
 <h1>2. Get a Python client</h1>
+<p>wget <a href="https://repo.anaconda.com/miniconda/Miniconda3-py39_4.11.0-Linux-x86_64.sh" class="uri">https://repo.anaconda.com/miniconda/Miniconda3-py39_4.11.0-Linux-x86_64.sh</a></p>
+<p>conda install -c conda-forge scikit-learn seaborn pip install jupyterlab</p>
+</div>
+<div id="to-setup-the-jupyter-notebook-server-unsecured-on-a-pawsey-instance" class="section level1">
+<h1>3. To setup the Jupyter notebook server (unsecured) on a Pawsey instance</h1>
+<p>jupyter notebook –generate-config vi ~/.jupyter/jupyter_notebook_config.py #c.NotebookApp.ip = ‘localhost’ –&gt; change to c.NotebookApp.ip = ’*’</p>
+<p>#open python and generate a password from notebook.auth import passwd; passwd() #Paste the result in c.NotebookApp.password = ’’</p>
+<p>nohup jupyter notebook &amp; ps -ef | grep python kill -9 <id></p>
 <p>We generally use and recommend Miniconda Python distribution: <a href="https://docs.conda.io/en/latest/miniconda.html">https://docs.conda.io/en/latest/miniconda.html</a>. But feel free to use whatever one works for you (and the course materials). We will be using Miniconda3-py37_4.8.3.</p>
 <p>You can get this specific version here for:</p>
 <ul>
