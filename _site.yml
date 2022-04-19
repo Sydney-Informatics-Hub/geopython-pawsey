@@ -1,4 +1,4 @@
-name: "Sydney Informatics Hub Python for Geosciences"
+name: "Sydney Informatics Hub Python Machine Learning for Geosciences"
 output_dir: "docs"
 exclude: ["*ipynb", "data"]
 navbar:  
@@ -8,8 +8,6 @@ navbar:
     menu: 
     - text: "Setup"
       href: setup.html
-    - text: "AWS Backup instructions"
-      href: AWSinstuctionsStudents.html
   - text: "Sessions"
     menu:
     - text: "Introduction"
