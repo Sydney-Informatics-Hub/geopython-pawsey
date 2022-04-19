@@ -10,127 +10,78 @@ output:
 We will be connecting Jupyter Notebook Servers hosted on Pawsey's Nimbus Cloud. 
 Each server has been pre-configured with the data and code ready to run through these tutorials.
 Everyone will be issued with a unique web address.
-Go to this site and you are ready to go.
+Go to this site and you are ready to go!
 
 If you are arriving here in the future or would like to set up the environment on your local machine instead, follow these instructions:
 
 # 1. Download the data
 
-Download the data (280 MB inflated to 500 MB) for all the exercises from here:
-
-[https://cloudstor.aarnet.edu.au/plus/s/IfOvRpOXhJyqTT0](https://cloudstor.aarnet.edu.au/plus/s/IfOvRpOXhJyqTT0)
+or clone the repo and get the data from the data directory.
 
 
 # 2. Get a Python client
 
-wget https://repo.anaconda.com/miniconda/Miniconda3-py39_4.11.0-Linux-x86_64.sh
-
-conda install -c conda-forge scikit-learn seaborn
-pip install jupyterlab
-
-# 3. To setup the Jupyter notebook server (unsecured) on a Pawsey instance
-
-jupyter notebook --generate-config
-vi ~/.jupyter/jupyter_notebook_config.py
-#c.NotebookApp.ip = 'localhost' –> change to c.NotebookApp.ip = '*'
-
-#open python and generate a password
-from notebook.auth import passwd; passwd()
-#Paste the result in
-c.NotebookApp.password = ''
-
-nohup jupyter notebook &
-ps -ef | grep python
-kill -9 <id>
-
-
-
-We generally use and recommend Miniconda Python distribution: [https://docs.conda.io/en/latest/miniconda.html](https://docs.conda.io/en/latest/miniconda.html). But feel free to use whatever one works for you (and the course materials). We will be using Miniconda3-py37_4.8.3.
+We generally use and recommend Miniconda Python distribution: [https://docs.conda.io/en/latest/miniconda.html](https://docs.conda.io/en/latest/miniconda.html). But feel free to use whatever one works for you (and the course materials). We will be using Miniconda3-py39_4.11.0.
 
 You can get this specific version here for:
 
-* [Windows 64 bit Download](https://repo.anaconda.com/miniconda/Miniconda3-py37_4.8.3-Windows-x86_64.exe)
+* [Windows 64 bit Download](https://repo.anaconda.com/miniconda/Miniconda3-py39_4.11.0-Windows-x86_64.exe)
 
-* [Mac OSX Download](https://repo.anaconda.com/miniconda/Miniconda3-py37_4.8.3-MacOSX-x86_64.pkg)
+* [Mac OSX Download](https://repo.anaconda.com/miniconda/Miniconda3-py39_4.11.0-MacOSX-x86_64.pkg)
 
-* [Linux Download](https://repo.anaconda.com/miniconda/Miniconda3-py37_4.8.3-Linux-x86_64.sh)
+* [Linux Download](https://repo.anaconda.com/miniconda/Miniconda3-py39_4.11.0-Linux-x86_64.sh)
 
 Follow the prompts (the default recommendations in the installer are generally fine.) 
 Once installed, launch an "Anaconda Prompt" from the Start Menu / Applications Folder to begin your Python adventure. 
 
 <br>
 
+
 # 2. Setup your Python environment (install required packages and libraries)
 
 Next we need to set up an environment with all the additional packages and libraries we will be using throughout the course.
 
-* [Download the python environment file from here](requirements/environment.yml) (this is a small text file). You may have to "Right Click > Save link as..." to download it.
-* Launch an Anaconda Prompt (miniconda3).
-
-<br>
-![](fig/setup01.png)
-
-* Assuming you have downloaded the *environment.yml* file to your Downloads folder. Type in the below command on a Windows machine at the prompt. This should take about 15 minutes to download (~1GB of data) and install the environment packages:
-
-```sh
-conda env create --name geopy --file=C:\Users\nbutter\Downloads\environment.yml
+```
+conda install -c conda-forge scikit-learn seaborn
+pip install jupyterlab
 ```
 
-If you are working on a Mac or Linux machine, the following will work:
-```sh
-conda env create -f ~/Downloads/environment.yml
+This should install other key libraries e.g. ```numpy, matplotlib, pandas``` as dependencies.
+
+
+# To setup the Jupyter notebook server (unsecured) on a Pawsey instance
+
+```
+jupyter notebook --generate-config
 ```
 
-<br>
-
-Upon successful completion the command prompt should look like this:
-![](fig/setup02.png)
-
-![](fig/setup03.png)
-
-<br>
-
-After the installation completes, activate the new environment with the following command:
-```python
-conda activate geopy
-cd C:\Users\nbutter\Desktop\geopython
-conda activate geopy
-jupyter notebook
+Open python and generate a password
+```
+python
+from notebook.auth import passwd; passwd()
 ```
 
-![](fig/jupyter.png)
-
-This will launch the Notebook server (and may automatically launch a web-browser and take you to the page). If the Notebook does not automatically start, copy the generated link into a browser.
-
-![](fig/jupyter_browser.png)
-
-
-<br>
-
-# Other Options
-
-## Google Colab
-
-If the above options do not work for you, [Google Colab](https://colab.research.google.com/) can be used for an on-demand Python notebook. You will require a Google Account for this.
-
-The data is also available on Google Drive here:
-https://drive.google.com/drive/folders/1b5TuOIZDhwf1UEMNQ0Jl5zDyn9dRwaRo?usp=sharing
-
-And an example Colab notebook (linking to that data) is here:
-https://colab.research.google.com/drive/1Uw78l8SDyRjdeanSvnsGayFWf_AJbZL1?usp=sharing
-
-<br>
-## Docker
-
-If you are familiar with Docker you may use our Docker image with something like:
+Edit the config file that was created
 ```
-sudo docker run -it -p 8888:8888 nbutter/geopy:latest /bin/bash -c "jupyter notebook --allow-root --ip=0.0.0.0 --no-browser"
-```
-This will launch the Python notebook server in the ```/notebooks``` folder. Access the notebook by entering the generated link in a web-browser, e.g.
-```
-http://127.0.0.1:8888/?token=9b16287ab91dc69d6b265e6c9c31a49586a35291bb20d0ab
+vi ~/.jupyter/jupyter_notebook_config.py
 ```
 
+Set these lines
+```
+c.NotebookApp.ip = '*'
 
+c.NotebookApp.password = 'PASSWORDHERE'
+```
+
+Launch the notebook server
+```
+nohup jupyter notebook &
+```
+
+If you later want to kill the server, log back in, determine the id of the process and kill it.
+```
+ps -ef | grep python
+kill -9 <id>
+```
 
 

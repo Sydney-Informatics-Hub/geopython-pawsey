@@ -13,11 +13,9 @@ title: "Python for Geoscientists"
 - Understand the Python ecosystem and other tools.
 </div>
 
-
+# We can talk about supervised vs unsupervised
 
 This course we will introduce you to foundations of Python programming. We will utilise common geosicence data types (geospatial, temporal, vector, raster, etc) to demonstrate a variety of practical workflows and showcase fundamental capabilities of Python. We will carry out exploratory, analytical, computational and machine learning analyses on these datasets. At the end of the course you will be able to adapt these workflows to your own datasets. 
-
-The course is presented by the Sydney Informatics Hub on behalf of the Petroleum Exploration Society of Australia.
 
 
 # What is Python?
@@ -56,7 +54,7 @@ As you go deeper into Python, you will see more advanced syntax:
 '''
 A Python program which greets the Earth!
 Nathaniel Butterworth
-PESA/SIH Python course
+SIH Python course
 
 usage: python helloworld_advanced.py
 '''
@@ -72,7 +70,7 @@ Once again, you can save this in a text editor as ```hello_advanced.py``` and ex
 
 You can also start a Python IDE session, and execute commands one by one.
 
-A handy tool is the Jupyter Notebook (modelled from Mathematica's Notebooks), that we will predominately be using throughout this course. They are good for the kind of non-development focused Python tasks you may need.
+A handy tool is the Jupyter Notebook (modelled from Mathematica's Notebooks), that we will predominately be using throughout this course. They are good for the kind of non-development/data-exploration focused Python tasks you may need.
 
 There are also online environments that can host Python code and notebooks for you.
 
