@@ -8,3 +8,4 @@ Rscript --vanilla siterender.R
 # run the below to copy the files to root so they are appropriately rendered in the final 
 # GitHub website
 cp -r docs/*files .
+cp -r figs docs/

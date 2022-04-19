@@ -14,10 +14,10 @@ The course is presented for <a href="https://datascienceweek.org/">Pawsey Data S
 <figure>
   
   <a href="https://datascienceweek.org/">
-  <img src="fig/pawsey-logo-beige.webp" style="margin:10px;width:200px"/>
+  <img src="figs/pawsey-logo-beige.webp" style="margin:10px;width:200px"/>
   </a>
   <a href="https://www.sydney.edu.au/research/facilities/sydney-informatics-hub.html">
-  <img src="fig/SIH_logo.jpg" style="margin:10px;width:200px"/>
+  <img src="figs/SIH_logo.jpg" style="margin:10px;width:200px"/>
   </a>
 </figure>
 

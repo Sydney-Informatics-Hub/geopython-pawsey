@@ -19,6 +19,8 @@ If you are arriving here in the future or would like to set up the environment o
 or clone the repo and get the data from the data directory.
 
 
+<br>
+
 # 2. Get a Python client
 
 We generally use and recommend Miniconda Python distribution: [https://docs.conda.io/en/latest/miniconda.html](https://docs.conda.io/en/latest/miniconda.html). But feel free to use whatever one works for you (and the course materials). We will be using Miniconda3-py39_4.11.0.
@@ -34,10 +36,11 @@ You can get this specific version here for:
 Follow the prompts (the default recommendations in the installer are generally fine.) 
 Once installed, launch an "Anaconda Prompt" from the Start Menu / Applications Folder to begin your Python adventure. 
 
+
 <br>
 
 
-# 2. Setup your Python environment (install required packages and libraries)
+# 3. Setup your Python environment (install required packages and libraries)
 
 Next we need to set up an environment with all the additional packages and libraries we will be using throughout the course.
 
@@ -48,6 +51,8 @@ pip install jupyterlab
 
 This should install other key libraries e.g. ```numpy, matplotlib, pandas``` as dependencies.
 
+
+<br>
 
 # To setup the Jupyter notebook server (unsecured) on a Pawsey instance
 
