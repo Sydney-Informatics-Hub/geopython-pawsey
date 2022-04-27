@@ -83,7 +83,7 @@ Monday May 9, 2022, 9am - 12pm (AWST-Perth time)
 
 ## Setup Instructions
 
-You will be provided with a Nimbus Cloud Virtual Machine hosting a Jupyter Notebook server. You will connect via a web-browser directly to the interface. If you would like to configure everything locally, please see the [Setup Pages](Setup)
+You will be provided with a Nimbus Cloud Virtual Machine hosting a Jupyter Notebook server. You will connect via a web-browser directly to the interface. If you would like to configure everything locally, please see the [Setup Pages](setup)
 
 
 

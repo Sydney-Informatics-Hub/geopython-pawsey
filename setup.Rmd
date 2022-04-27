@@ -7,10 +7,10 @@ output:
 ---
 
 
-We will be connecting Jupyter Notebook Servers hosted on Pawsey's Nimbus Cloud. 
+We will be connecting to Jupyter Notebook Servers hosted on Pawsey's Nimbus Cloud. 
 Each server has been pre-configured with the data and code ready to run through these tutorials.
 Everyone will be issued with a unique web address.
-Go to this site and you are ready to go!
+**Go to the address you are given and you are ready to go!**
 
 If you are arriving here in the future or would like to set up the environment on your local machine instead, follow these instructions:
 
@@ -54,16 +54,15 @@ This should install other key libraries e.g. ```numpy, matplotlib, pandas``` as 
 
 <br>
 
-# To setup the Jupyter notebook server (unsecured) on a Pawsey instance
+# To setup the Jupyter Notebook server (unsecured) on a Pawsey instance
 
 ```
 jupyter notebook --generate-config
 ```
 
-Open python and generate a password
+Use Python to set and generate a password hashed password
 ```
-python
-from notebook.auth import passwd; passwd()
+python -c "from notebook.auth import passwd; print(passwd())"
 ```
 
 Edit the config file that was created
