@@ -436,15 +436,12 @@ div.tocify {
 <h1>Building Machine Learning Datasets</h1>
 <p>All machine learning problems begin with a dataset, and before we can perform any kind of inference on that dataset we must create/wrangle/build it. This is often the most time-consuming and hard part of a successful machine learning workflow. There is no set procedure here, as all data is different, although there are a few simple methods we can take to make a useful dataset.</p>
 <p>We will be using data from a submitted Manuscript (Butterworth and Barnett-Moore 2020) which was a finalist in the <a href="https://unearthed.solutions/u/competitions/exploresa">Unearthed, ExploreSA: Gawler Challenge</a>. You can visit the <a href="https://github.com/natbutter/gawler-exploration">original repo here</a>.</p>
-<pre class="python"><code>import numpy as np
-import scipy
-from scipy import io
-import time
-import matplotlib.pyplot as plt
-import cartopy.crs as ccrs
-
-from shapely.geometry import Point
-from shapely.geometry import shape</code></pre>
+<pre class="python"><code># import numpy as np
+# import scipy
+# from scipy import io
+# import time
+# import matplotlib.pyplot as plt
+# import cartopy.crs as ccrs</code></pre>
 </div>
 <div id="goal-create-a-table-of-data-containing-targets-and-predictor-variables" class="section level1">
 <h1>Goal: Create a table of data containing “targets” and “predictor variables”</h1>
@@ -474,7 +471,11 @@ df = pd.DataFrame(columns=fields, data=records)</code></pre>
 <p>View the metadata of the <a href="https://catalog.sarig.sa.gov.au/geonetwork/srv/eng/catalog.search#/metadata/a0e4b62c-ec88-44b8-a530-b4e744a6b414">South Australian all mines and mineral deposits</a> to get a better understanding for what features we could use as a target.</p>
 <pre class="python"><code>#See what the dataframe looks like
 print(df.columns)
-df</code></pre>
+
+#For clean printing to html drop columns that contains annoying / and \ chars.
+#And set max columns
+pd.options.display.max_columns = 8
+df.drop(columns=[&#39;REFERENCE&#39;,&#39;O_MAP_SYMB&#39;])</code></pre>
 <pre><code>Index([&#39;MINDEP_NO&#39;, &#39;DEP_NAME&#39;, &#39;REFERENCE&#39;, &#39;COMM_CODE&#39;, &#39;COMMODS&#39;,
        &#39;COMMOD_MAJ&#39;, &#39;COMM_SPECS&#39;, &#39;GCHEM_ASSC&#39;, &#39;DISC_YEAR&#39;, &#39;CLASS_CODE&#39;,
        &#39;OPER_TYPE&#39;, &#39;MAP_SYMB&#39;, &#39;STATUS_VAL&#39;, &#39;SIZE_VAL&#39;, &#39;GEOL_PROV&#39;,
@@ -511,46 +512,13 @@ MINDEP_NO
 DEP_NAME
 </th>
 <th>
-REFERENCE
-</th>
-<th>
 COMM_CODE
 </th>
 <th>
 COMMODS
 </th>
 <th>
-COMMOD_MAJ
-</th>
-<th>
-COMM_SPECS
-</th>
-<th>
-GCHEM_ASSC
-</th>
-<th>
-DISC_YEAR
-</th>
-<th>
-CLASS_CODE
-</th>
-<th>
 …
-</th>
-<th>
-NORTHING
-</th>
-<th>
-ZONE
-</th>
-<th>
-LONGITUDE
-</th>
-<th>
-LATITUDE
-</th>
-<th>
-SVY_METHOD
 </th>
 <th>
 HORZ_ACC
@@ -563,9 +531,6 @@ SRCE_CNTRE
 </th>
 <th>
 COMMENTS
-</th>
-<th>
-O_MAP_SYMB
 </th>
 </tr>
 </thead>
@@ -581,45 +546,13 @@ O_MAP_SYMB
 MOUNT DAVIES NO.2A
 </td>
 <td>
-RB 65/80
-</td>
-<td>
 Ni
 </td>
 <td>
 Nickel
 </td>
 <td>
-Ni
-</td>
-<td>
-ELMT
-</td>
-<td>
-</td>
-<td>
-1893.0
-</td>
-<td>
-OCCURRENCE
-</td>
-<td>
 …
-</td>
-<td>
-7112524.68
-</td>
-<td>
-52
-</td>
-<td>
-129.200549
-</td>
-<td>
--26.106335
-</td>
-<td>
-Digitised
 </td>
 <td>
 2000.0
@@ -630,9 +563,6 @@ Digitised
 <td>
 </td>
 <td>
-</td>
-<td>
-T
 </td>
 </tr>
 <tr>
@@ -646,46 +576,13 @@ T
 ONE STONE
 </td>
 <td>
-MRR 138
-</td>
-<td>
 Ni
 </td>
 <td>
 Nickel
 </td>
 <td>
-Ni
-</td>
-<td>
-ELMT
-</td>
-<td>
-Ni-Cr
-</td>
-<td>
-1975.0
-</td>
-<td>
-OCCURRENCE
-</td>
-<td>
 …
-</td>
-<td>
-7110551.56
-</td>
-<td>
-53
-</td>
-<td>
-132.775358
-</td>
-<td>
--26.107124
-</td>
-<td>
-Sourced from documents (PLANS, ENV, RB,etc)
 </td>
 <td>
 500.0
@@ -697,229 +594,287 @@ Sourced from documents (PLANS, ENV, RB,etc)
 </td>
 <td>
 </td>
-<td>
-T/td&gt;
 </tr>
-<pre><code>&lt;tr&gt;
-  &lt;th&gt;2&lt;/th&gt;
-  &lt;td&gt;8314&lt;/td&gt;
-  &lt;td&gt;HINCKLEY RANGE&lt;/td&gt;
-  &lt;td&gt;&lt;/td&gt;
-  &lt;td&gt;Fe&lt;/td&gt;
-  &lt;td&gt;Iron&lt;/td&gt;
-  &lt;td&gt;Fe&lt;/td&gt;
-  &lt;td&gt;ELMT&lt;/td&gt;
-  &lt;td&gt;&lt;/td&gt;
-  &lt;td&gt;1961.0&lt;/td&gt;
-  &lt;td&gt;OCCURRENCE&lt;/td&gt;
-  &lt;td&gt;...&lt;/td&gt;
-  &lt;td&gt;7111381.52&lt;/td&gt;
-  &lt;td&gt;52&lt;/td&gt;
-  &lt;td&gt;129.101731&lt;/td&gt;
-  &lt;td&gt;-26.116761&lt;/td&gt;
-  &lt;td&gt;Sourced from documents (PLANS, ENV, RB,etc)&lt;/td&gt;
-  &lt;td&gt;500.0&lt;/td&gt;
-  &lt;td&gt;&lt;/td&gt;
-  &lt;td&gt;&lt;/td&gt;
-  &lt;td&gt;&lt;/td&gt;
-  &lt;td&gt;Mg&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-  &lt;th&gt;3&lt;/th&gt;
-  &lt;td&gt;69&lt;/td&gt;
-  &lt;td&gt;KALKA&lt;/td&gt;
-  &lt;td&gt;RB 91/103&lt;/td&gt;
-  &lt;td&gt;V, ILM&lt;/td&gt;
-  &lt;td&gt;Vanadium, Ilmenite&lt;/td&gt;
-  &lt;td&gt;V&lt;/td&gt;
-  &lt;td&gt;ELMT&lt;/td&gt;
-  &lt;td&gt;Fe-V-Ti&lt;/td&gt;
-  &lt;td&gt;1968.0&lt;/td&gt;
-  &lt;td&gt;OCCURRENCE&lt;/td&gt;
-  &lt;td&gt;...&lt;/td&gt;
-  &lt;td&gt;7110521.49&lt;/td&gt;
-  &lt;td&gt;52&lt;/td&gt;
-  &lt;td&gt;129.116042&lt;/td&gt;
-  &lt;td&gt;-26.124516&lt;/td&gt;
-  &lt;td&gt;(DISUSED) Map Plot&lt;/td&gt;
-  &lt;td&gt;100.0&lt;/td&gt;
-  &lt;td&gt;1 MILE&lt;/td&gt;
-  &lt;td&gt;mgt polygon on digital map&lt;/td&gt;
-  &lt;td&gt;&lt;/td&gt;
-  &lt;td&gt;Mg2&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-  &lt;th&gt;4&lt;/th&gt;
-  &lt;td&gt;65&lt;/td&gt;
-  &lt;td&gt;ECHIDNA&lt;/td&gt;
-  &lt;td&gt;RB 91/103&lt;/td&gt;
-  &lt;td&gt;Ni&lt;/td&gt;
-  &lt;td&gt;Nickel&lt;/td&gt;
-  &lt;td&gt;Ni&lt;/td&gt;
-  &lt;td&gt;ELMT&lt;/td&gt;
-  &lt;td&gt;Ni&lt;/td&gt;
-  &lt;td&gt;1991.0&lt;/td&gt;
-  &lt;td&gt;OCCURRENCE&lt;/td&gt;
-  &lt;td&gt;...&lt;/td&gt;
-  &lt;td&gt;7108531.53&lt;/td&gt;
-  &lt;td&gt;53&lt;/td&gt;
-  &lt;td&gt;132.770515&lt;/td&gt;
-  &lt;td&gt;-26.125281&lt;/td&gt;
-  &lt;td&gt;(DISUSED) Map Plot&lt;/td&gt;
-  &lt;td&gt;20.0&lt;/td&gt;
-  &lt;td&gt;50K GEOL&lt;/td&gt;
-  &lt;td&gt;DH ECHIDNA PROSPECT&lt;/td&gt;
-  &lt;td&gt;&lt;/td&gt;
-  &lt;td&gt;LMb&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-  &lt;th&gt;...&lt;/th&gt;
-  &lt;td&gt;...&lt;/td&gt;
-  &lt;td&gt;...&lt;/td&gt;
-  &lt;td&gt;...&lt;/td&gt;
-  &lt;td&gt;...&lt;/td&gt;
-  &lt;td&gt;...&lt;/td&gt;
-  &lt;td&gt;...&lt;/td&gt;
-  &lt;td&gt;...&lt;/td&gt;
-  &lt;td&gt;...&lt;/td&gt;
-  &lt;td&gt;...&lt;/td&gt;
-  &lt;td&gt;...&lt;/td&gt;
-  &lt;td&gt;...&lt;/td&gt;
-  &lt;td&gt;...&lt;/td&gt;
-  &lt;td&gt;...&lt;/td&gt;
-  &lt;td&gt;...&lt;/td&gt;
-  &lt;td&gt;...&lt;/td&gt;
-  &lt;td&gt;...&lt;/td&gt;
-  &lt;td&gt;...&lt;/td&gt;
-  &lt;td&gt;...&lt;/td&gt;
-  &lt;td&gt;...&lt;/td&gt;
-  &lt;td&gt;...&lt;/td&gt;
-  &lt;td&gt;...&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-  &lt;th&gt;8672&lt;/th&gt;
-  &lt;td&gt;6937&lt;/td&gt;
-  &lt;td&gt;YARINGA&lt;/td&gt;
-  &lt;td&gt;RB 43/94&lt;/td&gt;
-  &lt;td&gt;QTZE&lt;/td&gt;
-  &lt;td&gt;Quartzite&lt;/td&gt;
-  &lt;td&gt;QTZE&lt;/td&gt;
-  &lt;td&gt;ROCK&lt;/td&gt;
-  &lt;td&gt;&lt;/td&gt;
-  &lt;td&gt;1956.0&lt;/td&gt;
-  &lt;td&gt;OCCURRENCE&lt;/td&gt;
-  &lt;td&gt;...&lt;/td&gt;
-  &lt;td&gt;6066051.52&lt;/td&gt;
-  &lt;td&gt;54&lt;/td&gt;
-  &lt;td&gt;138.254441&lt;/td&gt;
-  &lt;td&gt;-35.517924&lt;/td&gt;
-  &lt;td&gt;Google Earth image&lt;/td&gt;
-  &lt;td&gt;200.0&lt;/td&gt;
-  &lt;td&gt;50k moc&lt;/td&gt;
-  &lt;td&gt;fenced yard&lt;/td&gt;
-  &lt;td&gt;&lt;/td&gt;
-  &lt;td&gt;Eec&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-  &lt;th&gt;8673&lt;/th&gt;
-  &lt;td&gt;4729&lt;/td&gt;
-  &lt;td&gt;WELCHS&lt;/td&gt;
-  &lt;td&gt;MSC #19&lt;/td&gt;
-  &lt;td&gt;SCHT&lt;/td&gt;
-  &lt;td&gt;Schist&lt;/td&gt;
-  &lt;td&gt;SCHT&lt;/td&gt;
-  &lt;td&gt;ROCK&lt;/td&gt;
-  &lt;td&gt;&lt;/td&gt;
-  &lt;td&gt;1930.0&lt;/td&gt;
-  &lt;td&gt;OCCURRENCE&lt;/td&gt;
-  &lt;td&gt;...&lt;/td&gt;
-  &lt;td&gt;6066681.48&lt;/td&gt;
-  &lt;td&gt;54&lt;/td&gt;
-  &lt;td&gt;138.648619&lt;/td&gt;
-  &lt;td&gt;-35.520578&lt;/td&gt;
-  &lt;td&gt;Digital Image&lt;/td&gt;
-  &lt;td&gt;20.0&lt;/td&gt;
-  &lt;td&gt;50k topo&lt;/td&gt;
-  &lt;td&gt;&lt;/td&gt;
-  &lt;td&gt;&lt;/td&gt;
-  &lt;td&gt;Elb&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-  &lt;th&gt;8674&lt;/th&gt;
-  &lt;td&gt;4718&lt;/td&gt;
-  &lt;td&gt;ARCADIAN&lt;/td&gt;
-  &lt;td&gt;MSC #2&lt;/td&gt;
-  &lt;td&gt;CLAY&lt;/td&gt;
-  &lt;td&gt;Clay&lt;/td&gt;
-  &lt;td&gt;CLAY&lt;/td&gt;
-  &lt;td&gt;ROCK&lt;/td&gt;
-  &lt;td&gt;&lt;/td&gt;
-  &lt;td&gt;1921.0&lt;/td&gt;
-  &lt;td&gt;DEPOSIT&lt;/td&gt;
-  &lt;td&gt;...&lt;/td&gt;
-  &lt;td&gt;6066561.56&lt;/td&gt;
-  &lt;td&gt;54&lt;/td&gt;
-  &lt;td&gt;138.660599&lt;/td&gt;
-  &lt;td&gt;-35.521892&lt;/td&gt;
-  &lt;td&gt;Digital Image&lt;/td&gt;
-  &lt;td&gt;5.0&lt;/td&gt;
-  &lt;td&gt;Plan 1951-0327&lt;/td&gt;
-  &lt;td&gt;Pit&lt;/td&gt;
-  &lt;td&gt;&lt;/td&gt;
-  &lt;td&gt;Q&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-  &lt;th&gt;8675&lt;/th&gt;
-  &lt;td&gt;1436&lt;/td&gt;
-  &lt;td&gt;MCDONALD&lt;/td&gt;
-  &lt;td&gt;MSC #7&lt;/td&gt;
-  &lt;td&gt;Au&lt;/td&gt;
-  &lt;td&gt;Gold&lt;/td&gt;
-  &lt;td&gt;Au&lt;/td&gt;
-  &lt;td&gt;ELMT&lt;/td&gt;
-  &lt;td&gt;Au&lt;/td&gt;
-  &lt;td&gt;1901.0&lt;/td&gt;
-  &lt;td&gt;OCCURRENCE&lt;/td&gt;
-  &lt;td&gt;...&lt;/td&gt;
-  &lt;td&gt;6065991.54&lt;/td&gt;
-  &lt;td&gt;54&lt;/td&gt;
-  &lt;td&gt;138.436645&lt;/td&gt;
-  &lt;td&gt;-35.522477&lt;/td&gt;
-  &lt;td&gt;Google Earth image&lt;/td&gt;
-  &lt;td&gt;200.0&lt;/td&gt;
-  &lt;td&gt;50k moc&lt;/td&gt;
-  &lt;td&gt;qz float&lt;/td&gt;
-  &lt;td&gt;&lt;/td&gt;
-  &lt;td&gt;qz&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;
-  &lt;th&gt;8676&lt;/th&gt;
-  &lt;td&gt;8934&lt;/td&gt;
-  &lt;td&gt;FAIRFIELD FARM&lt;/td&gt;
-  &lt;td&gt;&lt;/td&gt;
-  &lt;td&gt;SAND&lt;/td&gt;
-  &lt;td&gt;Sand&lt;/td&gt;
-  &lt;td&gt;SAND&lt;/td&gt;
-  &lt;td&gt;ROCK&lt;/td&gt;
-  &lt;td&gt;&lt;/td&gt;
-  &lt;td&gt;1980.0&lt;/td&gt;
-  &lt;td&gt;OCCURRENCE&lt;/td&gt;
-  &lt;td&gt;...&lt;/td&gt;
-  &lt;td&gt;6066871.52&lt;/td&gt;
-  &lt;td&gt;54&lt;/td&gt;
-  &lt;td&gt;138.862467&lt;/td&gt;
-  &lt;td&gt;-35.522846&lt;/td&gt;
-  &lt;td&gt;Google Earth image&lt;/td&gt;
-  &lt;td&gt;20.0&lt;/td&gt;
-  &lt;td&gt;&lt;/td&gt;
-  &lt;td&gt;pit&lt;/td&gt;
-  &lt;td&gt;&lt;/td&gt;
-  &lt;td&gt;Q&lt;/td&gt;
-&lt;/tr&gt;</code></pre>
+<tr>
+<th>
+2
+</th>
+<td>
+8314
+</td>
+<td>
+HINCKLEY RANGE
+</td>
+<td>
+Fe
+</td>
+<td>
+Iron
+</td>
+<td>
+…
+</td>
+<td>
+500.0
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<th>
+3
+</th>
+<td>
+69
+</td>
+<td>
+KALKA
+</td>
+<td>
+V, ILM
+</td>
+<td>
+Vanadium, Ilmenite
+</td>
+<td>
+…
+</td>
+<td>
+100.0
+</td>
+<td>
+1 MILE
+</td>
+<td>
+mgt polygon on digital map
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<th>
+4
+</th>
+<td>
+65
+</td>
+<td>
+ECHIDNA
+</td>
+<td>
+Ni
+</td>
+<td>
+Nickel
+</td>
+<td>
+…
+</td>
+<td>
+20.0
+</td>
+<td>
+50K GEOL
+</td>
+<td>
+DH ECHIDNA PROSPECT
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<th>
+…
+</th>
+<td>
+…
+</td>
+<td>
+…
+</td>
+<td>
+…
+</td>
+<td>
+…
+</td>
+<td>
+…
+</td>
+<td>
+…
+</td>
+<td>
+…
+</td>
+<td>
+…
+</td>
+<td>
+…
+</td>
+</tr>
+<tr>
+<th>
+8672
+</th>
+<td>
+6937
+</td>
+<td>
+YARINGA
+</td>
+<td>
+QTZE
+</td>
+<td>
+Quartzite
+</td>
+<td>
+…
+</td>
+<td>
+200.0
+</td>
+<td>
+50k moc
+</td>
+<td>
+fenced yard
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<th>
+8673
+</th>
+<td>
+4729
+</td>
+<td>
+WELCHS
+</td>
+<td>
+SCHT
+</td>
+<td>
+Schist
+</td>
+<td>
+…
+</td>
+<td>
+20.0
+</td>
+<td>
+50k topo
+</td>
+<td>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<th>
+8674
+</th>
+<td>
+4718
+</td>
+<td>
+ARCADIAN
+</td>
+<td>
+CLAY
+</td>
+<td>
+Clay
+</td>
+<td>
+…
+</td>
+<td>
+5.0
+</td>
+<td>
+Plan 1951-0327
+</td>
+<td>
+Pit
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<th>
+8675
+</th>
+<td>
+1436
+</td>
+<td>
+MCDONALD
+</td>
+<td>
+Au
+</td>
+<td>
+Gold
+</td>
+<td>
+…
+</td>
+<td>
+200.0
+</td>
+<td>
+50k moc
+</td>
+<td>
+qz float
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<th>
+8676
+</th>
+<td>
+8934
+</td>
+<td>
+FAIRFIELD FARM
+</td>
+<td>
+SAND
+</td>
+<td>
+Sand
+</td>
+<td>
+…
+</td>
+<td>
+20.0
+</td>
+<td>
+</td>
+<td>
+pit
+</td>
+<td>
+</td>
+</tr>
 </tbody>
 </table>
 <p>
-8677 rows × 43 columns
+8677 rows × 41 columns
 </p>
 </div>
 <pre class="python"><code>#We are building a model to target South Australia, so load in a map of it.
@@ -1225,6 +1180,8 @@ plt.show()</code></pre>
 </div>
 <div id="faults-and-dykes-vector-polylines" class="section level3">
 <h3>Faults and dykes vector polylines</h3>
+<pre class="python"><code># For dealing with arrays 
+import numpy as np</code></pre>
 <pre class="python"><code>#Get fault data neo
 faultshape=&quot;data/Faults/Faults.shp&quot;
 shapeRead = shapefile.Reader(faultshape)
@@ -1256,7 +1213,7 @@ plt.legend(loc=3)
 
 plt.show()</code></pre>
 <div class="figure">
-<img src="01-build_the_data_files/01-build_the_data_17_0.png" alt="" />
+<img src="01-build_the_data_files/01-build_the_data_18_0.png" alt="" />
 <p class="caption">png</p>
 </div>
 </div>
@@ -1314,7 +1271,7 @@ cbar.ax.xaxis.set_label_position(&#39;top&#39;)
 
 plt.show()</code></pre>
 <div class="figure">
-<img src="01-build_the_data_files/01-build_the_data_22_0.png" alt="" />
+<img src="01-build_the_data_files/01-build_the_data_23_0.png" alt="" />
 <p class="caption">png</p>
 </div>
 </div>
@@ -1371,7 +1328,7 @@ plt.ylim(-38.5,-25.5)
 
 plt.show()</code></pre>
 <div class="figure">
-<img src="01-build_the_data_files/01-build_the_data_25_0.png" alt="" />
+<img src="01-build_the_data_files/01-build_the_data_26_0.png" alt="" />
 <p class="caption">png</p>
 </div>
 </div>
@@ -2245,13 +2202,17 @@ cbar.ax.xaxis.set_label_position(&#39;top&#39;)
 
 plt.show()</code></pre>
 <div class="figure">
-<img src="01-build_the_data_files/01-build_the_data_40_0.png" alt="" />
+<img src="01-build_the_data_files/01-build_the_data_41_0.png" alt="" />
 <p class="caption">png</p>
 </div>
 </div>
 <div id="geology" class="section level3">
 <h3>Geology</h3>
-<pre class="python"><code>#Define a function to find what polygon a point lives inside (speed imporivements can be made here)
+<pre class="python"><code># For dealing with shapefile components
+from shapely.geometry import Point
+from shapely.geometry import shape
+
+#Define a function to find what polygon a point lives inside (speed imporivements can be made here)
 def shapeExplore(lon,lat,shapes,recs,record):
     #&#39;record&#39; is the column index you want returned
     for i in range(len(shapes)):
@@ -2643,9 +2604,9 @@ geol
 import seaborn as sns</code></pre>
 <pre class="python"><code># Plot historgrams and scatter plots for each combination of features.
 sns.pairplot(td,palette=&quot;Set1&quot;,diag_kind=&quot;auto&quot;)</code></pre>
-<pre><code>&lt;seaborn.axisgrid.PairGrid at 0x186178fd048&gt;</code></pre>
+<pre><code>&lt;seaborn.axisgrid.PairGrid at 0x271c9d58f88&gt;</code></pre>
 <div class="figure">
-<img src="01-build_the_data_files/01-build_the_data_47_1.png" alt="" />
+<img src="01-build_the_data_files/01-build_the_data_48_1.png" alt="" />
 <p class="caption">png</p>
 </div>
 <pre class="python"><code>#Plot a heatmap for how correlated each of the features are
@@ -2658,7 +2619,7 @@ sns.heatmap(corr,
             xticklabels=True, yticklabels=True,
             );</code></pre>
 <div class="figure">
-<img src="01-build_the_data_files/01-build_the_data_48_0.png" alt="" />
+<img src="01-build_the_data_files/01-build_the_data_49_0.png" alt="" />
 <p class="caption">png</p>
 </div>
 <pre class="python"><code>#Plot a regression model through the data
@@ -2667,7 +2628,7 @@ sns.lmplot(
     x = &#39;res&#39;, y = &#39;mag&#39;
 );</code></pre>
 <div class="figure">
-<img src="01-build_the_data_files/01-build_the_data_49_0.png" alt="" />
+<img src="01-build_the_data_files/01-build_the_data_50_0.png" alt="" />
 <p class="caption">png</p>
 </div>
 </div>
@@ -2745,7 +2706,7 @@ plt.plot(xval,yval,label=&#39;Gawler&#39;)
 
 plt.show()</code></pre>
 <div class="figure">
-<img src="01-build_the_data_files/01-build_the_data_54_0.png" alt="" />
+<img src="01-build_the_data_files/01-build_the_data_55_0.png" alt="" />
 <p class="caption">png</p>
 </div>
 </div>
@@ -3937,7 +3898,7 @@ SCORE Mean: 0.87 STD: 0.08
 
 &lt;matplotlib.legend.Legend at 0x7ff04942bd30&gt;</code></pre>
 <div class="figure">
-<img src="01-build_the_data_files/01-build_the_data_71_2.png" alt="" />
+<img src="01-build_the_data_files/01-build_the_data_72_2.png" alt="" />
 <p class="caption">png</p>
 </div>
 <pre class="python"><code>#Make a plot out the feature scores. 
@@ -3978,7 +3939,7 @@ plt.show()
 
 #plt.xticks([0,1,2,3,4,5,7,81,82,83,84,85,86])</code></pre>
 <div class="figure">
-<img src="01-build_the_data_files/01-build_the_data_73_0.png" alt="" />
+<img src="01-build_the_data_files/01-build_the_data_74_0.png" alt="" />
 <p class="caption">png</p>
 </div>
 <pre class="python"><code>#Chec the probabilities at each of the deposit/non-deposit points
@@ -3996,7 +3957,7 @@ Done RF
 
 [&lt;matplotlib.lines.Line2D at 0x7ff04905b0b8&gt;]</code></pre>
 <div class="figure">
-<img src="01-build_the_data_files/01-build_the_data_74_2.png" alt="" />
+<img src="01-build_the_data_files/01-build_the_data_75_2.png" alt="" />
 <p class="caption">png</p>
 </div>
 </div>
@@ -4111,7 +4072,7 @@ plt.show()</code></pre>
 &lt;urlopen error [Errno -5] No address associated with hostname&gt;
 &lt;urlopen error [Errno -5] No address associated with hostname&gt;</code></pre>
 <div class="figure">
-<img src="01-build_the_data_files/01-build_the_data_79_1.png" alt="" />
+<img src="01-build_the_data_files/01-build_the_data_80_1.png" alt="" />
 <p class="caption">png</p>
 </div>
 <pre class="python"><code># Import numpy for array processing
