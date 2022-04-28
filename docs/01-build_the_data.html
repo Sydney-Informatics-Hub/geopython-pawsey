@@ -881,7 +881,7 @@ shapes  = shapeRead.shapes()
 xval = [x[0] for x in shapes[1].points]
 yval = [x[1] for x in shapes[1].points]</code></pre>
 <pre class="python"><code># Subset the data, for a single Mineral target
-commname=&#39;Cu&#39;
+commname=&#39;Mn&#39;
 
 #Pull out all the occurences of the commodity and go from there
 comm=df[df[&#39;COMM_CODE&#39;].str.contains(commname)]
@@ -894,7 +894,7 @@ print(&quot;Shape of &quot;+ commname, comm.shape)
 #comm=comm[comm.COX_CLASS == &quot;Olympic Dam Cu-U-Au&quot;]
 #comm=comm[(comm.lon&lt;max(xval)) &amp; (comm.lon&gt;min(xval)) &amp; (comm.lat&gt;min(yval)) &amp; (comm.lat&lt;max(yval))]
 </code></pre>
-<pre><code>Shape of Cu (1569, 43)</code></pre>
+<pre><code>Shape of Mn (115, 43)</code></pre>
 <pre class="python"><code># For plotting
 import matplotlib.pyplot as plt</code></pre>
 <pre class="python"><code>fig = plt.figure(figsize=(8,8))
@@ -1245,11 +1245,11 @@ x1,y1,z1,originx1,originy1,pixelx1,pixely1 = readnc(&quot;data/sa-dem.nc&quot;)
 x2,y2,z2,originx2,originy2,pixelx2,pixely2 = readnc(&quot;data/sa-mag-tmi.nc&quot;)
 # Gravity
 x3,y3,z3,originx3,originy3,pixelx3,pixely3 = readnc(&quot;data/sa-grav.nc&quot;)</code></pre>
-<pre><code>Loaded data/sa-dem.nc in 0.01s
+<pre><code>Loaded data/sa-dem.nc in 0.02s
 Spacing x 0.01 y 0.01 Shape: (1208, 1201) Min x: 129.005 Max x: 141.005 Min y: -38.065 Max y -25.99
-Loaded data/sa-mag-tmi.nc in 0.01s
+Loaded data/sa-mag-tmi.nc in 0.02s
 Spacing x 0.01 y 0.01 Shape: (1208, 1201) Min x: 129.005 Max x: 141.005 Min y: -38.065 Max y -25.99
-Loaded data/sa-grav.nc in 0.01s
+Loaded data/sa-grav.nc in 0.02s
 Spacing x 0.01 y 0.01 Shape: (1208, 1201) Min x: 129.005 Max x: 141.005 Min y: -38.065 Max y -25.99</code></pre>
 <pre class="python"><code>fig = plt.figure(figsize=(8,8))
 ax = plt.axes()
@@ -1367,7 +1367,7 @@ plt.show()</code></pre>
 <h2>Step 3 - Assign geophys values to target locations</h2>
 <p>We need to assign the values of each of these geophyiscal datasets (predictor variables) to the target class (i.e. mineral deposit locations). The assumption being that the occurnece of some mineral deposit (e.g. Cu) is a function of x1, x2, x3, x4, x5, x6. Where the Resitivity is x1, the distance to a Neoprotezoic fault is x2, the value of DEM, magnetic TMI, and Gravity is x3, x4, and x5, and the geologica basement unit is x6.</p>
 <pre class="python"><code># Make a Target DataFrame of the points we want to interrogate the features for
-td = comm[[&#39;LONGITUDE&#39;, &#39;LATITUDE&#39;]].copy()</code></pre>
+td1 = comm[[&#39;LONGITUDE&#39;, &#39;LATITUDE&#39;]].copy()</code></pre>
 <div id="resistivity" class="section level3">
 <h3>Resistivity</h3>
 <pre class="python"><code># For making KD Trees
@@ -1393,10 +1393,10 @@ def coregPoint(tree,point,region,retval=&#39;index&#39;):
 treeres = scipy.spatial.cKDTree(np.c_[data_res.lon,data_res.lat])
 
 # Perform the search for each point
-indexes = td.apply(
-    lambda x: coregPoint(treeres,np.array([x.LONGITUDE, x.LATITUDE]),10,retval=&#39;index&#39;), axis=1)</code></pre>
-<pre class="python"><code>td[&#39;res&#39;] = data_res.loc[indexes].resistivity.values
-td</code></pre>
+indexes = td1.apply(
+    lambda x: coregPoint(treeres,np.array([x.LONGITUDE, x.LATITUDE]),1,retval=&#39;index&#39;), axis=1)</code></pre>
+<pre class="python"><code>td1[&#39;res&#39;] = data_res.loc[indexes].resistivity.values
+td1</code></pre>
 <div>
 <style scoped>
     .dataframe tbody tr th:only-of-type {
@@ -1433,13 +1433,13 @@ res
 0
 </th>
 <td>
-129.106649
+139.179436
 </td>
 <td>
--26.135900
+-29.877637
 </td>
 <td>
-1.9959
+2.2135
 </td>
 </tr>
 <tr>
@@ -1447,13 +1447,13 @@ res
 1
 </th>
 <td>
-132.781571
+138.808767
 </td>
 <td>
--26.151144
+-30.086296
 </td>
 <td>
-2.0450
+2.3643
 </td>
 </tr>
 <tr>
@@ -1461,13 +1461,13 @@ res
 2
 </th>
 <td>
-132.816676
+138.752281
 </td>
 <td>
--26.159202
+-30.445684
 </td>
 <td>
-2.0450
+2.1141
 </td>
 </tr>
 <tr>
@@ -1475,13 +1475,13 @@ res
 3
 </th>
 <td>
-128.945869
+138.530506
 </td>
 <td>
--26.179362
+-30.533225
 </td>
 <td>
-1.9978
+2.2234
 </td>
 </tr>
 <tr>
@@ -1489,13 +1489,13 @@ res
 4
 </th>
 <td>
-132.549807
+138.887019
 </td>
 <td>
--26.185500
+-30.565479
 </td>
 <td>
-2.0694
+2.1982
 </td>
 </tr>
 <tr>
@@ -1514,78 +1514,78 @@ res
 </tr>
 <tr>
 <th>
-1564
+110
 </th>
 <td>
-138.910941
+136.059715
 </td>
 <td>
--35.212862
+-34.327929
 </td>
 <td>
-2.4313
+3.4926
 </td>
 </tr>
 <tr>
 <th>
-1565
+111
 </th>
 <td>
-138.919616
+138.016821
 </td>
 <td>
--35.251686
+-35.733084
 </td>
 <td>
-2.3233
+2.0868
 </td>
 </tr>
 <tr>
 <th>
-1566
+112
 </th>
 <td>
-138.673907
+139.250036
 </td>
 <td>
--35.301507
+-34.250155
 </td>
 <td>
-2.2986
+1.9811
 </td>
 </tr>
 <tr>
 <th>
-1567
+113
 </th>
 <td>
-139.762176
+135.905480
 </td>
 <td>
--35.345652
+-34.425866
 </td>
 <td>
-2.0219
+2.7108
 </td>
 </tr>
 <tr>
 <th>
-1568
+114
 </th>
 <td>
-138.209780
+135.835578
 </td>
 <td>
--35.515096
+-34.509779
 </td>
 <td>
--0.0318
+3.1224
 </td>
 </tr>
 </tbody>
 </table>
 <p>
-1569 rows × 3 columns
+115 rows × 3 columns
 </p>
 </div>
 </div>
@@ -1595,10 +1595,10 @@ res
 # but this time we get the &quot;distance to the point&quot;, rather than the value at that point.
 treefaults = scipy.spatial.cKDTree(faultsNeo)
 
-dists = td.apply(
+dists = td1.apply(
     lambda x: coregPoint(treefaults,np.array([x.LONGITUDE, x.LATITUDE]),100,retval=&#39;dists&#39;), axis=1)</code></pre>
-<pre class="python"><code>td[&#39;faults&#39;] = dists
-td</code></pre>
+<pre class="python"><code>td1[&#39;faults&#39;] = dists
+td1</code></pre>
 <div>
 <style scoped>
     .dataframe tbody tr th:only-of-type {
@@ -1638,16 +1638,16 @@ faults
 0
 </th>
 <td>
-129.106649
+139.179436
 </td>
 <td>
--26.135900
+-29.877637
 </td>
 <td>
-1.9959
+2.2135
 </td>
 <td>
-0.858696
+0.010691
 </td>
 </tr>
 <tr>
@@ -1655,16 +1655,16 @@ faults
 1
 </th>
 <td>
-132.781571
+138.808767
 </td>
 <td>
--26.151144
+-30.086296
 </td>
 <td>
-2.0450
+2.3643
 </td>
 <td>
-0.607134
+0.103741
 </td>
 </tr>
 <tr>
@@ -1672,16 +1672,16 @@ faults
 2
 </th>
 <td>
-132.816676
+138.752281
 </td>
 <td>
--26.159202
+-30.445684
 </td>
 <td>
-2.0450
+2.1141
 </td>
 <td>
-0.577540
+0.006659
 </td>
 </tr>
 <tr>
@@ -1689,16 +1689,16 @@ faults
 3
 </th>
 <td>
-128.945869
+138.530506
 </td>
 <td>
--26.179362
+-30.533225
 </td>
 <td>
-1.9978
+2.2234
 </td>
 <td>
-0.810394
+0.013925
 </td>
 </tr>
 <tr>
@@ -1706,16 +1706,16 @@ faults
 4
 </th>
 <td>
-132.549807
+138.887019
 </td>
 <td>
--26.185500
+-30.565479
 </td>
 <td>
-2.0694
+2.1982
 </td>
 <td>
-0.652131
+0.007356
 </td>
 </tr>
 <tr>
@@ -1737,93 +1737,93 @@ faults
 </tr>
 <tr>
 <th>
-1564
+110
 </th>
 <td>
-138.910941
+136.059715
 </td>
 <td>
--35.212862
+-34.327929
 </td>
 <td>
-2.4313
+3.4926
 </td>
 <td>
-0.009013
+0.526835
 </td>
 </tr>
 <tr>
 <th>
-1565
+111
 </th>
 <td>
-138.919616
+138.016821
 </td>
 <td>
--35.251686
+-35.733084
 </td>
 <td>
-2.3233
+2.0868
 </td>
 <td>
-0.024538
+0.002451
 </td>
 </tr>
 <tr>
 <th>
-1566
+112
 </th>
 <td>
-138.673907
+139.250036
 </td>
 <td>
--35.301507
+-34.250155
 </td>
 <td>
-2.2986
+1.9811
 </td>
 <td>
-0.027873
+0.027837
 </td>
 </tr>
 <tr>
 <th>
-1567
+113
 </th>
 <td>
-139.762176
+135.905480
 </td>
 <td>
--35.345652
+-34.425866
 </td>
 <td>
-2.0219
+2.7108
 </td>
 <td>
-0.024593
+0.670323
 </td>
 </tr>
 <tr>
 <th>
-1568
+114
 </th>
 <td>
-138.209780
+135.835578
 </td>
 <td>
--35.515096
+-34.509779
 </td>
 <td>
--0.0318
+3.1224
 </td>
 <td>
-0.002445
+0.776152
 </td>
 </tr>
 </tbody>
 </table>
 <p>
-1569 rows × 4 columns
+115 rows × 4 columns
 </p>
 </div>
 </div>
@@ -1865,10 +1865,10 @@ def rastersearch(latlon,raster,originx,originy,pixelx,pixely):
             zlist.append(np.nan)
             
     return(zlist)</code></pre>
-<pre class="python"><code>td[&#39;dem&#39;] = rastersearch(td,z1,originx1,originy1,pixelx1,pixely1)
-td[&#39;mag&#39;] = rastersearch(td,z2,originx2,originy2,pixelx2,pixely2)
-td[&#39;grav&#39;] = rastersearch(td,z3,originx3,originy3,pixelx3,pixely3)</code></pre>
-<pre class="python"><code>td</code></pre>
+<pre class="python"><code>td1[&#39;dem&#39;] = rastersearch(td1,z1,originx1,originy1,pixelx1,pixely1)
+td1[&#39;mag&#39;] = rastersearch(td1,z2,originx2,originy2,pixelx2,pixely2)
+td1[&#39;grav&#39;] = rastersearch(td1,z3,originx3,originy3,pixelx3,pixely3)</code></pre>
+<pre class="python"><code>td1</code></pre>
 <div>
 <style scoped>
     .dataframe tbody tr th:only-of-type {
@@ -1917,25 +1917,25 @@ grav
 0
 </th>
 <td>
-129.106649
+139.179436
 </td>
 <td>
--26.135900
+-29.877637
 </td>
 <td>
-1.9959
+2.2135
 </td>
 <td>
-0.858696
+0.010691
 </td>
 <td>
-635.556335
+187.297424
 </td>
 <td>
--395.009888
+-118.074890
 </td>
 <td>
-27.653816
+1.852599
 </td>
 </tr>
 <tr>
@@ -1943,25 +1943,25 @@ grav
 1
 </th>
 <td>
-132.781571
+138.808767
 </td>
 <td>
--26.151144
+-30.086296
 </td>
 <td>
-2.0450
+2.3643
 </td>
 <td>
-0.607134
+0.103741
 </td>
 <td>
-540.414062
+179.499237
 </td>
 <td>
--327.329987
+-209.410507
 </td>
 <td>
--83.830025
+-12.722121
 </td>
 </tr>
 <tr>
@@ -1969,25 +1969,25 @@ grav
 2
 </th>
 <td>
-132.816676
+138.752281
 </td>
 <td>
--26.159202
+-30.445684
 </td>
 <td>
-2.0450
+2.1141
 </td>
 <td>
-0.577540
+0.006659
 </td>
 <td>
-532.723755
+398.336823
 </td>
 <td>
--51.946140
+-159.566422
 </td>
 <td>
--78.316444
+-6.249788
 </td>
 </tr>
 <tr>
@@ -1995,25 +1995,25 @@ grav
 3
 </th>
 <td>
-128.945869
+138.530506
 </td>
 <td>
--26.179362
+-30.533225
 </td>
 <td>
-1.9978
+2.2234
 </td>
 <td>
-0.810394
+0.013925
 </td>
 <td>
-99.930511
+335.983429
 </td>
 <td>
-1.357960
+-131.176437
 </td>
 <td>
--26.815083
+-11.665316
 </td>
 </tr>
 <tr>
@@ -2021,25 +2021,25 @@ grav
 4
 </th>
 <td>
-132.549807
+138.887019
 </td>
 <td>
--26.185500
+-30.565479
 </td>
 <td>
-2.0694
+2.1982
 </td>
 <td>
-0.652131
+0.007356
 </td>
 <td>
-610.149902
+554.278198
 </td>
 <td>
--93.218666
+-192.363297
 </td>
 <td>
--86.025749
+-1.025702
 </td>
 </tr>
 <tr>
@@ -2070,138 +2070,138 @@ grav
 </tr>
 <tr>
 <th>
-1564
+110
 </th>
 <td>
-138.910941
+136.059715
 </td>
 <td>
--35.212862
+-34.327929
 </td>
 <td>
-2.4313
+3.4926
 </td>
 <td>
-0.009013
+0.526835
 </td>
 <td>
-112.044182
+45.866119
 </td>
 <td>
--231.762283
+-244.067841
 </td>
 <td>
--6.686998
+11.410070
 </td>
 </tr>
 <tr>
 <th>
-1565
+111
 </th>
 <td>
-138.919616
+138.016821
 </td>
 <td>
--35.251686
+-35.733084
 </td>
 <td>
-2.3233
+2.0868
 </td>
 <td>
-0.024538
+0.002451
 </td>
 <td>
-57.948841
+145.452789
 </td>
 <td>
--302.786255
+-203.566940
 </td>
 <td>
--7.401310
+18.458364
 </td>
 </tr>
 <tr>
 <th>
-1566
+112
 </th>
 <td>
-138.673907
+139.250036
 </td>
 <td>
--35.301507
+-34.250155
 </td>
 <td>
-2.2986
+1.9811
 </td>
 <td>
-0.027873
+0.027837
 </td>
 <td>
-220.003403
+276.489319
 </td>
 <td>
-228.412949
+-172.889587
 </td>
 <td>
-5.332988
+-1.714886
 </td>
 </tr>
 <tr>
 <th>
-1567
+113
 </th>
 <td>
-139.762176
+135.905480
 </td>
 <td>
--35.345652
+-34.425866
 </td>
 <td>
-2.0219
+2.7108
 </td>
 <td>
-0.024593
+0.670323
 </td>
 <td>
-19.890858
+162.431747
 </td>
 <td>
--91.274986
+569.713684
 </td>
 <td>
-15.448737
+15.066316
 </td>
 </tr>
 <tr>
 <th>
-1568
+114
 </th>
 <td>
-138.209780
+135.835578
 </td>
 <td>
--35.515096
+-34.509779
 </td>
 <td>
--0.0318
+3.1224
 </td>
 <td>
-0.002445
+0.776152
 </td>
 <td>
-131.840439
+89.274399
 </td>
 <td>
-552.684814
+64.385925
 </td>
 <td>
-16.580048
+24.267015
 </td>
 </tr>
 </tbody>
 </table>
 <p>
-1569 rows × 7 columns
+115 rows × 7 columns
 </p>
 </div>
 <pre class="python"><code># Check we got it right.
@@ -2209,12 +2209,12 @@ grav
 
 fig = plt.figure(figsize=(8,8))
 ax = plt.axes()
-im=plt.pcolormesh(x3,y3,z3,cmap=&#39;jet&#39;,shading=&#39;auto&#39;,vmin=min(td.grav),vmax=max(td.grav))
+im=plt.pcolormesh(x3,y3,z3,cmap=&#39;jet&#39;,shading=&#39;auto&#39;,vmin=min(td1.grav),vmax=max(td1.grav))
 #ax.plot(xval,yval,&#39;grey&#39;,linestyle=&#39;--&#39;,linewidth=1,label=&#39;SA&#39;)
 #ax.plot(comm.LONGITUDE, comm.LATITUDE, marker=&#39;o&#39;, linestyle=&#39;&#39;,markersize=5, color=&#39;y&#39;,label=commname+&quot; Deposits&quot;)
 
-ax.scatter(td.LONGITUDE, td.LATITUDE, s=20, c=td.grav,
-           label=commname+&quot; Gravity&quot;,cmap=&#39;jet&#39;,vmin=min(td.grav),vmax=max(td.grav),edgecolors=&#39;white&#39;)
+ax.scatter(td1.LONGITUDE, td1.LATITUDE, s=20, c=td1.grav,
+           label=commname+&quot; Gravity&quot;,cmap=&#39;jet&#39;,vmin=min(td1.grav),vmax=max(td1.grav),edgecolors=&#39;white&#39;)
 
 plt.xlim(138,140)
 plt.ylim(-32,-30)
@@ -2248,9 +2248,9 @@ def shapeExplore(lon,lat,shapes,recs,record):
     return(-9999.)</code></pre>
 <pre class="python"><code>%%time
 geoindex = 23
-td[&#39;geol&#39;]=td.apply(lambda x: shapeExplore(x.LONGITUDE, x.LATITUDE, shapesArch,recsArch,geoindex), axis=1)</code></pre>
-<pre><code>Wall time: 3min 43s</code></pre>
-<pre class="python"><code>td</code></pre>
+td1[&#39;geol&#39;]=td1.apply(lambda x: shapeExplore(x.LONGITUDE, x.LATITUDE, shapesArch,recsArch,geoindex), axis=1)</code></pre>
+<pre><code>Wall time: 28.5 s</code></pre>
+<pre class="python"><code>td1</code></pre>
 <div>
 <style scoped>
     .dataframe tbody tr th:only-of-type {
@@ -2302,28 +2302,28 @@ geol
 0
 </th>
 <td>
-129.106649
+139.179436
 </td>
 <td>
--26.135900
+-29.877637
 </td>
 <td>
-1.9959
+2.2135
 </td>
 <td>
-0.858696
+0.010691
 </td>
 <td>
-635.556335
+187.297424
 </td>
 <td>
--395.009888
+-118.074890
 </td>
 <td>
-27.653816
+1.852599
 </td>
 <td>
-14552.0
+19214
 </td>
 </tr>
 <tr>
@@ -2331,28 +2331,28 @@ geol
 1
 </th>
 <td>
-132.781571
+138.808767
 </td>
 <td>
--26.151144
+-30.086296
 </td>
 <td>
-2.0450
+2.3643
 </td>
 <td>
-0.607134
+0.103741
 </td>
 <td>
-540.414062
+179.499237
 </td>
 <td>
--327.329987
+-209.410507
 </td>
 <td>
--83.830025
+-12.722121
 </td>
 <td>
-14552.0
+19218
 </td>
 </tr>
 <tr>
@@ -2360,28 +2360,28 @@ geol
 2
 </th>
 <td>
-132.816676
+138.752281
 </td>
 <td>
--26.159202
+-30.445684
 </td>
 <td>
-2.0450
+2.1141
 </td>
 <td>
-0.577540
+0.006659
 </td>
 <td>
-532.723755
+398.336823
 </td>
 <td>
--51.946140
+-159.566422
 </td>
 <td>
--78.316444
+-6.249788
 </td>
 <td>
-14552.0
+19218
 </td>
 </tr>
 <tr>
@@ -2389,28 +2389,28 @@ geol
 3
 </th>
 <td>
-128.945869
+138.530506
 </td>
 <td>
--26.179362
+-30.533225
 </td>
 <td>
-1.9978
+2.2234
 </td>
 <td>
-0.810394
+0.013925
 </td>
 <td>
-99.930511
+335.983429
 </td>
 <td>
-1.357960
+-131.176437
 </td>
 <td>
--26.815083
+-11.665316
 </td>
 <td>
--9999.0
+19218
 </td>
 </tr>
 <tr>
@@ -2418,28 +2418,28 @@ geol
 4
 </th>
 <td>
-132.549807
+138.887019
 </td>
 <td>
--26.185500
+-30.565479
 </td>
 <td>
-2.0694
+2.1982
 </td>
 <td>
-0.652131
+0.007356
 </td>
 <td>
-610.149902
+554.278198
 </td>
 <td>
--93.218666
+-192.363297
 </td>
 <td>
--86.025749
+-1.025702
 </td>
 <td>
-14552.0
+19218
 </td>
 </tr>
 <tr>
@@ -2473,153 +2473,153 @@ geol
 </tr>
 <tr>
 <th>
-1564
+110
 </th>
 <td>
-138.910941
+136.059715
 </td>
 <td>
--35.212862
+-34.327929
 </td>
 <td>
-2.4313
+3.4926
 </td>
 <td>
-0.009013
+0.526835
 </td>
 <td>
-112.044182
+45.866119
 </td>
 <td>
--231.762283
+-244.067841
 </td>
 <td>
--6.686998
+11.410070
 </td>
 <td>
-19226.0
+18032
 </td>
 </tr>
 <tr>
 <th>
-1565
+111
 </th>
 <td>
-138.919616
+138.016821
 </td>
 <td>
--35.251686
+-35.733084
 </td>
 <td>
-2.3233
+2.0868
 </td>
 <td>
-0.024538
+0.002451
 </td>
 <td>
-57.948841
+145.452789
 </td>
 <td>
--302.786255
+-203.566940
 </td>
 <td>
--7.401310
+18.458364
 </td>
 <td>
-19220.0
+19226
 </td>
 </tr>
 <tr>
 <th>
-1566
+112
 </th>
 <td>
-138.673907
+139.250036
 </td>
 <td>
--35.301507
+-34.250155
 </td>
 <td>
-2.2986
+1.9811
 </td>
 <td>
-0.027873
+0.027837
 </td>
 <td>
-220.003403
+276.489319
 </td>
 <td>
-228.412949
+-172.889587
 </td>
 <td>
-5.332988
+-1.714886
 </td>
 <td>
-18010.0
+19220
 </td>
 </tr>
 <tr>
 <th>
-1567
+113
 </th>
 <td>
-139.762176
+135.905480
 </td>
 <td>
--35.345652
+-34.425866
 </td>
 <td>
-2.0219
+2.7108
 </td>
 <td>
-0.024593
+0.670323
 </td>
 <td>
-19.890858
+162.431747
 </td>
 <td>
--91.274986
+569.713684
 </td>
 <td>
-15.448737
+15.066316
 </td>
 <td>
-19220.0
+17934
 </td>
 </tr>
 <tr>
 <th>
-1568
+114
 </th>
 <td>
-138.209780
+135.835578
 </td>
 <td>
--35.515096
+-34.509779
 </td>
 <td>
--0.0318
+3.1224
 </td>
 <td>
-0.002445
+0.776152
 </td>
 <td>
-131.840439
+89.274399
 </td>
 <td>
-552.684814
+64.385925
 </td>
 <td>
-16.580048
+24.267015
 </td>
 <td>
-19226.0
+18040
 </td>
 </tr>
 </tbody>
 </table>
 <p>
-1569 rows × 8 columns
+115 rows × 8 columns
 </p>
 </div>
 <p><strong>Congrats, you now have an ML dataset ready to go!</strong></p>
@@ -2635,7 +2635,7 @@ lats_rand=np.random.uniform(low=min(df.LATITUDE), high=max(df.LATITUDE), size=le
 lons_rand=np.random.uniform(low=min(df.LONGITUDE), high=max(df.LONGITUDE), size=len(comm.LONGITUDE))
 
 print(&quot;Produced&quot;, len(lats_rand),len(lons_rand), &quot;latitude-longitude pairs for non-deposits.&quot;)</code></pre>
-<pre><code>Produced 1569 1569 latitude-longitude pairs for non-deposits.</code></pre>
+<pre><code>Produced 115 115 latitude-longitude pairs for non-deposits.</code></pre>
 <pre class="python"><code># Where are these randomised &quot;non deposits&quot;
 fig = plt.figure(figsize=(8,8))
 ax = plt.axes()
@@ -2645,7 +2645,7 @@ ax.plot(xval,yval,&#39;grey&#39;,linestyle=&#39;--&#39;,linewidth=1,label=&#39;S
 ax.plot(lons_rand, lats_rand, 
         marker=&#39;.&#39;, linestyle=&#39;&#39;,markersize=1, color=&#39;b&#39;,label=&quot;Random Samples&quot;)
 
-ax.plot(td.LONGITUDE, td.LATITUDE, 
+ax.plot(td1.LONGITUDE, td1.LATITUDE, 
         marker=&#39;x&#39;, linestyle=&#39;&#39;,markersize=5, color=&#39;y&#39;,label=commname+&quot; Deposits&quot;)
 
 plt.xlim(128.5,141.5)
@@ -2678,12 +2678,12 @@ td2[&#39;mag&#39;] = rastersearch(td2,z2,originx2,originy2,pixelx2,pixely2)
 td2[&#39;grav&#39;] = rastersearch(td2,z3,originx3,originy3,pixelx3,pixely3)
 
 #Geology
-td2[&#39;geol&#39;]=td2.apply(lambda x: shapeExplore(x.LONGITUDE, x.LATITUDE, shapesArch,recsArch,-1), axis=1)</code></pre>
-<pre><code>Wall time: 6min 15s</code></pre>
+td2[&#39;geol&#39;]=td2.apply(lambda x: shapeExplore(x.LONGITUDE, x.LATITUDE, shapesArch,recsArch,geoindex), axis=1)</code></pre>
+<pre><code>Wall time: 1min 3s</code></pre>
 <pre class="python"><code>#Add flag indicating classification label
-td[&#39;deposit&#39;]=1
+td1[&#39;deposit&#39;]=1
 td2[&#39;deposit&#39;]=0</code></pre>
-<pre class="python"><code>fv = pd.concat([td,td2],axis=0,ignore_index=True)
+<pre class="python"><code>fv = pd.concat([td1,td2],axis=0,ignore_index=True)
 fv</code></pre>
 <div>
 <style scoped>
@@ -2717,7 +2717,7 @@ res
 faults
 </th>
 <th>
-dem
+…
 </th>
 <th>
 mag
@@ -2739,28 +2739,28 @@ deposit
 0
 </th>
 <td>
-129.106649
+139.179436
 </td>
 <td>
--26.135900
+-29.877637
 </td>
 <td>
-1.9959
+2.2135
 </td>
 <td>
-0.858696
+0.010691
 </td>
 <td>
-635.556335
+…
 </td>
 <td>
--395.009888
+-118.074890
 </td>
 <td>
-27.653816
+1.852599
 </td>
 <td>
-14552.0
+19214.0
 </td>
 <td>
 1
@@ -2771,28 +2771,28 @@ deposit
 1
 </th>
 <td>
-132.781571
+138.808767
 </td>
 <td>
--26.151144
+-30.086296
 </td>
 <td>
-2.0450
+2.3643
 </td>
 <td>
-0.607134
+0.103741
 </td>
 <td>
-540.414062
+…
 </td>
 <td>
--327.329987
+-209.410507
 </td>
 <td>
--83.830025
+-12.722121
 </td>
 <td>
-14552.0
+19218.0
 </td>
 <td>
 1
@@ -2803,28 +2803,28 @@ deposit
 2
 </th>
 <td>
-132.816676
+138.752281
 </td>
 <td>
--26.159202
+-30.445684
 </td>
 <td>
-2.0450
+2.1141
 </td>
 <td>
-0.577540
+0.006659
 </td>
 <td>
-532.723755
+…
 </td>
 <td>
--51.946140
+-159.566422
 </td>
 <td>
--78.316444
+-6.249788
 </td>
 <td>
-14552.0
+19218.0
 </td>
 <td>
 1
@@ -2835,28 +2835,28 @@ deposit
 3
 </th>
 <td>
-128.945869
+138.530506
 </td>
 <td>
--26.179362
+-30.533225
 </td>
 <td>
-1.9978
+2.2234
 </td>
 <td>
-0.810394
+0.013925
 </td>
 <td>
-99.930511
+…
 </td>
 <td>
-1.357960
+-131.176437
 </td>
 <td>
--26.815083
+-11.665316
 </td>
 <td>
--9999.0
+19218.0
 </td>
 <td>
 1
@@ -2867,28 +2867,28 @@ deposit
 4
 </th>
 <td>
-132.549807
+138.887019
 </td>
 <td>
--26.185500
+-30.565479
 </td>
 <td>
-2.0694
+2.1982
 </td>
 <td>
-0.652131
+0.007356
 </td>
 <td>
-610.149902
+…
 </td>
 <td>
--93.218666
+-192.363297
 </td>
 <td>
--86.025749
+-1.025702
 </td>
 <td>
-14552.0
+19218.0
 </td>
 <td>
 1
@@ -2928,115 +2928,22 @@ deposit
 </tr>
 <tr>
 <th>
-3133
+225
 </th>
 <td>
-133.712523
+132.788709
 </td>
 <td>
--27.430556
+-36.869374
 </td>
 <td>
-1.9932
+-0.5332
 </td>
 <td>
-0.034172
+2.990363
 </td>
 <td>
-299.461853
-</td>
-<td>
-306.055725
-</td>
-<td>
--28.421995
-</td>
-<td>
-18450.0
-</td>
-<td>
-0
-</td>
-</tr>
-<tr>
-<th>
-3134
-</th>
-<td>
-140.889270
-</td>
-<td>
--36.470372
-</td>
-<td>
-2.0203
-</td>
-<td>
-0.301697
-</td>
-<td>
-100.141029
-</td>
-<td>
-258.747925
-</td>
-<td>
--10.375274
-</td>
-<td>
-19222.0
-</td>
-<td>
-0
-</td>
-</tr>
-<tr>
-<th>
-3135
-</th>
-<td>
-130.696744
-</td>
-<td>
--29.254114
-</td>
-<td>
-1.9361
-</td>
-<td>
-0.138681
-</td>
-<td>
-230.664276
-</td>
-<td>
-333.649780
-</td>
-<td>
--55.481823
-</td>
-<td>
-14544.0
-</td>
-<td>
-0
-</td>
-</tr>
-<tr>
-<th>
-3136
-</th>
-<td>
-130.885614
-</td>
-<td>
--33.879420
-</td>
-<td>
--0.5771
-</td>
-<td>
-2.035296
+…
 </td>
 <td>
 0.000000
@@ -3045,10 +2952,7 @@ deposit
 0.000000
 </td>
 <td>
-0.000000
-</td>
-<td>
-18459.0
+-9999.0
 </td>
 <td>
 0
@@ -3056,31 +2960,127 @@ deposit
 </tr>
 <tr>
 <th>
-3137
+226
 </th>
 <td>
-137.506466
+130.538900
 </td>
 <td>
--29.854052
+-30.898734
 </td>
 <td>
-2.0338
+1.7892
 </td>
 <td>
-0.110331
+0.073726
 </td>
 <td>
-98.923309
+…
 </td>
 <td>
-873.976868
+176.828751
 </td>
 <td>
--14.238318
+-55.351192
 </td>
 <td>
-19218.0
+14546.0
+</td>
+<td>
+0
+</td>
+</tr>
+<tr>
+<th>
+227
+</th>
+<td>
+140.829910
+</td>
+<td>
+-29.794947
+</td>
+<td>
+1.8930
+</td>
+<td>
+0.305424
+</td>
+<td>
+…
+</td>
+<td>
+-23.717085
+</td>
+<td>
+-5.648320
+</td>
+<td>
+19216.0
+</td>
+<td>
+0
+</td>
+</tr>
+<tr>
+<th>
+228
+</th>
+<td>
+130.045784
+</td>
+<td>
+-35.619533
+</td>
+<td>
+-0.5223
+</td>
+<td>
+3.560801
+</td>
+<td>
+…
+</td>
+<td>
+0.000000
+</td>
+<td>
+0.000000
+</td>
+<td>
+-9999.0
+</td>
+<td>
+0
+</td>
+</tr>
+<tr>
+<th>
+229
+</th>
+<td>
+134.424751
+</td>
+<td>
+-32.627550
+</td>
+<td>
+2.6836
+</td>
+<td>
+0.695349
+</td>
+<td>
+…
+</td>
+<td>
+-98.837875
+</td>
+<td>
+-5.774666
+</td>
+<td>
+18458.0
 </td>
 <td>
 0
@@ -3089,7 +3089,7 @@ deposit
 </tbody>
 </table>
 <p>
-3138 rows × 9 columns
+230 rows × 9 columns
 </p>
 </div>
 </div>
@@ -3098,6 +3098,24 @@ deposit
 <h1>Explatory Data Analysis</h1>
 <p>This is often the point you recieve the data in (if you are using any well-formed datasets). But in reality 90% of the time is doing weird data wrangling steps like what we have done. Then 9% is spent exploring your dataset and understanding it more, dealing with missing data, observing correlations. This is often an iterative process. Let’s do some simple visualisations.</p>
 <p>Note: the last 1% of time is actually applying the ML algorithms!</p>
+<pre class="python"><code>#Get information about index type and column types, non-null values and memory usage.
+fv.info()</code></pre>
+<pre><code>&lt;class &#39;pandas.core.frame.DataFrame&#39;&gt;
+RangeIndex: 230 entries, 0 to 229
+Data columns (total 9 columns):
+ #   Column     Non-Null Count  Dtype  
+---  ------     --------------  -----  
+ 0   LONGITUDE  230 non-null    float64
+ 1   LATITUDE   230 non-null    float64
+ 2   res        230 non-null    float64
+ 3   faults     230 non-null    float64
+ 4   dem        223 non-null    float64
+ 5   mag        223 non-null    float64
+ 6   grav       223 non-null    float64
+ 7   geol       230 non-null    float64
+ 8   deposit    230 non-null    int64  
+dtypes: float64(8), int64(1)
+memory usage: 16.3 KB</code></pre>
 <pre class="python"><code># For nice easy data vis plots
 import seaborn as sns</code></pre>
 <pre class="python"><code>missingNo = fv.isnull().sum(axis = 0).sort_values(ascending = False)
@@ -3108,7 +3126,7 @@ sns.barplot(missingNo.values, missingNo.index);</code></pre>
 <pre><code>c:\users\nbutter\miniconda3\envs\geopy\lib\site-packages\seaborn\_decorators.py:43: FutureWarning: Pass the following variables as keyword args: x, y. From version 0.12, the only valid positional argument will be `data`, and passing other arguments without an explicit keyword will result in an error or misinterpretation.
   FutureWarning</code></pre>
 <div class="figure">
-<img src="01-build_the_data_files/01-build_the_data_57_1.png" alt="" />
+<img src="01-build_the_data_files/01-build_the_data_58_1.png" alt="" />
 <p class="caption">png</p>
 </div>
 <pre class="python"><code>import upsetplot</code></pre>
@@ -3120,18 +3138,18 @@ missing_counts = (fv.loc[:, missing_cols]
 
 upsetplot.plot(missing_counts);</code></pre>
 <div class="figure">
-<img src="01-build_the_data_files/01-build_the_data_59_0.png" alt="" />
+<img src="01-build_the_data_files/01-build_the_data_60_0.png" alt="" />
 <p class="caption">png</p>
 </div>
 <pre class="python"><code># Plot historgrams and scatter plots for each combination of features.
 sns.pairplot(fv,hue=&#39;deposit&#39;,palette=&quot;Set1&quot;,diag_kind=&quot;auto&quot;)</code></pre>
-<pre><code>&lt;seaborn.axisgrid.PairGrid at 0x20b89278d88&gt;</code></pre>
+<pre><code>&lt;seaborn.axisgrid.PairGrid at 0x1939d433648&gt;</code></pre>
 <div class="figure">
-<img src="01-build_the_data_files/01-build_the_data_60_1.png" alt="" />
+<img src="01-build_the_data_files/01-build_the_data_61_1.png" alt="" />
 <p class="caption">png</p>
 </div>
 <pre class="python"><code>#Plot a heatmap for how correlated each of the features are
-corr = td.corr() 
+corr = fv.corr() 
 
 sns.heatmap(corr,
             cmap=plt.cm.BrBG, 
@@ -3140,7 +3158,30 @@ sns.heatmap(corr,
             xticklabels=True, yticklabels=True,
             );</code></pre>
 <div class="figure">
-<img src="01-build_the_data_files/01-build_the_data_61_0.png" alt="" />
+<img src="01-build_the_data_files/01-build_the_data_62_0.png" alt="" />
+<p class="caption">png</p>
+</div>
+<pre class="python"><code>for i in [&#39;res&#39;, &#39;faults&#39;, &#39;dem&#39;, &#39;mag&#39;, &#39;grav&#39;]:
+    ax = sns.boxplot(x=&#39;deposit&#39;,y=i, data=fv)
+    plt.show()</code></pre>
+<div class="figure">
+<img src="01-build_the_data_files/01-build_the_data_63_0.png" alt="" />
+<p class="caption">png</p>
+</div>
+<div class="figure">
+<img src="01-build_the_data_files/01-build_the_data_63_1.png" alt="" />
+<p class="caption">png</p>
+</div>
+<div class="figure">
+<img src="01-build_the_data_files/01-build_the_data_63_2.png" alt="" />
+<p class="caption">png</p>
+</div>
+<div class="figure">
+<img src="01-build_the_data_files/01-build_the_data_63_3.png" alt="" />
+<p class="caption">png</p>
+</div>
+<div class="figure">
+<img src="01-build_the_data_files/01-build_the_data_63_4.png" alt="" />
 <p class="caption">png</p>
 </div>
 </div>
@@ -3149,20 +3190,25 @@ sns.heatmap(corr,
 <p>We now have a clean dataset, we know a bit about, let’s try and measure some inferences.</p>
 <div id="ml-classification" class="section level3">
 <h3>ML Classification</h3>
-<p>This is where the ML classifier is defined. We can substitue our favourite ML technique here, and tune model variables as desired. The default choices are recommended for the Gawler region.</p>
+<p>This is where the ML classifier is defined. We can substitue our favourite ML technique here, and tune model variables as desired. As always the <a href="https://scikit-learn.org/stable/user_guide.html">scikit-learn documentation</a> is a great starting point to learn how these algorithms work.</p>
 <pre class="python"><code>from sklearn.pipeline import Pipeline
 from sklearn.impute import SimpleImputer
 from sklearn.preprocessing import StandardScaler
 from sklearn.preprocessing import OneHotEncoder
 from sklearn.compose import ColumnTransformer
-from sklearn.ensemble import RandomForestClassifier</code></pre>
-<pre class="python"><code>features.columns</code></pre>
-<pre><code>Index([&#39;res&#39;, &#39;faults&#39;, &#39;dem&#39;, &#39;mag&#39;, &#39;grav&#39;, &#39;geol&#39;], dtype=&#39;object&#39;)</code></pre>
-<pre class="python"><code>#Create the &#39;feature vector&#39; and a &#39;target classification vector&#39;
-features=fv.iloc[:,2:-1]
-targets=fv.deposit
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.model_selection import cross_val_score
 
-#Create the ML classifier with numerical and categorical data
+from sklearn.neural_network import MLPClassifier</code></pre>
+<pre class="python"><code>#Create the &#39;feature vector&#39; and a &#39;target classification vector&#39;
+features=fv.dropna().iloc[:,2:-1]
+targets=fv.dropna().deposit
+
+features.columns</code></pre>
+<pre><code>Index([&#39;res&#39;, &#39;faults&#39;, &#39;dem&#39;, &#39;mag&#39;, &#39;grav&#39;, &#39;geol&#39;], dtype=&#39;object&#39;)</code></pre>
+<pre class="python"><code>numfts = [&#39;res&#39;, &#39;faults&#39;, &#39;dem&#39;, &#39;mag&#39;, &#39;grav&#39;]
+catfts = [&#39;geol&#39;]</code></pre>
+<pre class="python"><code>#Create the ML classifier with numerical and categorical data
 #Scale, and replace missing values
 numeric_transformer = Pipeline(steps=[
     (&#39;imputer&#39;,SimpleImputer(missing_values=-9999., strategy=&#39;median&#39;)),
@@ -3175,21 +3221,22 @@ categorical_transformer = Pipeline(steps=[
 
 #Combine numerical and categorical data
 preprocessor = ColumnTransformer(transformers=[
-        (&#39;num&#39;, numeric_transformer, [&#39;res&#39;, &#39;faults&#39;, &#39;dem&#39;, &#39;mag&#39;, &#39;grav&#39;]),
-        (&#39;cat&#39;, categorical_transformer, [&#39;geol&#39;])])
+        (&#39;num&#39;, numeric_transformer, numfts),
+        (&#39;cat&#39;, categorical_transformer, catfts)])
 
 # Append classifier to preprocessing pipeline.
 # Now we have a full prediction pipeline.
 rf = Pipeline(steps=[(&#39;preprocessor&#39;, preprocessor),
-                (&#39;classifier&#39;, RandomForestClassifier(random_state=1))])
+                #(&#39;classifier&#39;, RandomForestClassifier(random_state=1))])
+                (&#39;classifier&#39;, MLPClassifier(solver=&#39;adam&#39;, alpha=0.001, max_iter=10000))])
 </code></pre>
 <pre class="python"><code>print(&#39;Tranining the Clasifier...&#39;)
 rf.fit(features,targets)
 
 print(&quot;Done RF. Now scoring...&quot;)
-scores = cross_val_score(rf, features,targets, cv=10)
+scores = cross_val_score(rf, features,targets, cv=5)
 
-print(&quot;RF 10-fold cross validation Scores:&quot;, scores)
+print(&quot;RF 5-fold cross validation Scores:&quot;, scores)
 print(&quot;SCORE Mean: %.2f&quot; % np.mean(scores), &quot;STD: %.2f&quot; % np.std(scores), &quot;\n&quot;)
 
 plt.plot(targets.values,&#39;b-&#39;,label=&#39;Target (expected)&#39;)
@@ -3198,304 +3245,110 @@ plt.xlabel(&quot;Feature set&quot;)
 plt.ylabel(&quot;Target/Prediction&quot;)
 plt.legend(loc=7)</code></pre>
 <pre><code>Tranining the Clasifier...
+Done RF. Now scoring...
+RF 5-fold cross validation Scores: [0.911 0.978 0.956 0.864 0.795]
+SCORE Mean: 0.90 STD: 0.07 
+
+
+
+
+
+
+&lt;matplotlib.legend.Legend at 0x193a99478c8&gt;</code></pre>
+<div class="figure">
+<img src="01-build_the_data_files/01-build_the_data_70_2.png" alt="" />
+<p class="caption">png</p>
+</div>
+<pre class="python"><code>print(&quot;Features:&quot;,np.shape(features),&quot;Targets:&quot;,np.shape(targets))
+rf.fit(features,targets)
+scores = cross_val_score(rf, features,targets, cv=5)
+print(&quot;RF CV-Scores: &quot;,scores)
+print(&quot;CV-SCORE Mean: %.2f&quot; % np.mean(scores), &quot;STD: %.2f&quot; % np.std(scores))
+#print(&quot;OOB score:&quot;,rf.steps[-1][1].oob_score_)
+
+print(&quot;Targets (expected result):&quot;)
+print(targets.values)
+print(&quot;Prediction (actual result):&quot;)
+print(rf.predict(features))</code></pre>
+<pre><code>Features: (223, 6) Targets: (223,)
+RF CV-Scores:  [0.933 0.978 0.933 0.932 0.773]
+CV-SCORE Mean: 0.91 STD: 0.07
+Targets (expected result):
+[1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+ 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+ 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+ 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+ 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+ 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+ 0]
+Prediction (actual result):
+[1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+ 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+ 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 0
+ 1 1 1 1 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+ 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1
+ 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+ 0]</code></pre>
+<pre class="python"><code># Gather the importance measures
+ft_imp=[]
+ft_lab=[]
+
+for i,lab in enumerate(np.append(numfts,rf[&#39;preprocessor&#39;].transformers_[1][1][&#39;onehot&#39;].get_feature_names(catfts))):
+    ft_imp.append(rf.steps[-1][1].feature_importances_[i])
+    ft_lab.append(lab)</code></pre>
+<pre><code>---------------------------------------------------------------------------
+
+AttributeError                            Traceback (most recent call last)
+
+&lt;ipython-input-93-5b7f99162420&gt; in &lt;module&gt;
+      4 
+      5 for i,lab in enumerate(np.append(numfts,rf[&#39;preprocessor&#39;].transformers_[1][1][&#39;onehot&#39;].get_feature_names(catfts))):
+----&gt; 6     ft_imp.append(rf.steps[-1][1].feature_importances_[i])
+      7     ft_lab.append(lab)
+
+
+AttributeError: &#39;MLPClassifier&#39; object has no attribute &#39;feature_importances_&#39;</code></pre>
+<pre class="python"><code>#Make the bar plot
+ft_imps, ft_labs = (list(t) for t in zip(*sorted(zip(ft_imp,ft_lab))))
+datalength=len(ft_imp)
+
+#Create a new figure
+fig,ax = plt.subplots(figsize=(4,10))
+
+#Plot the bar graph
+rects=ax.barh(np.arange(0, datalength, step=1),ft_imps)
+ax.set_yticks(np.arange(0, datalength, step=1))
+ax.set_yticklabels(ft_labs)
+ax.set_xlabel(&#39;Feature Importance&#39;)
+print(&quot;From the Random Forest ML algorithm,&quot;)
+print(&quot;these are the the most significant features for predicting the target bins\n&quot;)
+
+plt.show()</code></pre>
+</div>
+</div>
+<div id="find-where-to-dig" class="section level1">
+<h1>Find where to dig!</h1>
+<p>Now we have a trained model we can pass it NEW data, that is values for all the geopysical parameters, and it will give us a prediction for whether there is a deposit there or not. Simple.</p>
+<pre class="python"><code>#Apply the trained ML to our gridded data to determine the probabilities at each of the points
+print(&#39;RF...&#39;)
+pRF_map=np.array(rf.predict_proba(target_data))
+print(&quot;Done RF&quot;)</code></pre>
+<pre><code>RF...
 
 
 
 ---------------------------------------------------------------------------
 
-ValueError                                Traceback (most recent call last)
+NameError                                 Traceback (most recent call last)
 
-&lt;ipython-input-103-4e7e9a7dd844&gt; in &lt;module&gt;
-      1 print(&#39;Tranining the Clasifier...&#39;)
-----&gt; 2 rf.fit(features,targets)
-      3 
-      4 print(&quot;Done RF. Now scoring...&quot;)
-      5 scores = cross_val_score(rf, features,targets, cv=10)
+&lt;ipython-input-95-f57524338a16&gt; in &lt;module&gt;
+      1 #Apply the trained ML to our gridded data to determine the probabilities at each of the points
+      2 print(&#39;RF...&#39;)
+----&gt; 3 pRF_map=np.array(rf.predict_proba(target_data))
+      4 print(&quot;Done RF&quot;)
 
 
-c:\users\nbutter\miniconda3\envs\geopy\lib\site-packages\sklearn\pipeline.py in fit(self, X, y, **fit_params)
-    339         &quot;&quot;&quot;
-    340         fit_params_steps = self._check_fit_params(**fit_params)
---&gt; 341         Xt = self._fit(X, y, **fit_params_steps)
-    342         with _print_elapsed_time(&#39;Pipeline&#39;,
-    343                                  self._log_message(len(self.steps) - 1)):
-
-
-c:\users\nbutter\miniconda3\envs\geopy\lib\site-packages\sklearn\pipeline.py in _fit(self, X, y, **fit_params_steps)
-    305                 message_clsname=&#39;Pipeline&#39;,
-    306                 message=self._log_message(step_idx),
---&gt; 307                 **fit_params_steps[name])
-    308             # Replace the transformer of the step with the fitted
-    309             # transformer. This is necessary when loading the transformer
-
-
-c:\users\nbutter\miniconda3\envs\geopy\lib\site-packages\joblib\memory.py in __call__(self, *args, **kwargs)
-    350 
-    351     def __call__(self, *args, **kwargs):
---&gt; 352         return self.func(*args, **kwargs)
-    353 
-    354     def call_and_shelve(self, *args, **kwargs):
-
-
-c:\users\nbutter\miniconda3\envs\geopy\lib\site-packages\sklearn\pipeline.py in _fit_transform_one(transformer, X, y, weight, message_clsname, message, **fit_params)
-    752     with _print_elapsed_time(message_clsname, message):
-    753         if hasattr(transformer, &#39;fit_transform&#39;):
---&gt; 754             res = transformer.fit_transform(X, y, **fit_params)
-    755         else:
-    756             res = transformer.fit(X, y, **fit_params).transform(X)
-
-
-c:\users\nbutter\miniconda3\envs\geopy\lib\site-packages\sklearn\compose\_column_transformer.py in fit_transform(self, X, y)
-    505         self._validate_remainder(X)
-    506 
---&gt; 507         result = self._fit_transform(X, y, _fit_transform_one)
-    508 
-    509         if not result:
-
-
-c:\users\nbutter\miniconda3\envs\geopy\lib\site-packages\sklearn\compose\_column_transformer.py in _fit_transform(self, X, y, func, fitted)
-    441                     message=self._log_message(name, idx, len(transformers)))
-    442                 for idx, (name, trans, column, weight) in enumerate(
---&gt; 443                         self._iter(fitted=fitted, replace_strings=True), 1))
-    444         except ValueError as e:
-    445             if &quot;Expected 2D array, got 1D array instead&quot; in str(e):
-
-
-c:\users\nbutter\miniconda3\envs\geopy\lib\site-packages\joblib\parallel.py in __call__(self, iterable)
-   1039             # remaining jobs.
-   1040             self._iterating = False
--&gt; 1041             if self.dispatch_one_batch(iterator):
-   1042                 self._iterating = self._original_iterator is not None
-   1043 
-
-
-c:\users\nbutter\miniconda3\envs\geopy\lib\site-packages\joblib\parallel.py in dispatch_one_batch(self, iterator)
-    857                 return False
-    858             else:
---&gt; 859                 self._dispatch(tasks)
-    860                 return True
-    861 
-
-
-c:\users\nbutter\miniconda3\envs\geopy\lib\site-packages\joblib\parallel.py in _dispatch(self, batch)
-    775         with self._lock:
-    776             job_idx = len(self._jobs)
---&gt; 777             job = self._backend.apply_async(batch, callback=cb)
-    778             # A job can complete so quickly than its callback is
-    779             # called before we get here, causing self._jobs to
-
-
-c:\users\nbutter\miniconda3\envs\geopy\lib\site-packages\joblib\_parallel_backends.py in apply_async(self, func, callback)
-    206     def apply_async(self, func, callback=None):
-    207         &quot;&quot;&quot;Schedule a func to be run&quot;&quot;&quot;
---&gt; 208         result = ImmediateResult(func)
-    209         if callback:
-    210             callback(result)
-
-
-c:\users\nbutter\miniconda3\envs\geopy\lib\site-packages\joblib\_parallel_backends.py in __init__(self, batch)
-    570         # Don&#39;t delay the application, to avoid keeping the input
-    571         # arguments in memory
---&gt; 572         self.results = batch()
-    573 
-    574     def get(self):
-
-
-c:\users\nbutter\miniconda3\envs\geopy\lib\site-packages\joblib\parallel.py in __call__(self)
-    261         with parallel_backend(self._backend, n_jobs=self._n_jobs):
-    262             return [func(*args, **kwargs)
---&gt; 263                     for func, args, kwargs in self.items]
-    264 
-    265     def __reduce__(self):
-
-
-c:\users\nbutter\miniconda3\envs\geopy\lib\site-packages\joblib\parallel.py in &lt;listcomp&gt;(.0)
-    261         with parallel_backend(self._backend, n_jobs=self._n_jobs):
-    262             return [func(*args, **kwargs)
---&gt; 263                     for func, args, kwargs in self.items]
-    264 
-    265     def __reduce__(self):
-
-
-c:\users\nbutter\miniconda3\envs\geopy\lib\site-packages\sklearn\utils\fixes.py in __call__(self, *args, **kwargs)
-    220     def __call__(self, *args, **kwargs):
-    221         with config_context(**self.config):
---&gt; 222             return self.function(*args, **kwargs)
-
-
-c:\users\nbutter\miniconda3\envs\geopy\lib\site-packages\sklearn\pipeline.py in _fit_transform_one(transformer, X, y, weight, message_clsname, message, **fit_params)
-    752     with _print_elapsed_time(message_clsname, message):
-    753         if hasattr(transformer, &#39;fit_transform&#39;):
---&gt; 754             res = transformer.fit_transform(X, y, **fit_params)
-    755         else:
-    756             res = transformer.fit(X, y, **fit_params).transform(X)
-
-
-c:\users\nbutter\miniconda3\envs\geopy\lib\site-packages\sklearn\pipeline.py in fit_transform(self, X, y, **fit_params)
-    376         &quot;&quot;&quot;
-    377         fit_params_steps = self._check_fit_params(**fit_params)
---&gt; 378         Xt = self._fit(X, y, **fit_params_steps)
-    379 
-    380         last_step = self._final_estimator
-
-
-c:\users\nbutter\miniconda3\envs\geopy\lib\site-packages\sklearn\pipeline.py in _fit(self, X, y, **fit_params_steps)
-    305                 message_clsname=&#39;Pipeline&#39;,
-    306                 message=self._log_message(step_idx),
---&gt; 307                 **fit_params_steps[name])
-    308             # Replace the transformer of the step with the fitted
-    309             # transformer. This is necessary when loading the transformer
-
-
-c:\users\nbutter\miniconda3\envs\geopy\lib\site-packages\joblib\memory.py in __call__(self, *args, **kwargs)
-    350 
-    351     def __call__(self, *args, **kwargs):
---&gt; 352         return self.func(*args, **kwargs)
-    353 
-    354     def call_and_shelve(self, *args, **kwargs):
-
-
-c:\users\nbutter\miniconda3\envs\geopy\lib\site-packages\sklearn\pipeline.py in _fit_transform_one(transformer, X, y, weight, message_clsname, message, **fit_params)
-    752     with _print_elapsed_time(message_clsname, message):
-    753         if hasattr(transformer, &#39;fit_transform&#39;):
---&gt; 754             res = transformer.fit_transform(X, y, **fit_params)
-    755         else:
-    756             res = transformer.fit(X, y, **fit_params).transform(X)
-
-
-c:\users\nbutter\miniconda3\envs\geopy\lib\site-packages\sklearn\base.py in fit_transform(self, X, y, **fit_params)
-    700         else:
-    701             # fit method of arity 2 (supervised transformation)
---&gt; 702             return self.fit(X, y, **fit_params).transform(X)
-    703 
-    704 
-
-
-c:\users\nbutter\miniconda3\envs\geopy\lib\site-packages\sklearn\impute\_base.py in fit(self, X, y)
-    286         self : SimpleImputer
-    287         &quot;&quot;&quot;
---&gt; 288         X = self._validate_input(X, in_fit=True)
-    289 
-    290         # default fill_value is 0 for numerical input and &quot;missing_value&quot;
-
-
-c:\users\nbutter\miniconda3\envs\geopy\lib\site-packages\sklearn\impute\_base.py in _validate_input(self, X, in_fit)
-    260                 raise new_ve from None
-    261             else:
---&gt; 262                 raise ve
-    263 
-    264         _check_inputs_dtype(X, self.missing_values)
-
-
-c:\users\nbutter\miniconda3\envs\geopy\lib\site-packages\sklearn\impute\_base.py in _validate_input(self, X, in_fit)
-    253                                     accept_sparse=&#39;csc&#39;, dtype=dtype,
-    254                                     force_all_finite=force_all_finite,
---&gt; 255                                     copy=self.copy)
-    256         except ValueError as ve:
-    257             if &quot;could not convert&quot; in str(ve):
-
-
-c:\users\nbutter\miniconda3\envs\geopy\lib\site-packages\sklearn\base.py in _validate_data(self, X, y, reset, validate_separately, **check_params)
-    419             out = X
-    420         elif isinstance(y, str) and y == &#39;no_validation&#39;:
---&gt; 421             X = check_array(X, **check_params)
-    422             out = X
-    423         else:
-
-
-c:\users\nbutter\miniconda3\envs\geopy\lib\site-packages\sklearn\utils\validation.py in inner_f(*args, **kwargs)
-     61             extra_args = len(args) - len(all_args)
-     62             if extra_args &lt;= 0:
----&gt; 63                 return f(*args, **kwargs)
-     64 
-     65             # extra_args &gt; 0
-
-
-c:\users\nbutter\miniconda3\envs\geopy\lib\site-packages\sklearn\utils\validation.py in check_array(array, accept_sparse, accept_large_sparse, dtype, order, copy, force_all_finite, ensure_2d, allow_nd, ensure_min_samples, ensure_min_features, estimator)
-    719         if force_all_finite:
-    720             _assert_all_finite(array,
---&gt; 721                                allow_nan=force_all_finite == &#39;allow-nan&#39;)
-    722 
-    723     if ensure_min_samples &gt; 0:
-
-
-c:\users\nbutter\miniconda3\envs\geopy\lib\site-packages\sklearn\utils\validation.py in _assert_all_finite(X, allow_nan, msg_dtype)
-    104                     msg_err.format
-    105                     (type_err,
---&gt; 106                      msg_dtype if msg_dtype is not None else X.dtype)
-    107             )
-    108     # for object dtype data, we only check for NaNs (GH-13254)
-
-
-ValueError: Input contains NaN, infinity or a value too large for dtype(&#39;float64&#39;).</code></pre>
-<pre class="python"><code>#Make a plot out the feature scores. 
-#These are the important parameters that are correlated with the deposits.
-
-ft_idx=[]
-ft_lab=[]
-all_idx=[]
-all_lab=[]
-all_dat=[]
-#Just print the significant features above some threshold
-for i,lab in enumerate(np.append(numerical_features,rf[&#39;preprocessor&#39;].transformers_[1][1][&#39;onehot&#39;].get_feature_names(categorical_features))):
-    all_dat.append([i,lab,rf.steps[1][1].feature_importances_[i]])
-    all_lab.append(lab)
-    all_idx.append(i)
-    if rf.steps[1][1].feature_importances_[i] &gt;1*np.median(rf.steps[1][1].feature_importances_): 
-        ft_idx.append(i)
-        ft_lab.append(lab)
-        </code></pre>
-<pre class="python"><code>#And plot all the feature importances
-#plt.plot(rf.steps[1][1].feature_importances_)
-
-fig, ax = plt.subplots(figsize=(5,30))
-
-ft_imps=rf.steps[1][1].feature_importances_
-y_pos=np.arange(len(ft_imps))
-ax.barh(y_pos,ft_imps,align=&#39;center&#39;)
-
-ax.set_yticks(all_idx)
-ax.set_yticklabels(all_lab)
-ax.yaxis.label.set_color(&#39;red&#39;)
-for i in ft_idx:
-    ax.get_yticklabels()[i].set_color(&quot;red&quot;)
-
-ax.set_xlabel(&#39;Feature Importance&#39;)
-
-plt.show()
-
-#plt.xticks([0,1,2,3,4,5,7,81,82,83,84,85,86])</code></pre>
-<div class="figure">
-<img src="01-build_the_data_files/01-build_the_data_69_0.png" alt="" />
-<p class="caption">png</p>
-</div>
-<pre class="python"><code>#Chec the probabilities at each of the deposit/non-deposit points
-print(&#39;RF...&#39;)
-pRF=np.array(rf.predict_proba(features))
-print(&quot;Done RF&quot;)
-
-plt.plot(pRF[:,1])</code></pre>
-<pre><code>RF...
-Done RF
-
-
-
-
-
-[&lt;matplotlib.lines.Line2D at 0x7ff04905b0b8&gt;]</code></pre>
-<div class="figure">
-<img src="01-build_the_data_files/01-build_the_data_70_2.png" alt="" />
-<p class="caption">png</p>
-</div>
-</div>
-<div id="finally-apply-the-model-to-the-grid" class="section level2">
-<h2>Finally, apply the model to the grid</h2>
-<pre class="python"><code>#Apply the trained ML to our gridded data to determine the probabilities at each of the points
-print(&#39;RF...&#39;)
-pRF_map=np.array(rf.predict_proba(target_data[numerical_features+categorical_features]))
-print(&quot;Done RF&quot;)</code></pre>
-<pre><code>RF...
-Done RF</code></pre>
+NameError: name &#39;target_data&#39; is not defined</code></pre>
 <pre class="python"><code>#Create a meshgrid from our xyz list of points
 gridX,gridY,gridZ=grid(target_data.lon, target_data.lat,pRF_map[:,1])</code></pre>
 <pre><code>/usr/local/lib/python3.6/dist-packages/ipykernel_launcher.py:67: MatplotlibDeprecationWarning: The griddata function was deprecated in Matplotlib 2.2 and will be removed in 3.1. Use scipy.interpolate.griddata instead.</code></pre>
@@ -3599,7 +3452,7 @@ plt.show()</code></pre>
 &lt;urlopen error [Errno -5] No address associated with hostname&gt;
 &lt;urlopen error [Errno -5] No address associated with hostname&gt;</code></pre>
 <div class="figure">
-<img src="01-build_the_data_files/01-build_the_data_75_1.png" alt="" />
+<img src="01-build_the_data_files/01-build_the_data_78_1.png" alt="" />
 <p class="caption">png</p>
 </div>
 <pre class="python"><code># Import numpy for array processing
@@ -3636,7 +3489,6 @@ cbar.ax.xaxis.set_label_position(&#39;top&#39;)
 cbar.ax.set_xticklabels([&#39;Low&#39;,&#39;&#39;,&#39;High&#39;],fontsize=8)
 
 plt.show()</code></pre>
-</div>
 </div>
 
 
