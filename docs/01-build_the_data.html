@@ -432,20 +432,15 @@ div.tocify {
 </div>
 
 
-<div id="building-machine-learning-datasets" class="section level1">
-<h1>Building Machine Learning Datasets</h1>
+<div id="building-machine-learning-datasets-from-scratch" class="section level1">
+<h1>Building Machine Learning Datasets From Scratch</h1>
 <p>All machine learning problems begin with a dataset, and before we can perform any kind of inference on that dataset we must create/wrangle/build it. This is often the most time-consuming and hard part of a successful machine learning workflow. There is no set procedure here, as all data is different, although there are a few simple methods we can take to make a useful dataset.</p>
 <p>We will be using data from a submitted Manuscript (Butterworth and Barnett-Moore 2020) which was a finalist in the <a href="https://unearthed.solutions/u/competitions/exploresa">Unearthed, ExploreSA: Gawler Challenge</a>. You can visit the <a href="https://github.com/natbutter/gawler-exploration">original repo here</a>.</p>
-<pre class="python"><code># import numpy as np
-# import scipy
-# from scipy import io
-# import time
-# import matplotlib.pyplot as plt
-# import cartopy.crs as ccrs</code></pre>
+<p><br></p>
 </div>
 <div id="goal-create-a-table-of-data-containing-targets-and-predictor-variables" class="section level1">
 <h1>Goal: Create a table of data containing “targets” and “predictor variables”</h1>
-<p>The targets in an ML context can be a simple binary 1 or 0, or could be some category, or the value of a particular parameter. It is the “feature” of a dataset that we want to learn something about!</p>
+<p>The targets in an ML context can be a simple binary 1 or 0, or could be some category (classification), or the value of a particular parameter (regression problems). It is the “feature” of a dataset that we want to learn something about!</p>
 <p>The “predictor/feature variables” are the quatities/parameters that may have some causal relationship with the the target.</p>
 <div id="step-1---what-is-our-target-variable" class="section level2">
 <h2>Step 1 - What is our target variable?</h2>
@@ -886,9 +881,9 @@ shapes  = shapeRead.shapes()
 xval = [x[0] for x in shapes[1].points]
 yval = [x[1] for x in shapes[1].points]</code></pre>
 <pre class="python"><code># Subset the data, for a single Mineral target
-commname=&#39;Mn&#39;
+commname=&#39;Cu&#39;
 
-#Pull our all the occurences of the commodity and go from there
+#Pull out all the occurences of the commodity and go from there
 comm=df[df[&#39;COMM_CODE&#39;].str.contains(commname)]
 comm=comm.reset_index(drop=True)
 print(&quot;Shape of &quot;+ commname, comm.shape)
@@ -899,7 +894,7 @@ print(&quot;Shape of &quot;+ commname, comm.shape)
 #comm=comm[comm.COX_CLASS == &quot;Olympic Dam Cu-U-Au&quot;]
 #comm=comm[(comm.lon&lt;max(xval)) &amp; (comm.lon&gt;min(xval)) &amp; (comm.lat&gt;min(yval)) &amp; (comm.lat&lt;max(yval))]
 </code></pre>
-<pre><code>Shape of Mn (115, 43)</code></pre>
+<pre><code>Shape of Cu (1569, 43)</code></pre>
 <pre class="python"><code># For plotting
 import matplotlib.pyplot as plt</code></pre>
 <pre class="python"><code>fig = plt.figure(figsize=(8,8))
@@ -916,7 +911,7 @@ plt.legend(loc=3)
 
 plt.show()</code></pre>
 <div class="figure">
-<img src="01-build_the_data_files/01-build_the_data_10_0.png" alt="" />
+<img src="01-build_the_data_files/01-build_the_data_8_0.png" alt="" />
 <p class="caption">png</p>
 </div>
 </div>
@@ -1157,6 +1152,7 @@ resistivity
 11008 rows × 4 columns
 </p>
 </div>
+<p>This data is Lat-Lon spatial location and the value of the feature at that location.</p>
 <pre class="python"><code>fig = plt.figure(figsize=(8,8))
 ax = plt.axes()
 im=ax.scatter(data_res.lon,data_res.lat,s=4,c=data_res.resistivity,cmap=&quot;jet&quot;)
@@ -1174,7 +1170,7 @@ cbar.ax.xaxis.set_label_position(&#39;top&#39;)
 
 plt.show()</code></pre>
 <div class="figure">
-<img src="01-build_the_data_files/01-build_the_data_14_0.png" alt="" />
+<img src="01-build_the_data_files/01-build_the_data_13_0.png" alt="" />
 <p class="caption">png</p>
 </div>
 </div>
@@ -1201,6 +1197,7 @@ faultsNeo</code></pre>
        [138.44613353, -35.36560605],
        [138.44160669, -35.36672662],
        [138.43805501, -35.36793484]])</code></pre>
+<p>This data is just a Lat-Lon location. Think how we can use this in a model.</p>
 <pre class="python"><code>fig = plt.figure(figsize=(8,8))
 ax = plt.axes()
 plt.plot(faultsNeo[:,0],faultsNeo[:,1],&#39;.&#39;,markersize=0.1,label=&quot;Neoproterozoic-Faults&quot;)
@@ -1248,7 +1245,7 @@ x1,y1,z1,originx1,originy1,pixelx1,pixely1 = readnc(&quot;data/sa-dem.nc&quot;)
 x2,y2,z2,originx2,originy2,pixelx2,pixely2 = readnc(&quot;data/sa-mag-tmi.nc&quot;)
 # Gravity
 x3,y3,z3,originx3,originy3,pixelx3,pixely3 = readnc(&quot;data/sa-grav.nc&quot;)</code></pre>
-<pre><code>Loaded data/sa-dem.nc in 0.02s
+<pre><code>Loaded data/sa-dem.nc in 0.01s
 Spacing x 0.01 y 0.01 Shape: (1208, 1201) Min x: 129.005 Max x: 141.005 Min y: -38.065 Max y -25.99
 Loaded data/sa-mag-tmi.nc in 0.01s
 Spacing x 0.01 y 0.01 Shape: (1208, 1201) Min x: 129.005 Max x: 141.005 Min y: -38.065 Max y -25.99
@@ -1274,6 +1271,7 @@ plt.show()</code></pre>
 <img src="01-build_the_data_files/01-build_the_data_23_0.png" alt="" />
 <p class="caption">png</p>
 </div>
+<p>These data are raster grids. Essentially Lat-Lon-Value like the XYZ data, but represented in a different format.</p>
 </div>
 <div id="categorical-geology-in-vector-polygons" class="section level3">
 <h3>Categorical Geology in vector polygons</h3>
@@ -1282,13 +1280,43 @@ geolshape=shapefile.Reader(&quot;data/Archaean_Early_Mesoprterzoic_polygons_shp/
 
 recsArch   = geolshape.records()
 shapesArch  = geolshape.shapes()</code></pre>
+<pre class="python"><code># Print the field names in the shapefile
+for i,field in enumerate(geolshape.fields):
+    print(i-1,field[0]) </code></pre>
+<pre><code>-1 DeletionFlag
+0 MAJORSTRAT
+1 SG_DESCRIP
+2 MAPUNIT
+3 SG_PROVINC
+4 DOMAIN
+5 AGE
+6 SEQUSET
+7 PRIMARYAGE
+8 OROGENYAGE
+9 INHERITAGE
+10 STRATNO
+11 STRATNAME
+12 STRATDESC
+13 GISCODE
+14 SUBDIVNAME
+15 SUBDIVSYMB
+16 PROVINCE
+17 MAXAGE
+18 MAXMOD
+19 MAXMETH
+20 MINAGE
+21 MINMOD
+22 MINMETH
+23 GLCODE</code></pre>
 <pre class="python"><code>fig = plt.figure(figsize=(8,8))
 ax = plt.axes()
 
+#index of the geology unit 
+geoindex = 23
 #Gather all the unique Major Geology unit numbers
 labs=[]
 for i in recsArch:
-    labs.append(i[-1])
+    labs.append(i[geoindex])
 
 geols = list(set(labs))
 
@@ -1304,8 +1332,8 @@ for i in range(len(shapesArch)):
     boundary = shapesArch[i].points
     xs = [x for x, y in shapesArch[i].points]
     ys = [y for x, y in shapesArch[i].points]
-    c = cdict[recsArch[i][-1]]
-    l1 = ax.fill(xs,ys,c=c,label=recsArch[i][-1])
+    c = cdict[recsArch[i][geoindex]]
+    l1 = ax.fill(xs,ys,c=c,label=recsArch[i][geoindex])
     legend1.append(l1)
       
 #Plot the extra stuff
@@ -1328,14 +1356,15 @@ plt.ylim(-38.5,-25.5)
 
 plt.show()</code></pre>
 <div class="figure">
-<img src="01-build_the_data_files/01-build_the_data_26_0.png" alt="" />
+<img src="01-build_the_data_files/01-build_the_data_28_0.png" alt="" />
 <p class="caption">png</p>
 </div>
-</div>
-</div>
-<div id="take-a-moment-to-appreciate-the-various-methods-you-have-used-just-to-load-the-data" class="section level2">
-<h2>Take a moment to appreciate the various methods you have used just to load the data!</h2>
+<p><strong>Take a moment to appreciate the various methods you have used just to load the data!</strong></p>
 <p>Now we need to think about what we actually want to achieve? What is our goal here? This will determine what kind of data analysis/manipulation we need to make here. Consider the flow diagram for <a href="https://scikit-learn.org/stable/tutorial/machine_learning_map/index.html">choosing the right machine learning method</a>.</p>
+</div>
+</div>
+<div id="step-3---assign-geophys-values-to-target-locations" class="section level2">
+<h2>Step 3 - Assign geophys values to target locations</h2>
 <p>We need to assign the values of each of these geophyiscal datasets (predictor variables) to the target class (i.e. mineral deposit locations). The assumption being that the occurnece of some mineral deposit (e.g. Cu) is a function of x1, x2, x3, x4, x5, x6. Where the Resitivity is x1, the distance to a Neoprotezoic fault is x2, the value of DEM, magnetic TMI, and Gravity is x3, x4, and x5, and the geologica basement unit is x6.</p>
 <pre class="python"><code># Make a Target DataFrame of the points we want to interrogate the features for
 td = comm[[&#39;LONGITUDE&#39;, &#39;LATITUDE&#39;]].copy()</code></pre>
@@ -1361,11 +1390,11 @@ def coregPoint(tree,point,region,retval=&#39;index&#39;):
 <pre class="python"><code># Find the values of the resetivity grid for each lat/lon deposit location.
 
 # Make a search-tree of the point-pairs for fast lookup of nearest matches
-tree = scipy.spatial.cKDTree(np.c_[data_res.lon,data_res.lat])
+treeres = scipy.spatial.cKDTree(np.c_[data_res.lon,data_res.lat])
 
 # Perform the search for each point
-indexes = comm.apply(
-    lambda x: coregPoint(tree,np.array([x.LONGITUDE, x.LATITUDE]),1,retval=&#39;index&#39;), axis=1)</code></pre>
+indexes = td.apply(
+    lambda x: coregPoint(treeres,np.array([x.LONGITUDE, x.LATITUDE]),10,retval=&#39;index&#39;), axis=1)</code></pre>
 <pre class="python"><code>td[&#39;res&#39;] = data_res.loc[indexes].resistivity.values
 td</code></pre>
 <div>
@@ -1404,13 +1433,13 @@ res
 0
 </th>
 <td>
-139.179436
+129.106649
 </td>
 <td>
--29.877637
+-26.135900
 </td>
 <td>
-2.2135
+1.9959
 </td>
 </tr>
 <tr>
@@ -1418,13 +1447,13 @@ res
 1
 </th>
 <td>
-138.808767
+132.781571
 </td>
 <td>
--30.086296
+-26.151144
 </td>
 <td>
-2.3643
+2.0450
 </td>
 </tr>
 <tr>
@@ -1432,13 +1461,13 @@ res
 2
 </th>
 <td>
-138.752281
+132.816676
 </td>
 <td>
--30.445684
+-26.159202
 </td>
 <td>
-2.1141
+2.0450
 </td>
 </tr>
 <tr>
@@ -1446,13 +1475,13 @@ res
 3
 </th>
 <td>
-138.530506
+128.945869
 </td>
 <td>
--30.533225
+-26.179362
 </td>
 <td>
-2.2234
+1.9978
 </td>
 </tr>
 <tr>
@@ -1460,13 +1489,13 @@ res
 4
 </th>
 <td>
-138.887019
+132.549807
 </td>
 <td>
--30.565479
+-26.185500
 </td>
 <td>
-2.1982
+2.0694
 </td>
 </tr>
 <tr>
@@ -1485,78 +1514,78 @@ res
 </tr>
 <tr>
 <th>
-110
+1564
 </th>
 <td>
-136.059715
+138.910941
 </td>
 <td>
--34.327929
+-35.212862
 </td>
 <td>
-3.4926
+2.4313
 </td>
 </tr>
 <tr>
 <th>
-111
+1565
 </th>
 <td>
-138.016821
+138.919616
 </td>
 <td>
--35.733084
+-35.251686
 </td>
 <td>
-2.0868
+2.3233
 </td>
 </tr>
 <tr>
 <th>
-112
+1566
 </th>
 <td>
-139.250036
+138.673907
 </td>
 <td>
--34.250155
+-35.301507
 </td>
 <td>
-1.9811
+2.2986
 </td>
 </tr>
 <tr>
 <th>
-113
+1567
 </th>
 <td>
-135.905480
+139.762176
 </td>
 <td>
--34.425866
+-35.345652
 </td>
 <td>
-2.7108
+2.0219
 </td>
 </tr>
 <tr>
 <th>
-114
+1568
 </th>
 <td>
-135.835578
+138.209780
 </td>
 <td>
--34.509779
+-35.515096
 </td>
 <td>
-3.1224
+-0.0318
 </td>
 </tr>
 </tbody>
 </table>
 <p>
-115 rows × 3 columns
+1569 rows × 3 columns
 </p>
 </div>
 </div>
@@ -1564,10 +1593,10 @@ res
 <h3>Faults</h3>
 <pre class="python"><code>#Same for the fault data 
 # but this time we get the &quot;distance to the point&quot;, rather than the value at that point.
-tree = scipy.spatial.cKDTree(faultsNeo)
+treefaults = scipy.spatial.cKDTree(faultsNeo)
 
-dists = comm.apply(
-    lambda x: coregPoint(tree,np.array([x.LONGITUDE, x.LATITUDE]),100,retval=&#39;dists&#39;), axis=1)</code></pre>
+dists = td.apply(
+    lambda x: coregPoint(treefaults,np.array([x.LONGITUDE, x.LATITUDE]),100,retval=&#39;dists&#39;), axis=1)</code></pre>
 <pre class="python"><code>td[&#39;faults&#39;] = dists
 td</code></pre>
 <div>
@@ -1609,16 +1638,16 @@ faults
 0
 </th>
 <td>
-139.179436
+129.106649
 </td>
 <td>
--29.877637
+-26.135900
 </td>
 <td>
-2.2135
+1.9959
 </td>
 <td>
-0.010691
+0.858696
 </td>
 </tr>
 <tr>
@@ -1626,16 +1655,16 @@ faults
 1
 </th>
 <td>
-138.808767
+132.781571
 </td>
 <td>
--30.086296
+-26.151144
 </td>
 <td>
-2.3643
+2.0450
 </td>
 <td>
-0.103741
+0.607134
 </td>
 </tr>
 <tr>
@@ -1643,16 +1672,16 @@ faults
 2
 </th>
 <td>
-138.752281
+132.816676
 </td>
 <td>
--30.445684
+-26.159202
 </td>
 <td>
-2.1141
+2.0450
 </td>
 <td>
-0.006659
+0.577540
 </td>
 </tr>
 <tr>
@@ -1660,16 +1689,16 @@ faults
 3
 </th>
 <td>
-138.530506
+128.945869
 </td>
 <td>
--30.533225
+-26.179362
 </td>
 <td>
-2.2234
+1.9978
 </td>
 <td>
-0.013925
+0.810394
 </td>
 </tr>
 <tr>
@@ -1677,16 +1706,16 @@ faults
 4
 </th>
 <td>
-138.887019
+132.549807
 </td>
 <td>
--30.565479
+-26.185500
 </td>
 <td>
-2.1982
+2.0694
 </td>
 <td>
-0.007356
+0.652131
 </td>
 </tr>
 <tr>
@@ -1708,93 +1737,93 @@ faults
 </tr>
 <tr>
 <th>
-110
+1564
 </th>
 <td>
-136.059715
+138.910941
 </td>
 <td>
--34.327929
+-35.212862
 </td>
 <td>
-3.4926
+2.4313
 </td>
 <td>
-0.526835
+0.009013
 </td>
 </tr>
 <tr>
 <th>
-111
+1565
 </th>
 <td>
-138.016821
+138.919616
 </td>
 <td>
--35.733084
+-35.251686
 </td>
 <td>
-2.0868
+2.3233
 </td>
 <td>
-0.002451
+0.024538
 </td>
 </tr>
 <tr>
 <th>
-112
+1566
 </th>
 <td>
-139.250036
+138.673907
 </td>
 <td>
--34.250155
+-35.301507
 </td>
 <td>
-1.9811
+2.2986
 </td>
 <td>
-0.027837
+0.027873
 </td>
 </tr>
 <tr>
 <th>
-113
+1567
 </th>
 <td>
-135.905480
+139.762176
 </td>
 <td>
--34.425866
+-35.345652
 </td>
 <td>
-2.7108
+2.0219
 </td>
 <td>
-0.670323
+0.024593
 </td>
 </tr>
 <tr>
 <th>
-114
+1568
 </th>
 <td>
-135.835578
+138.209780
 </td>
 <td>
--34.509779
+-35.515096
 </td>
 <td>
-3.1224
+-0.0318
 </td>
 <td>
-0.776152
+0.002445
 </td>
 </tr>
 </tbody>
 </table>
 <p>
-115 rows × 4 columns
+1569 rows × 4 columns
 </p>
 </div>
 </div>
@@ -1823,26 +1852,22 @@ def get_coords_at_point(originx,originy,pixelx,pixely,lon,lat):
     row = int((lon - originx)/pixelx)
     col = int((lat - originy)/pixely)
 
-    return (col, row)</code></pre>
-<pre class="python"><code>#Perform the search on each of our raster grids
-z1list=[]
-z2list=[]
-z3list=[]
-for lon,lat in zip(comm.LONGITUDE,comm.LATITUDE):
-    
-    coords = get_coords_at_point(originx1,originy1,pixelx1,pixely1,lon,lat)
-    z1list.append(z1[coords])
-    
-    coords = get_coords_at_point(originx2,originy2,pixelx2,pixely2,lon,lat)
-    z2list.append(z2[coords])
-    
-    coords = get_coords_at_point(originx3,originy3,pixelx3,pixely3,lon,lat)
-    z3list.append(z3[coords])
+    return (col, row)
 
-#Assign the results
-td[&#39;dem&#39;] = z1list
-td[&#39;mag&#39;] = z2list
-td[&#39;grav&#39;] = z3list</code></pre>
+
+# Pass entire array of latlon and raster info to us in get_coords_at_point
+def rastersearch(latlon,raster,originx,originy,pixelx,pixely):
+    zlist=[]
+    for lon,lat in zip(latlon.LONGITUDE,latlon.LATITUDE):
+        try:
+            zlist.append(raster[get_coords_at_point(originx,originy,pixelx,pixely,lon,lat)])
+        except:
+            zlist.append(np.nan)
+            
+    return(zlist)</code></pre>
+<pre class="python"><code>td[&#39;dem&#39;] = rastersearch(td,z1,originx1,originy1,pixelx1,pixely1)
+td[&#39;mag&#39;] = rastersearch(td,z2,originx2,originy2,pixelx2,pixely2)
+td[&#39;grav&#39;] = rastersearch(td,z3,originx3,originy3,pixelx3,pixely3)</code></pre>
 <pre class="python"><code>td</code></pre>
 <div>
 <style scoped>
@@ -1892,25 +1917,25 @@ grav
 0
 </th>
 <td>
-139.179436
+129.106649
 </td>
 <td>
--29.877637
+-26.135900
 </td>
 <td>
-2.2135
+1.9959
 </td>
 <td>
-0.010691
+0.858696
 </td>
 <td>
-187.297424
+635.556335
 </td>
 <td>
--118.074890
+-395.009888
 </td>
 <td>
-1.852599
+27.653816
 </td>
 </tr>
 <tr>
@@ -1918,25 +1943,25 @@ grav
 1
 </th>
 <td>
-138.808767
+132.781571
 </td>
 <td>
--30.086296
+-26.151144
 </td>
 <td>
-2.3643
+2.0450
 </td>
 <td>
-0.103741
+0.607134
 </td>
 <td>
-179.499237
+540.414062
 </td>
 <td>
--209.410507
+-327.329987
 </td>
 <td>
--12.722121
+-83.830025
 </td>
 </tr>
 <tr>
@@ -1944,25 +1969,25 @@ grav
 2
 </th>
 <td>
-138.752281
+132.816676
 </td>
 <td>
--30.445684
+-26.159202
 </td>
 <td>
-2.1141
+2.0450
 </td>
 <td>
-0.006659
+0.577540
 </td>
 <td>
-398.336823
+532.723755
 </td>
 <td>
--159.566422
+-51.946140
 </td>
 <td>
--6.249788
+-78.316444
 </td>
 </tr>
 <tr>
@@ -1970,25 +1995,25 @@ grav
 3
 </th>
 <td>
-138.530506
+128.945869
 </td>
 <td>
--30.533225
+-26.179362
 </td>
 <td>
-2.2234
+1.9978
 </td>
 <td>
-0.013925
+0.810394
 </td>
 <td>
-335.983429
+99.930511
 </td>
 <td>
--131.176437
+1.357960
 </td>
 <td>
--11.665316
+-26.815083
 </td>
 </tr>
 <tr>
@@ -1996,25 +2021,25 @@ grav
 4
 </th>
 <td>
-138.887019
+132.549807
 </td>
 <td>
--30.565479
+-26.185500
 </td>
 <td>
-2.1982
+2.0694
 </td>
 <td>
-0.007356
+0.652131
 </td>
 <td>
-554.278198
+610.149902
 </td>
 <td>
--192.363297
+-93.218666
 </td>
 <td>
--1.025702
+-86.025749
 </td>
 </tr>
 <tr>
@@ -2045,138 +2070,138 @@ grav
 </tr>
 <tr>
 <th>
-110
+1564
 </th>
 <td>
-136.059715
+138.910941
 </td>
 <td>
--34.327929
+-35.212862
 </td>
 <td>
-3.4926
+2.4313
 </td>
 <td>
-0.526835
+0.009013
 </td>
 <td>
-45.866119
+112.044182
 </td>
 <td>
--244.067841
+-231.762283
 </td>
 <td>
-11.410070
+-6.686998
 </td>
 </tr>
 <tr>
 <th>
-111
+1565
 </th>
 <td>
-138.016821
+138.919616
 </td>
 <td>
--35.733084
+-35.251686
 </td>
 <td>
-2.0868
+2.3233
 </td>
 <td>
-0.002451
+0.024538
 </td>
 <td>
-145.452789
+57.948841
 </td>
 <td>
--203.566940
+-302.786255
 </td>
 <td>
-18.458364
+-7.401310
 </td>
 </tr>
 <tr>
 <th>
-112
+1566
 </th>
 <td>
-139.250036
+138.673907
 </td>
 <td>
--34.250155
+-35.301507
 </td>
 <td>
-1.9811
+2.2986
 </td>
 <td>
-0.027837
+0.027873
 </td>
 <td>
-276.489319
+220.003403
 </td>
 <td>
--172.889587
+228.412949
 </td>
 <td>
--1.714886
+5.332988
 </td>
 </tr>
 <tr>
 <th>
-113
+1567
 </th>
 <td>
-135.905480
+139.762176
 </td>
 <td>
--34.425866
+-35.345652
 </td>
 <td>
-2.7108
+2.0219
 </td>
 <td>
-0.670323
+0.024593
 </td>
 <td>
-162.431747
+19.890858
 </td>
 <td>
-569.713684
+-91.274986
 </td>
 <td>
-15.066316
+15.448737
 </td>
 </tr>
 <tr>
 <th>
-114
+1568
 </th>
 <td>
-135.835578
+138.209780
 </td>
 <td>
--34.509779
+-35.515096
 </td>
 <td>
-3.1224
+-0.0318
 </td>
 <td>
-0.776152
+0.002445
 </td>
 <td>
-89.274399
+131.840439
 </td>
 <td>
-64.385925
+552.684814
 </td>
 <td>
-24.267015
+16.580048
 </td>
 </tr>
 </tbody>
 </table>
 <p>
-115 rows × 7 columns
+1569 rows × 7 columns
 </p>
 </div>
 <pre class="python"><code># Check we got it right.
@@ -2202,7 +2227,7 @@ cbar.ax.xaxis.set_label_position(&#39;top&#39;)
 
 plt.show()</code></pre>
 <div class="figure">
-<img src="01-build_the_data_files/01-build_the_data_41_0.png" alt="" />
+<img src="01-build_the_data_files/01-build_the_data_43_0.png" alt="" />
 <p class="caption">png</p>
 </div>
 </div>
@@ -2221,7 +2246,10 @@ def shapeExplore(lon,lat,shapes,recs,record):
             return(recs[i][record])
     #if you have been through the loop with no result
     return(-9999.)</code></pre>
-<pre class="python"><code>td[&#39;geol&#39;]=td.apply(lambda x: shapeExplore(x.LONGITUDE, x.LATITUDE, shapesArch,recsArch,-1), axis=1)</code></pre>
+<pre class="python"><code>%%time
+geoindex = 23
+td[&#39;geol&#39;]=td.apply(lambda x: shapeExplore(x.LONGITUDE, x.LATITUDE, shapesArch,recsArch,geoindex), axis=1)</code></pre>
+<pre><code>Wall time: 3min 43s</code></pre>
 <pre class="python"><code>td</code></pre>
 <div>
 <style scoped>
@@ -2274,28 +2302,28 @@ geol
 0
 </th>
 <td>
-139.179436
+129.106649
 </td>
 <td>
--29.877637
+-26.135900
 </td>
 <td>
-2.2135
+1.9959
 </td>
 <td>
-0.010691
+0.858696
 </td>
 <td>
-187.297424
+635.556335
 </td>
 <td>
--118.074890
+-395.009888
 </td>
 <td>
-1.852599
+27.653816
 </td>
 <td>
-19214
+14552.0
 </td>
 </tr>
 <tr>
@@ -2303,28 +2331,28 @@ geol
 1
 </th>
 <td>
-138.808767
+132.781571
 </td>
 <td>
--30.086296
+-26.151144
 </td>
 <td>
-2.3643
+2.0450
 </td>
 <td>
-0.103741
+0.607134
 </td>
 <td>
-179.499237
+540.414062
 </td>
 <td>
--209.410507
+-327.329987
 </td>
 <td>
--12.722121
+-83.830025
 </td>
 <td>
-19218
+14552.0
 </td>
 </tr>
 <tr>
@@ -2332,28 +2360,28 @@ geol
 2
 </th>
 <td>
-138.752281
+132.816676
 </td>
 <td>
--30.445684
+-26.159202
 </td>
 <td>
-2.1141
+2.0450
 </td>
 <td>
-0.006659
+0.577540
 </td>
 <td>
-398.336823
+532.723755
 </td>
 <td>
--159.566422
+-51.946140
 </td>
 <td>
--6.249788
+-78.316444
 </td>
 <td>
-19218
+14552.0
 </td>
 </tr>
 <tr>
@@ -2361,28 +2389,28 @@ geol
 3
 </th>
 <td>
-138.530506
+128.945869
 </td>
 <td>
--30.533225
+-26.179362
 </td>
 <td>
-2.2234
+1.9978
 </td>
 <td>
-0.013925
+0.810394
 </td>
 <td>
-335.983429
+99.930511
 </td>
 <td>
--131.176437
+1.357960
 </td>
 <td>
--11.665316
+-26.815083
 </td>
 <td>
-19218
+-9999.0
 </td>
 </tr>
 <tr>
@@ -2390,28 +2418,28 @@ geol
 4
 </th>
 <td>
-138.887019
+132.549807
 </td>
 <td>
--30.565479
+-26.185500
 </td>
 <td>
-2.1982
+2.0694
 </td>
 <td>
-0.007356
+0.652131
 </td>
 <td>
-554.278198
+610.149902
 </td>
 <td>
--192.363297
+-93.218666
 </td>
 <td>
--1.025702
+-86.025749
 </td>
 <td>
-19218
+14552.0
 </td>
 </tr>
 <tr>
@@ -2445,327 +2473,218 @@ geol
 </tr>
 <tr>
 <th>
-110
+1564
 </th>
 <td>
-136.059715
+138.910941
 </td>
 <td>
--34.327929
+-35.212862
 </td>
 <td>
-3.4926
+2.4313
 </td>
 <td>
-0.526835
+0.009013
 </td>
 <td>
-45.866119
+112.044182
 </td>
 <td>
--244.067841
+-231.762283
 </td>
 <td>
-11.410070
+-6.686998
 </td>
 <td>
-18032
+19226.0
 </td>
 </tr>
 <tr>
 <th>
-111
+1565
 </th>
 <td>
-138.016821
+138.919616
 </td>
 <td>
--35.733084
+-35.251686
 </td>
 <td>
-2.0868
+2.3233
 </td>
 <td>
-0.002451
+0.024538
 </td>
 <td>
-145.452789
+57.948841
 </td>
 <td>
--203.566940
+-302.786255
 </td>
 <td>
-18.458364
+-7.401310
 </td>
 <td>
-19226
+19220.0
 </td>
 </tr>
 <tr>
 <th>
-112
+1566
 </th>
 <td>
-139.250036
+138.673907
 </td>
 <td>
--34.250155
+-35.301507
 </td>
 <td>
-1.9811
+2.2986
 </td>
 <td>
-0.027837
+0.027873
 </td>
 <td>
-276.489319
+220.003403
 </td>
 <td>
--172.889587
+228.412949
 </td>
 <td>
--1.714886
+5.332988
 </td>
 <td>
-19220
+18010.0
 </td>
 </tr>
 <tr>
 <th>
-113
+1567
 </th>
 <td>
-135.905480
+139.762176
 </td>
 <td>
--34.425866
+-35.345652
 </td>
 <td>
-2.7108
+2.0219
 </td>
 <td>
-0.670323
+0.024593
 </td>
 <td>
-162.431747
+19.890858
 </td>
 <td>
-569.713684
+-91.274986
 </td>
 <td>
-15.066316
+15.448737
 </td>
 <td>
-17934
+19220.0
 </td>
 </tr>
 <tr>
 <th>
-114
+1568
 </th>
 <td>
-135.835578
+138.209780
 </td>
 <td>
--34.509779
+-35.515096
 </td>
 <td>
-3.1224
+-0.0318
 </td>
 <td>
-0.776152
+0.002445
 </td>
 <td>
-89.274399
+131.840439
 </td>
 <td>
-64.385925
+552.684814
 </td>
 <td>
-24.267015
+16.580048
 </td>
 <td>
-18040
+19226.0
 </td>
 </tr>
 </tbody>
 </table>
 <p>
-115 rows × 8 columns
+1569 rows × 8 columns
 </p>
 </div>
+<p><strong>Congrats, you now have an ML dataset ready to go!</strong></p>
+<p>Almost… but what is the target? Let’s make a binary classifier.</p>
 </div>
 </div>
-</div>
-<div id="congrats-you-now-have-an-ml-dataset-ready-to-go" class="section level1">
-<h1>Congrats, you now have an ML dataset ready to go!</h1>
-<p>Let’s explore the data.</p>
-<pre class="python"><code># For nice easy data vis plots
-import seaborn as sns</code></pre>
-<pre class="python"><code># Plot historgrams and scatter plots for each combination of features.
-sns.pairplot(td,palette=&quot;Set1&quot;,diag_kind=&quot;auto&quot;)</code></pre>
-<pre><code>&lt;seaborn.axisgrid.PairGrid at 0x271c9d58f88&gt;</code></pre>
-<div class="figure">
-<img src="01-build_the_data_files/01-build_the_data_48_1.png" alt="" />
-<p class="caption">png</p>
-</div>
-<pre class="python"><code>#Plot a heatmap for how correlated each of the features are
-corr = td.corr() 
+<div id="step-4---generate-a-non-deposit-dataset" class="section level2">
+<h2>Step 4 - Generate a “non-deposit” dataset</h2>
+<p>We have a set of locations where a certain mineral deposit occurs along with the values of various geophysical parameters at those locations. To identify what values of the geophysics are associated with a mineral deposit then we need a representation of the “background noise” of those parameters, i.e. what the values are when there is no mineral deposit.</p>
+<p>This step is important. There are numerous ways to generate our non-deposit set, each with different benefits and trade-offs. The randomisation of points throughout <em>some</em> domain appears to be robust. But you must think, is this domain a reasonable estimation of “background” geophysics/geology? Why are you picking these locations as non-deposits? Will they be over/under-representing actual deposits? Will they be over/under-representing actual non-deposits?</p>
+<pre class="python"><code>#Now make a set of &quot;non-deposits&quot; using a random location within our exploration area
+lats_rand=np.random.uniform(low=min(df.LATITUDE), high=max(df.LATITUDE), size=len(comm.LATITUDE))
+lons_rand=np.random.uniform(low=min(df.LONGITUDE), high=max(df.LONGITUDE), size=len(comm.LONGITUDE))
 
-sns.heatmap(corr,
-            cmap=plt.cm.BrBG, 
-            vmin=-0.5, vmax=0.5, 
-            square=True,
-            xticklabels=True, yticklabels=True,
-            );</code></pre>
-<div class="figure">
-<img src="01-build_the_data_files/01-build_the_data_49_0.png" alt="" />
-<p class="caption">png</p>
-</div>
-<pre class="python"><code>#Plot a regression model through the data
-sns.lmplot(
-    data = td,
-    x = &#39;res&#39;, y = &#39;mag&#39;
-);</code></pre>
+print(&quot;Produced&quot;, len(lats_rand),len(lons_rand), &quot;latitude-longitude pairs for non-deposits.&quot;)</code></pre>
+<pre><code>Produced 1569 1569 latitude-longitude pairs for non-deposits.</code></pre>
+<pre class="python"><code># Where are these randomised &quot;non deposits&quot;
+fig = plt.figure(figsize=(8,8))
+ax = plt.axes()
+
+ax.plot(xval,yval,&#39;grey&#39;,linestyle=&#39;--&#39;,linewidth=1,label=&#39;SA&#39;)
+
+ax.plot(lons_rand, lats_rand, 
+        marker=&#39;.&#39;, linestyle=&#39;&#39;,markersize=1, color=&#39;b&#39;,label=&quot;Random Samples&quot;)
+
+ax.plot(td.LONGITUDE, td.LATITUDE, 
+        marker=&#39;x&#39;, linestyle=&#39;&#39;,markersize=5, color=&#39;y&#39;,label=commname+&quot; Deposits&quot;)
+
+plt.xlim(128.5,141.5)
+plt.ylim(-38.5,-25.5)
+plt.legend(loc=3)
+
+plt.show()</code></pre>
 <div class="figure">
 <img src="01-build_the_data_files/01-build_the_data_50_0.png" alt="" />
 <p class="caption">png</p>
 </div>
-</div>
-<div id="part-2---spatial-data-mining-of-datasets" class="section level1">
-<h1>Part 2 - Spatial data mining of datasets</h1>
-<div id="select-the-commodity-and-geophysical-features-to-use" class="section level3">
-<h3>Select the commodity and geophysical features to use</h3>
-<p>Edit <em>commname</em> above and turn these labels on/off as required. Generally run data mining with all labels. Then can turn these features on/off before running ML if needed.</p>
-</div>
-<div id="generate-the-non-deposit-dataset" class="section level3">
-<h3>Generate the non-deposit dataset</h3>
-<p>This step is important. There are numerous ways to generate our non-deposit set, each with different benefits and trade-offs. The randomisation of points throughout <em>some</em> domain appears to be robust. But you must think, is this domain a reasonable estimation of “background” geophysics/geology? Why are you picking these locations as non-deposits? Will they be over/under-representing actual deposits? Will they be over/under-representing actual non-deposits?</p>
-<p>Change the lows, highs, and sizes as desired. And enforce the points are with some confinement area if needed. A good place to start is within the spatial extent of the known deposits/commodity.</p>
-<pre class="python"><code>#Generate &quot;non-deposit&quot; points within the same spatial domains as deposits (e.g. on land, or in the gawler, or in SA).
-#We may want to train and test just over the regions that the grids are valid.
-#So we can crop the known deposits to the extent of the grids.
+<p>We must do the same coregistration/interrogation of the different data layers for our randomised “non-deposit” data.</p>
+<pre class="python"><code>%%time
 
-polgonshape=shapefile.Reader(&quot;SA-DATA/SA/SA_STATE_POLYGON_shp.shp&quot;)
-#polgonshape=shapefile.Reader(&quot;SA-DATA/GCAS_Boundary/GCAS_Boundary.shp)
-shapesPoly  = polgonshape.shapes()
+td2 = pd.DataFrame({&#39;LONGITUDE&#39;: lons_rand, &#39;LATITUDE&#39;: lats_rand})
+                   
+# Res
+indexes = td2.apply(
+    lambda x: coregPoint(treeres,np.array([x.LONGITUDE, x.LATITUDE]),10,retval=&#39;index&#39;), axis=1)
+    
+td2[&#39;res&#39;] = data_res.loc[indexes].resistivity.values
 
-#Now make a set of &quot;non-deposits&quot; using a random location within our exploration area
-lats_rand=np.random.uniform(low=min(df.LATITUDE), high=max(df.LATITUDE), size=len(comm.LATITUDE))
-lons_rand=np.random.uniform(low=min(df.LONGITUDE), high=max(df.LONGITUDE), size=len(comm.LONGITUDE))
+# Faults
+td2[&#39;faults&#39;] = td2.apply(
+    lambda x: coregPoint(treefaults,np.array([x.LONGITUDE, x.LATITUDE]),100,retval=&#39;dists&#39;), axis=1)
 
-#And enforce the random points are within our the shapefile boudary
-#Probably more efficent ways to do this for larger datasets. Fine for now.
-boundary=shapesPoly[1]
-for i,_ in enumerate(lats_rand):
-    while not Point((lons_rand[i],lats_rand[i])).within(shape(boundary)):
-            lats_rand[i]=random.uniform(min(df.LATITUDE), max(df.LATITUDE))
-            lons_rand[i]=random.uniform(min(df.LONGITUDE), max(df.LONGITUDE))
-            
-print(&quot;Produced&quot;, len(lats_rand),len(lons_rand), &quot;latitude-longitude pairs for non-deposits.&quot;)</code></pre>
-<pre><code>---------------------------------------------------------------------------
+# Geophys
+td2[&#39;dem&#39;] = rastersearch(td2,z1,originx1,originy1,pixelx1,pixely1)
+td2[&#39;mag&#39;] = rastersearch(td2,z2,originx2,originy2,pixelx2,pixely2)
+td2[&#39;grav&#39;] = rastersearch(td2,z3,originx3,originy3,pixelx3,pixely3)
 
-ShapefileException                        Traceback (most recent call last)
-
-&lt;ipython-input-86-16cc1b866924&gt; in &lt;module&gt;
-      3 #So we can crop the known deposits to the extent of the grids.
-      4 
-----&gt; 5 polgonshape=shapefile.Reader(&quot;SA-DATA/SA/SA_STATE_POLYGON_shp.shp&quot;)
-      6 #polgonshape=shapefile.Reader(&quot;SA-DATA/GCAS_Boundary/GCAS_Boundary.shp)
-      7 shapesPoly  = polgonshape.shapes()
-
-
-c:\users\nbutter\miniconda3\envs\geopy\lib\site-packages\shapefile.py in __init__(self, *args, **kwargs)
-    806         if len(args) &gt; 0:
-    807             if is_string(args[0]):
---&gt; 808                 self.load(args[0])
-    809                 return
-    810         # Otherwise, load from separate shp/shx/dbf args (must be file-like)
-
-
-c:\users\nbutter\miniconda3\envs\geopy\lib\site-packages\shapefile.py in load(self, shapefile)
-    933             self.load_dbf(shapeName)
-    934             if not (self.shp or self.dbf):
---&gt; 935                 raise ShapefileException(&quot;Unable to open %s.dbf or %s.shp.&quot; % (shapeName, shapeName))
-    936         if self.shp:
-    937             self.__shpHeader()
-
-
-ShapefileException: Unable to open SA-DATA/SA/SA_STATE_POLYGON_shp.dbf or SA-DATA/SA/SA_STATE_POLYGON_shp.shp.</code></pre>
-<pre class="python"><code>#Save the SA polygon for plotting
-xvalsa = [x[0] for x in shapesPoly[1].points]
-yvalsa = [x[1] for x in shapesPoly[1].points]</code></pre>
-<pre class="python"><code>#Quick plot of where commodity deposit data is and generated non-deposit data
-ax = plt.axes(projection=ccrs.PlateCarree())
-ax.coastlines()
-ax.margins(0.05) # 5% padding to the map boundary so we can see the true extent nicely
-
-ax.plot(comm.LONGITUDE, comm.LATITUDE, marker=&#39;o&#39;, linestyle=&#39;&#39;, color=&#39;y&#39;)
-#ax.plot(lons_rand,lats_rand,marker=&#39;.&#39;,linestyle=&#39;&#39;,color=&#39;k&#39;)
-plt.plot(xval,yval,label=&#39;Gawler&#39;)
-
-plt.show()</code></pre>
-<div class="figure">
-<img src="01-build_the_data_files/01-build_the_data_55_0.png" alt="" />
-<p class="caption">png</p>
-</div>
-</div>
-<div id="define-function-which-performs-coregisteringdata-mining" class="section level3">
-<h3>Define function which performs coregistering/data-mining</h3>
-</div>
-<div id="run-spatial-mining-of-known-deposits-and-non-deposits" class="section level2">
-<h2>Run spatial mining of known deposits and “non-deposits”</h2>
-<p>Must be re-run on each commodity change. Can be saved and just loaded in if data has already been generated.</p>
-<pre class="python"><code>#Load in co-registerd training data
-training_data=pd.read_csv(&quot;ML-DATA/training_data-&quot;+commname+&quot;.csv&quot;,header=0)
-
-#Or if that does not exist run next two cells....</code></pre>
-</div>
-<div id="run-spatial-mining-of-gawler-target-data" class="section level2">
-<h2>Run spatial mining of gawler target data</h2>
-<p>Only needs to be done once. Each commodity uses this same dataset for targetting. The values of the grid are used to predict whatever commodity is run. Depending on target resolution and whether using parallel versions, can take a good amount of time.</p>
-<pre class="python"><code>#Load in target data
-target_data=pd.read_csv(&quot;ML-DATA/target_data.csv&quot;,header=0)
-
-#OR run the next 5 cells....</code></pre>
-<pre class="python"><code>################ RUN FROM HERE ONCE (or use the HPC versions for high-res) ##########################
-#Make a regularly spaced grid here for use in making a probablilty map later
-lats_reg=np.linspace(min(yval),max(yval),10)
-lons_reg=np.linspace(min(xval),max(xval),10)
-#lats_reg=np.arange(min(yval),max(yval)+0.0100,0.0100)
-#lons_reg=np.arange(min(xval),max(xval)+0.0100,0.0100)
-
-sampleData=[]
-for lat in lats_reg:
-    for lon in lons_reg:
-            sampleData.append([lat, lon])
-            
-print(np.size(sampleData))</code></pre>
-<pre class="python"><code>#Run the data-mining/coregistration
-gridgawler=[]
-tic=time.time()
-for geophysparams in sampleData:
-    #lazy_result = delayed(coregLoop)(geophysparams)
-    lazy_result = coregLoop(geophysparams)
-    gridgawler.append(lazy_result)
-print(&quot;appended, now running...&quot;)
-
-#c=compute(gridgawler)
-toc=time.time()
-
-print(&quot;Time taken:&quot;, toc-tic, &quot; seconds&quot;)</code></pre>
-<pre class="python"><code>#Clean up the output file
-target_data=pd.DataFrame(np.squeeze(gridgawler),columns=lons+numerical_features+categorical_features)</code></pre>
-<pre class="python"><code>#Add the categorical shapefile data
-target_data[&#39;geol28&#39;]=target_data.apply(shapeExplore, args=(shapesGeol,recsGeol,1), axis=1)
-target_data[&#39;archean27&#39;]=target_data.apply(shapeExplore, args=(shapesArch,recsArch,-1), axis=1)</code></pre>
-<pre class="python"><code>#Save out the data, and no need to run the co-registration again.
-target_data.to_csv(&quot;target_data.csv&quot;,index=False)
-
-################## RUN TO HERE ONCE #########################</code></pre>
-<pre class="python"><code>#Look at the target data
-#Should be in the same form as the training data WITHOUT the information of whether it is a deposit or non-deposit.
-target_data</code></pre>
+#Geology
+td2[&#39;geol&#39;]=td2.apply(lambda x: shapeExplore(x.LONGITUDE, x.LATITUDE, shapesArch,recsArch,-1), axis=1)</code></pre>
+<pre><code>Wall time: 6min 15s</code></pre>
+<pre class="python"><code>#Add flag indicating classification label
+td[&#39;deposit&#39;]=1
+td2[&#39;deposit&#39;]=0</code></pre>
+<pre class="python"><code>fv = pd.concat([td,td2],axis=0,ignore_index=True)
+fv</code></pre>
 <div>
 <style scoped>
     .dataframe tbody tr th:only-of-type {
@@ -2786,67 +2705,31 @@ target_data</code></pre>
 <th>
 </th>
 <th>
-lon
+LONGITUDE
 </th>
 <th>
-lat
+LATITUDE
 </th>
 <th>
-res-25
+res
 </th>
 <th>
-res-77
+faults
 </th>
 <th>
-res-136
+dem
 </th>
 <th>
-res-201
+mag
 </th>
 <th>
-res-273
+grav
 </th>
 <th>
-res-353
+geol
 </th>
 <th>
-res-442
-</th>
-<th>
-res-541
-</th>
-<th>
-…
-</th>
-<th>
-mag20-rtp
-</th>
-<th>
-mag21-tmi
-</th>
-<th>
-rad22-dose
-</th>
-<th>
-rad23-k
-</th>
-<th>
-rad24-th
-</th>
-<th>
-rad25-u
-</th>
-<th>
-grav26
-</th>
-<th>
-archean27
-</th>
-<th>
-geol28
-</th>
-<th>
-random
+deposit
 </th>
 </tr>
 </thead>
@@ -2856,67 +2739,31 @@ random
 0
 </th>
 <td>
-131.000009
+129.106649
 </td>
 <td>
--32.664987
+-26.135900
 </td>
 <td>
--0.8814
+1.9959
 </td>
 <td>
--0.8562
+0.858696
 </td>
 <td>
--0.7231
+635.556335
 </td>
 <td>
--0.5389
+-395.009888
 </td>
 <td>
--0.3426
+27.653816
 </td>
 <td>
--0.1523
+14552.0
 </td>
 <td>
-0.0268
-</td>
-<td>
-0.1949
-</td>
-<td>
-…
-</td>
-<td>
--9999.000000
-</td>
-<td>
--9999.000000
-</td>
-<td>
--9999.0
-</td>
-<td>
--9999.0
-</td>
-<td>
--9999.0
-</td>
-<td>
--9999.0
-</td>
-<td>
--9999.000000
-</td>
-<td>
-14536
-</td>
-<td>
-1002
-</td>
-<td>
-999.0
+1
 </td>
 </tr>
 <tr>
@@ -2924,67 +2771,31 @@ random
 1
 </th>
 <td>
-131.010009
+132.781571
 </td>
 <td>
--32.664987
+-26.151144
 </td>
 <td>
--0.8814
+2.0450
 </td>
 <td>
--0.8562
+0.607134
 </td>
 <td>
--0.7231
+540.414062
 </td>
 <td>
--0.5389
+-327.329987
 </td>
 <td>
--0.3426
+-83.830025
 </td>
 <td>
--0.1523
+14552.0
 </td>
 <td>
-0.0268
-</td>
-<td>
-0.1949
-</td>
-<td>
-…
-</td>
-<td>
--9999.000000
-</td>
-<td>
--9999.000000
-</td>
-<td>
--9999.0
-</td>
-<td>
--9999.0
-</td>
-<td>
--9999.0
-</td>
-<td>
--9999.0
-</td>
-<td>
--9999.000000
-</td>
-<td>
-14536
-</td>
-<td>
-1002
-</td>
-<td>
-999.0
+1
 </td>
 </tr>
 <tr>
@@ -2992,67 +2803,31 @@ random
 2
 </th>
 <td>
-131.020009
+132.816676
 </td>
 <td>
--32.664987
+-26.159202
 </td>
 <td>
--0.8814
+2.0450
 </td>
 <td>
--0.8562
+0.577540
 </td>
 <td>
--0.7231
+532.723755
 </td>
 <td>
--0.5389
+-51.946140
 </td>
 <td>
--0.3426
+-78.316444
 </td>
 <td>
--0.1523
+14552.0
 </td>
 <td>
-0.0268
-</td>
-<td>
-0.1949
-</td>
-<td>
-…
-</td>
-<td>
--9999.000000
-</td>
-<td>
--9999.000000
-</td>
-<td>
--9999.0
-</td>
-<td>
--9999.0
-</td>
-<td>
--9999.0
-</td>
-<td>
--9999.0
-</td>
-<td>
--9999.000000
-</td>
-<td>
-14536
-</td>
-<td>
-1002
-</td>
-<td>
--999.0
+1
 </td>
 </tr>
 <tr>
@@ -3060,67 +2835,31 @@ random
 3
 </th>
 <td>
-131.030009
+128.945869
 </td>
 <td>
--32.664987
+-26.179362
 </td>
 <td>
--0.8814
+1.9978
 </td>
 <td>
--0.8562
+0.810394
 </td>
 <td>
--0.7231
+99.930511
 </td>
 <td>
--0.5389
+1.357960
 </td>
 <td>
--0.3426
-</td>
-<td>
--0.1523
-</td>
-<td>
-0.0268
-</td>
-<td>
-0.1949
-</td>
-<td>
-…
-</td>
-<td>
--9999.000000
-</td>
-<td>
--9999.000000
+-26.815083
 </td>
 <td>
 -9999.0
 </td>
 <td>
--9999.0
-</td>
-<td>
--9999.0
-</td>
-<td>
--9999.0
-</td>
-<td>
--9999.000000
-</td>
-<td>
-14536
-</td>
-<td>
-1002
-</td>
-<td>
-999.0
+1
 </td>
 </tr>
 <tr>
@@ -3128,67 +2867,31 @@ random
 4
 </th>
 <td>
-131.040009
+132.549807
 </td>
 <td>
--32.664987
+-26.185500
 </td>
 <td>
--0.8814
+2.0694
 </td>
 <td>
--0.8562
+0.652131
 </td>
 <td>
--0.7231
+610.149902
 </td>
 <td>
--0.5389
+-93.218666
 </td>
 <td>
--0.3426
+-86.025749
 </td>
 <td>
--0.1523
+14552.0
 </td>
 <td>
-0.0268
-</td>
-<td>
-0.1949
-</td>
-<td>
-…
-</td>
-<td>
--9999.000000
-</td>
-<td>
--9999.000000
-</td>
-<td>
--9999.0
-</td>
-<td>
--9999.0
-</td>
-<td>
--9999.0
-</td>
-<td>
--9999.0
-</td>
-<td>
--9999.000000
-</td>
-<td>
-14536
-</td>
-<td>
-1002
-</td>
-<td>
-999.0
+1
 </td>
 </tr>
 <tr>
@@ -3222,606 +2925,242 @@ random
 <td>
 …
 </td>
+</tr>
+<tr>
+<th>
+3133
+</th>
 <td>
-…
+133.712523
 </td>
 <td>
-…
+-27.430556
 </td>
 <td>
-…
+1.9932
 </td>
 <td>
-…
+0.034172
 </td>
 <td>
-…
+299.461853
 </td>
 <td>
-…
+306.055725
 </td>
 <td>
-…
+-28.421995
 </td>
 <td>
-…
+18450.0
 </td>
 <td>
-…
-</td>
-<td>
-…
-</td>
-<td>
-…
-</td>
-<td>
-…
+0
 </td>
 </tr>
 <tr>
 <th>
-374161
+3134
 </th>
 <td>
-137.970009
+140.889270
 </td>
 <td>
--27.344987
+-36.470372
 </td>
 <td>
-1.9917
+2.0203
 </td>
 <td>
-1.9870
+0.301697
 </td>
 <td>
-1.9831
+100.141029
 </td>
 <td>
-1.9793
+258.747925
 </td>
 <td>
-1.9749
+-10.375274
 </td>
 <td>
-1.9697
+19222.0
 </td>
 <td>
-1.9647
-</td>
-<td>
-1.9629
-</td>
-<td>
-…
-</td>
-<td>
-60.714424
-</td>
-<td>
-77.071075
-</td>
-<td>
--9999.0
-</td>
-<td>
--9999.0
-</td>
-<td>
--9999.0
-</td>
-<td>
--9999.0
-</td>
-<td>
--36.425686
-</td>
-<td>
-14548
-</td>
-<td>
-2030
-</td>
-<td>
--999.0
+0
 </td>
 </tr>
 <tr>
 <th>
-374162
+3135
 </th>
 <td>
-137.980009
+130.696744
 </td>
 <td>
--27.344987
+-29.254114
 </td>
 <td>
-1.9917
+1.9361
 </td>
 <td>
-1.9870
+0.138681
 </td>
 <td>
-1.9831
+230.664276
 </td>
 <td>
-1.9793
+333.649780
 </td>
 <td>
-1.9749
+-55.481823
 </td>
 <td>
-1.9697
+14544.0
 </td>
 <td>
-1.9647
-</td>
-<td>
-1.9629
-</td>
-<td>
-…
-</td>
-<td>
-58.152508
-</td>
-<td>
-72.153748
-</td>
-<td>
--9999.0
-</td>
-<td>
--9999.0
-</td>
-<td>
--9999.0
-</td>
-<td>
--9999.0
-</td>
-<td>
--35.383732
-</td>
-<td>
-14548
-</td>
-<td>
-2030
-</td>
-<td>
--999.0
+0
 </td>
 </tr>
 <tr>
 <th>
-374163
+3136
 </th>
 <td>
-137.990009
+130.885614
 </td>
 <td>
--27.344987
+-33.879420
 </td>
 <td>
-1.9924
+-0.5771
 </td>
 <td>
-1.9882
+2.035296
 </td>
 <td>
-1.9849
+0.000000
 </td>
 <td>
-1.9819
+0.000000
 </td>
 <td>
-1.9785
+0.000000
 </td>
 <td>
-1.9746
+18459.0
 </td>
 <td>
-1.9707
-</td>
-<td>
-1.9681
-</td>
-<td>
-…
-</td>
-<td>
-56.024078
-</td>
-<td>
-66.960632
-</td>
-<td>
--9999.0
-</td>
-<td>
--9999.0
-</td>
-<td>
--9999.0
-</td>
-<td>
--9999.0
-</td>
-<td>
--34.756775
-</td>
-<td>
-14548
-</td>
-<td>
-2030
-</td>
-<td>
-999.0
+0
 </td>
 </tr>
 <tr>
 <th>
-374164
+3137
 </th>
 <td>
-138.000009
+137.506466
 </td>
 <td>
--27.344987
+-29.854052
 </td>
 <td>
-1.9924
+2.0338
 </td>
 <td>
-1.9882
+0.110331
 </td>
 <td>
-1.9849
+98.923309
 </td>
 <td>
-1.9819
+873.976868
 </td>
 <td>
-1.9785
+-14.238318
 </td>
 <td>
-1.9746
+19218.0
 </td>
 <td>
-1.9707
-</td>
-<td>
-1.9681
-</td>
-<td>
-…
-</td>
-<td>
-53.722004
-</td>
-<td>
-61.110107
-</td>
-<td>
--9999.0
-</td>
-<td>
--9999.0
-</td>
-<td>
--9999.0
-</td>
-<td>
--9999.0
-</td>
-<td>
--34.204567
-</td>
-<td>
-14548
-</td>
-<td>
-2030
-</td>
-<td>
-999.0
-</td>
-</tr>
-<tr>
-<th>
-374165
-</th>
-<td>
-138.010009
-</td>
-<td>
--27.344987
-</td>
-<td>
-1.9924
-</td>
-<td>
-1.9882
-</td>
-<td>
-1.9849
-</td>
-<td>
-1.9819
-</td>
-<td>
-1.9785
-</td>
-<td>
-1.9746
-</td>
-<td>
-1.9707
-</td>
-<td>
-1.9681
-</td>
-<td>
-…
-</td>
-<td>
-51.256954
-</td>
-<td>
-54.969093
-</td>
-<td>
--9999.0
-</td>
-<td>
--9999.0
-</td>
-<td>
--9999.0
-</td>
-<td>
--9999.0
-</td>
-<td>
--33.568863
-</td>
-<td>
-14548
-</td>
-<td>
-2030
-</td>
-<td>
-999.0
+0
 </td>
 </tr>
 </tbody>
 </table>
 <p>
-374166 rows × 97 columns
+3138 rows × 9 columns
 </p>
 </div>
 </div>
 </div>
-<div id="part-3---machine-learning-model" class="section level1">
-<h1>Part 3 - Machine learning model</h1>
-<p>Now we have a fully data-mined, coregistered set of geophysical features. Both for training with known information about our deposits classification labels, and also a target set, we can build and apply the Machine Learning model classifier.</p>
-<pre class="python"><code>#First, we can check some details about the data. 
-#Simple check whether at least MOST of the geophysical parameters have a reasonable value associated with them.
-[print(training_data.columns[i],j) for i,j in enumerate(training_data.median())]
-#If any of these score -9999.0 it is recommended to remove from that column from analysis
-#You can do this, by now &quot;commenting out&quot; the layer in cell 27.</code></pre>
-<pre><code>lon 138.24976824878848
-lat -31.4234139
-res-25 2.0562500000000004
-res-77 2.07275
-res-136 2.0737
-res-201 2.0729
-res-273 2.0686
-res-353 2.0707
-res-442 2.06045
-res-541 2.0584
-res-650 2.0572999999999997
-res-772 2.0549999999999997
-res-907 2.0544000000000002
-res-1056 2.0513
-res-1223 2.05735
-res-1407 2.0737
-res-1612 2.0917000000000003
-res-1839 2.0865
-res-2092 2.0808999999999997
-res-2372 2.0644
-res-2683 2.01925
-res-3028 2.0089
-res-3411 2.0092999999999996
-res-3837 1.9667
-res-4309 1.98135
-res-4833 1.9901499999999999
-res-5414 2.0079000000000002
-res-6060 2.1113999999999997
-res-6776 2.1632
-res-7572 2.252
-res-8455 2.3027499999999996
-res-9435 2.35195
-res-10523 2.4196
-res-11730 2.4535
-res-13071 2.4711499999999997
-res-14559 2.5052
-res-16210 2.4838
-res-18043 2.4543999999999997
-res-20078 2.41535
-res-22337 2.3192500000000003
-res-24844 2.3199
-res-27627 2.33305
-res-30716 2.2951
-res-34145 2.3369999999999997
-res-37951 2.372
-res-42175 2.3846499999999997
-res-46865 2.4406499999999998
-res-52070 2.4587
-res-57847 2.45555
-res-64261 2.51445
-res-71379 2.6096500000000002
-res-79281 2.6209
-res-88052 2.66555
-res-97788 2.6927000000000003
-res-108595 2.7203999999999997
-res-120590 2.68045
-res-133905 2.6466000000000003
-res-148685 2.5894500000000003
-res-165090 2.5436
-res-183300 2.4987500000000002
-res-203513 2.4674500000000004
-res-225950 2.3987
-res-250854 2.3303000000000003
-res-278498 2.2708
-res-309183 2.1997999999999998
-neoFaults 0.0900854008002272
-archFaults 0.29892370502523613
-gairFaults 1.2047528939475927
-aster1-AlOH-cont 1.9861243963241577
-aster2-AlOH 1.0791621804237366
-aster3-FeOH-cont 1.9664206504821777
-aster4-Ferric-cont 1.3717382550239563
-aster5-Ferrous-cont 0.788004457950592
-aster6-Ferrous-index 0.8526997566223145
-aster7-MgOH-comp 0.9859207570552826
-aster8-MgOH-cont 1.0112017393112183
-aster9-green 1.4036157727241516
-aster10-kaolin 0.9091927707195282
-aster11-opaque -9999.0
-aster12-quartz 0.5054315328598022
-aster13-regolith-b3 0.9444536566734314
-aster14-regolith-b4 1.2997069358825684
-aster15-silica 1.066483736038208
-base16 158.21937561035156
-dem17 218.34683990478516
-dtb18 -9999.0
-mag19-2vd -1.4414607676371816e-06
-mag20-rtp -111.75115966796875
-mag21-tmi -117.75409317016602
-rad22-dose 40.579397201538086
-rad23-k 0.9994525611400604
-rad24-th 8.156786918640137
-rad25-u 51.71901512145996
-grav26 -17.332341194152832
-archean27 19208.0
-geol28 15514.0
-random 999.0
-deposit 0.5
+<div id="explatory-data-analysis" class="section level1">
+<h1>Explatory Data Analysis</h1>
+<p>This is often the point you recieve the data in (if you are using any well-formed datasets). But in reality 90% of the time is doing weird data wrangling steps like what we have done. Then 9% is spent exploring your dataset and understanding it more, dealing with missing data, observing correlations. This is often an iterative process. Let’s do some simple visualisations.</p>
+<p>Note: the last 1% of time is actually applying the ML algorithms!</p>
+<pre class="python"><code># For nice easy data vis plots
+import seaborn as sns</code></pre>
+<pre class="python"><code>missingNo = fv.isnull().sum(axis = 0).sort_values(ascending = False)
+missingNo = missingNo[missingNo.values  &gt; 0]
+missingNo
 
+sns.barplot(missingNo.values, missingNo.index);</code></pre>
+<pre><code>c:\users\nbutter\miniconda3\envs\geopy\lib\site-packages\seaborn\_decorators.py:43: FutureWarning: Pass the following variables as keyword args: x, y. From version 0.12, the only valid positional argument will be `data`, and passing other arguments without an explicit keyword will result in an error or misinterpretation.
+  FutureWarning</code></pre>
+<div class="figure">
+<img src="01-build_the_data_files/01-build_the_data_57_1.png" alt="" />
+<p class="caption">png</p>
+</div>
+<pre class="python"><code>import upsetplot</code></pre>
+<pre class="python"><code>missing_cols = missingNo.index[:5].tolist()
+missing_counts = (fv.loc[:, missing_cols]
+                  .isnull()
+                  .groupby(missing_cols)
+                  .size())
 
+upsetplot.plot(missing_counts);</code></pre>
+<div class="figure">
+<img src="01-build_the_data_files/01-build_the_data_59_0.png" alt="" />
+<p class="caption">png</p>
+</div>
+<pre class="python"><code># Plot historgrams and scatter plots for each combination of features.
+sns.pairplot(fv,hue=&#39;deposit&#39;,palette=&quot;Set1&quot;,diag_kind=&quot;auto&quot;)</code></pre>
+<pre><code>&lt;seaborn.axisgrid.PairGrid at 0x20b89278d88&gt;</code></pre>
+<div class="figure">
+<img src="01-build_the_data_files/01-build_the_data_60_1.png" alt="" />
+<p class="caption">png</p>
+</div>
+<pre class="python"><code>#Plot a heatmap for how correlated each of the features are
+corr = td.corr() 
 
-
-
-[None,
- None,
- None,
- None,
- None,
- None,
- None,
- None,
- None,
- None,
- None,
- None,
- None,
- None,
- None,
- None,
- None,
- None,
- None,
- None,
- None,
- None,
- None,
- None,
- None,
- None,
- None,
- None,
- None,
- None,
- None,
- None,
- None,
- None,
- None,
- None,
- None,
- None,
- None,
- None,
- None,
- None,
- None,
- None,
- None,
- None,
- None,
- None,
- None,
- None,
- None,
- None,
- None,
- None,
- None,
- None,
- None,
- None,
- None,
- None,
- None,
- None,
- None,
- None,
- None,
- None,
- None,
- None,
- None,
- None,
- None,
- None,
- None,
- None,
- None,
- None,
- None,
- None,
- None,
- None,
- None,
- None,
- None,
- None,
- None,
- None,
- None,
- None,
- None,
- None,
- None,
- None,
- None,
- None,
- None,
- None,
- None,
- None]</code></pre>
+sns.heatmap(corr,
+            cmap=plt.cm.BrBG, 
+            vmin=-0.5, vmax=0.5, 
+            square=True,
+            xticklabels=True, yticklabels=True,
+            );</code></pre>
+<div class="figure">
+<img src="01-build_the_data_files/01-build_the_data_61_0.png" alt="" />
+<p class="caption">png</p>
+</div>
+</div>
+<div id="machine-learning" class="section level1">
+<h1>Machine Learning</h1>
+<p>We now have a clean dataset, we know a bit about, let’s try and measure some inferences.</p>
 <div id="ml-classification" class="section level3">
 <h3>ML Classification</h3>
 <p>This is where the ML classifier is defined. We can substitue our favourite ML technique here, and tune model variables as desired. The default choices are recommended for the Gawler region.</p>
+<pre class="python"><code>from sklearn.pipeline import Pipeline
+from sklearn.impute import SimpleImputer
+from sklearn.preprocessing import StandardScaler
+from sklearn.preprocessing import OneHotEncoder
+from sklearn.compose import ColumnTransformer
+from sklearn.ensemble import RandomForestClassifier</code></pre>
+<pre class="python"><code>features.columns</code></pre>
+<pre><code>Index([&#39;res&#39;, &#39;faults&#39;, &#39;dem&#39;, &#39;mag&#39;, &#39;grav&#39;, &#39;geol&#39;], dtype=&#39;object&#39;)</code></pre>
 <pre class="python"><code>#Create the &#39;feature vector&#39; and a &#39;target classification vector&#39;
-features=training_data[numerical_features+categorical_features]
-targets=training_data.deposit
+features=fv.iloc[:,2:-1]
+targets=fv.deposit
 
 #Create the ML classifier with numerical and categorical data
 #Scale, and replace missing values
@@ -3836,43 +3175,16 @@ categorical_transformer = Pipeline(steps=[
 
 #Combine numerical and categorical data
 preprocessor = ColumnTransformer(transformers=[
-        (&#39;num&#39;, numeric_transformer, numerical_features),
-        (&#39;cat&#39;, categorical_transformer, categorical_features)])
+        (&#39;num&#39;, numeric_transformer, [&#39;res&#39;, &#39;faults&#39;, &#39;dem&#39;, &#39;mag&#39;, &#39;grav&#39;]),
+        (&#39;cat&#39;, categorical_transformer, [&#39;geol&#39;])])
 
 # Append classifier to preprocessing pipeline.
 # Now we have a full prediction pipeline.
 rf = Pipeline(steps=[(&#39;preprocessor&#39;, preprocessor),
                 (&#39;classifier&#39;, RandomForestClassifier(random_state=1))])
 </code></pre>
-<pre class="python"><code>#You can apply weighting to the model here. 
-#We find manual selction (i.e with sound geological reasoning) of deposits is probably more robust 
-#than applying arbitrary weighting of class labels. 
-#Nevertheless, we can do this if desired by uncommenting and tweaking  the following.
-
-weights=np.ones(len(training_data))
-weightcount=0
-
-#Algorithm for setting weight values, point by point
-# for i,row in enumerate(training_data[training_data.deposit==1].itertuples()):
-#     xloc1=(np.abs(np.array(comm.LONGITUDE) - row.lon).argmin())
-#     if comm.loc[xloc1].SIZE_VAL==&quot;Locally Significant&quot;:
-#         weights[i]=2
-#     elif comm.loc[xloc1].SIZE_VAL==&quot;Significant to SA&quot;:
-#         weights[i]=4
-#     elif comm.loc[xloc1].SIZE_VAL==&quot;Significant to Australia&quot;:
-#         weights[i]=8
-#     elif comm.loc[xloc1].SIZE_VAL==&quot;World-wide Significance&quot;:
-#         weights[i]=16
-#     else:
-#         #Else keep the weight at 1
-#         weightcount+=1
-#         weights[i]=0
-#         continue
-        
-
-    </code></pre>
 <pre class="python"><code>print(&#39;Tranining the Clasifier...&#39;)
-rf.fit(features,targets,**{&#39;classifier__sample_weight&#39;: weights})
+rf.fit(features,targets)
 
 print(&quot;Done RF. Now scoring...&quot;)
 scores = cross_val_score(rf, features,targets, cv=10)
@@ -3886,21 +3198,236 @@ plt.xlabel(&quot;Feature set&quot;)
 plt.ylabel(&quot;Target/Prediction&quot;)
 plt.legend(loc=7)</code></pre>
 <pre><code>Tranining the Clasifier...
-Done RF. Now scoring...
-RF 10-fold cross validation Scores: [0.95652174 0.86956522 1.         0.86956522 0.91304348 0.91304348
- 0.7826087  0.86956522 0.82608696 0.69565217]
-SCORE Mean: 0.87 STD: 0.08 
 
 
 
+---------------------------------------------------------------------------
+
+ValueError                                Traceback (most recent call last)
+
+&lt;ipython-input-103-4e7e9a7dd844&gt; in &lt;module&gt;
+      1 print(&#39;Tranining the Clasifier...&#39;)
+----&gt; 2 rf.fit(features,targets)
+      3 
+      4 print(&quot;Done RF. Now scoring...&quot;)
+      5 scores = cross_val_score(rf, features,targets, cv=10)
 
 
+c:\users\nbutter\miniconda3\envs\geopy\lib\site-packages\sklearn\pipeline.py in fit(self, X, y, **fit_params)
+    339         &quot;&quot;&quot;
+    340         fit_params_steps = self._check_fit_params(**fit_params)
+--&gt; 341         Xt = self._fit(X, y, **fit_params_steps)
+    342         with _print_elapsed_time(&#39;Pipeline&#39;,
+    343                                  self._log_message(len(self.steps) - 1)):
 
-&lt;matplotlib.legend.Legend at 0x7ff04942bd30&gt;</code></pre>
-<div class="figure">
-<img src="01-build_the_data_files/01-build_the_data_72_2.png" alt="" />
-<p class="caption">png</p>
-</div>
+
+c:\users\nbutter\miniconda3\envs\geopy\lib\site-packages\sklearn\pipeline.py in _fit(self, X, y, **fit_params_steps)
+    305                 message_clsname=&#39;Pipeline&#39;,
+    306                 message=self._log_message(step_idx),
+--&gt; 307                 **fit_params_steps[name])
+    308             # Replace the transformer of the step with the fitted
+    309             # transformer. This is necessary when loading the transformer
+
+
+c:\users\nbutter\miniconda3\envs\geopy\lib\site-packages\joblib\memory.py in __call__(self, *args, **kwargs)
+    350 
+    351     def __call__(self, *args, **kwargs):
+--&gt; 352         return self.func(*args, **kwargs)
+    353 
+    354     def call_and_shelve(self, *args, **kwargs):
+
+
+c:\users\nbutter\miniconda3\envs\geopy\lib\site-packages\sklearn\pipeline.py in _fit_transform_one(transformer, X, y, weight, message_clsname, message, **fit_params)
+    752     with _print_elapsed_time(message_clsname, message):
+    753         if hasattr(transformer, &#39;fit_transform&#39;):
+--&gt; 754             res = transformer.fit_transform(X, y, **fit_params)
+    755         else:
+    756             res = transformer.fit(X, y, **fit_params).transform(X)
+
+
+c:\users\nbutter\miniconda3\envs\geopy\lib\site-packages\sklearn\compose\_column_transformer.py in fit_transform(self, X, y)
+    505         self._validate_remainder(X)
+    506 
+--&gt; 507         result = self._fit_transform(X, y, _fit_transform_one)
+    508 
+    509         if not result:
+
+
+c:\users\nbutter\miniconda3\envs\geopy\lib\site-packages\sklearn\compose\_column_transformer.py in _fit_transform(self, X, y, func, fitted)
+    441                     message=self._log_message(name, idx, len(transformers)))
+    442                 for idx, (name, trans, column, weight) in enumerate(
+--&gt; 443                         self._iter(fitted=fitted, replace_strings=True), 1))
+    444         except ValueError as e:
+    445             if &quot;Expected 2D array, got 1D array instead&quot; in str(e):
+
+
+c:\users\nbutter\miniconda3\envs\geopy\lib\site-packages\joblib\parallel.py in __call__(self, iterable)
+   1039             # remaining jobs.
+   1040             self._iterating = False
+-&gt; 1041             if self.dispatch_one_batch(iterator):
+   1042                 self._iterating = self._original_iterator is not None
+   1043 
+
+
+c:\users\nbutter\miniconda3\envs\geopy\lib\site-packages\joblib\parallel.py in dispatch_one_batch(self, iterator)
+    857                 return False
+    858             else:
+--&gt; 859                 self._dispatch(tasks)
+    860                 return True
+    861 
+
+
+c:\users\nbutter\miniconda3\envs\geopy\lib\site-packages\joblib\parallel.py in _dispatch(self, batch)
+    775         with self._lock:
+    776             job_idx = len(self._jobs)
+--&gt; 777             job = self._backend.apply_async(batch, callback=cb)
+    778             # A job can complete so quickly than its callback is
+    779             # called before we get here, causing self._jobs to
+
+
+c:\users\nbutter\miniconda3\envs\geopy\lib\site-packages\joblib\_parallel_backends.py in apply_async(self, func, callback)
+    206     def apply_async(self, func, callback=None):
+    207         &quot;&quot;&quot;Schedule a func to be run&quot;&quot;&quot;
+--&gt; 208         result = ImmediateResult(func)
+    209         if callback:
+    210             callback(result)
+
+
+c:\users\nbutter\miniconda3\envs\geopy\lib\site-packages\joblib\_parallel_backends.py in __init__(self, batch)
+    570         # Don&#39;t delay the application, to avoid keeping the input
+    571         # arguments in memory
+--&gt; 572         self.results = batch()
+    573 
+    574     def get(self):
+
+
+c:\users\nbutter\miniconda3\envs\geopy\lib\site-packages\joblib\parallel.py in __call__(self)
+    261         with parallel_backend(self._backend, n_jobs=self._n_jobs):
+    262             return [func(*args, **kwargs)
+--&gt; 263                     for func, args, kwargs in self.items]
+    264 
+    265     def __reduce__(self):
+
+
+c:\users\nbutter\miniconda3\envs\geopy\lib\site-packages\joblib\parallel.py in &lt;listcomp&gt;(.0)
+    261         with parallel_backend(self._backend, n_jobs=self._n_jobs):
+    262             return [func(*args, **kwargs)
+--&gt; 263                     for func, args, kwargs in self.items]
+    264 
+    265     def __reduce__(self):
+
+
+c:\users\nbutter\miniconda3\envs\geopy\lib\site-packages\sklearn\utils\fixes.py in __call__(self, *args, **kwargs)
+    220     def __call__(self, *args, **kwargs):
+    221         with config_context(**self.config):
+--&gt; 222             return self.function(*args, **kwargs)
+
+
+c:\users\nbutter\miniconda3\envs\geopy\lib\site-packages\sklearn\pipeline.py in _fit_transform_one(transformer, X, y, weight, message_clsname, message, **fit_params)
+    752     with _print_elapsed_time(message_clsname, message):
+    753         if hasattr(transformer, &#39;fit_transform&#39;):
+--&gt; 754             res = transformer.fit_transform(X, y, **fit_params)
+    755         else:
+    756             res = transformer.fit(X, y, **fit_params).transform(X)
+
+
+c:\users\nbutter\miniconda3\envs\geopy\lib\site-packages\sklearn\pipeline.py in fit_transform(self, X, y, **fit_params)
+    376         &quot;&quot;&quot;
+    377         fit_params_steps = self._check_fit_params(**fit_params)
+--&gt; 378         Xt = self._fit(X, y, **fit_params_steps)
+    379 
+    380         last_step = self._final_estimator
+
+
+c:\users\nbutter\miniconda3\envs\geopy\lib\site-packages\sklearn\pipeline.py in _fit(self, X, y, **fit_params_steps)
+    305                 message_clsname=&#39;Pipeline&#39;,
+    306                 message=self._log_message(step_idx),
+--&gt; 307                 **fit_params_steps[name])
+    308             # Replace the transformer of the step with the fitted
+    309             # transformer. This is necessary when loading the transformer
+
+
+c:\users\nbutter\miniconda3\envs\geopy\lib\site-packages\joblib\memory.py in __call__(self, *args, **kwargs)
+    350 
+    351     def __call__(self, *args, **kwargs):
+--&gt; 352         return self.func(*args, **kwargs)
+    353 
+    354     def call_and_shelve(self, *args, **kwargs):
+
+
+c:\users\nbutter\miniconda3\envs\geopy\lib\site-packages\sklearn\pipeline.py in _fit_transform_one(transformer, X, y, weight, message_clsname, message, **fit_params)
+    752     with _print_elapsed_time(message_clsname, message):
+    753         if hasattr(transformer, &#39;fit_transform&#39;):
+--&gt; 754             res = transformer.fit_transform(X, y, **fit_params)
+    755         else:
+    756             res = transformer.fit(X, y, **fit_params).transform(X)
+
+
+c:\users\nbutter\miniconda3\envs\geopy\lib\site-packages\sklearn\base.py in fit_transform(self, X, y, **fit_params)
+    700         else:
+    701             # fit method of arity 2 (supervised transformation)
+--&gt; 702             return self.fit(X, y, **fit_params).transform(X)
+    703 
+    704 
+
+
+c:\users\nbutter\miniconda3\envs\geopy\lib\site-packages\sklearn\impute\_base.py in fit(self, X, y)
+    286         self : SimpleImputer
+    287         &quot;&quot;&quot;
+--&gt; 288         X = self._validate_input(X, in_fit=True)
+    289 
+    290         # default fill_value is 0 for numerical input and &quot;missing_value&quot;
+
+
+c:\users\nbutter\miniconda3\envs\geopy\lib\site-packages\sklearn\impute\_base.py in _validate_input(self, X, in_fit)
+    260                 raise new_ve from None
+    261             else:
+--&gt; 262                 raise ve
+    263 
+    264         _check_inputs_dtype(X, self.missing_values)
+
+
+c:\users\nbutter\miniconda3\envs\geopy\lib\site-packages\sklearn\impute\_base.py in _validate_input(self, X, in_fit)
+    253                                     accept_sparse=&#39;csc&#39;, dtype=dtype,
+    254                                     force_all_finite=force_all_finite,
+--&gt; 255                                     copy=self.copy)
+    256         except ValueError as ve:
+    257             if &quot;could not convert&quot; in str(ve):
+
+
+c:\users\nbutter\miniconda3\envs\geopy\lib\site-packages\sklearn\base.py in _validate_data(self, X, y, reset, validate_separately, **check_params)
+    419             out = X
+    420         elif isinstance(y, str) and y == &#39;no_validation&#39;:
+--&gt; 421             X = check_array(X, **check_params)
+    422             out = X
+    423         else:
+
+
+c:\users\nbutter\miniconda3\envs\geopy\lib\site-packages\sklearn\utils\validation.py in inner_f(*args, **kwargs)
+     61             extra_args = len(args) - len(all_args)
+     62             if extra_args &lt;= 0:
+---&gt; 63                 return f(*args, **kwargs)
+     64 
+     65             # extra_args &gt; 0
+
+
+c:\users\nbutter\miniconda3\envs\geopy\lib\site-packages\sklearn\utils\validation.py in check_array(array, accept_sparse, accept_large_sparse, dtype, order, copy, force_all_finite, ensure_2d, allow_nd, ensure_min_samples, ensure_min_features, estimator)
+    719         if force_all_finite:
+    720             _assert_all_finite(array,
+--&gt; 721                                allow_nan=force_all_finite == &#39;allow-nan&#39;)
+    722 
+    723     if ensure_min_samples &gt; 0:
+
+
+c:\users\nbutter\miniconda3\envs\geopy\lib\site-packages\sklearn\utils\validation.py in _assert_all_finite(X, allow_nan, msg_dtype)
+    104                     msg_err.format
+    105                     (type_err,
+--&gt; 106                      msg_dtype if msg_dtype is not None else X.dtype)
+    107             )
+    108     # for object dtype data, we only check for NaNs (GH-13254)
+
+
+ValueError: Input contains NaN, infinity or a value too large for dtype(&#39;float64&#39;).</code></pre>
 <pre class="python"><code>#Make a plot out the feature scores. 
 #These are the important parameters that are correlated with the deposits.
 
@@ -3939,7 +3466,7 @@ plt.show()
 
 #plt.xticks([0,1,2,3,4,5,7,81,82,83,84,85,86])</code></pre>
 <div class="figure">
-<img src="01-build_the_data_files/01-build_the_data_74_0.png" alt="" />
+<img src="01-build_the_data_files/01-build_the_data_69_0.png" alt="" />
 <p class="caption">png</p>
 </div>
 <pre class="python"><code>#Chec the probabilities at each of the deposit/non-deposit points
@@ -3957,7 +3484,7 @@ Done RF
 
 [&lt;matplotlib.lines.Line2D at 0x7ff04905b0b8&gt;]</code></pre>
 <div class="figure">
-<img src="01-build_the_data_files/01-build_the_data_75_2.png" alt="" />
+<img src="01-build_the_data_files/01-build_the_data_70_2.png" alt="" />
 <p class="caption">png</p>
 </div>
 </div>
@@ -4072,7 +3599,7 @@ plt.show()</code></pre>
 &lt;urlopen error [Errno -5] No address associated with hostname&gt;
 &lt;urlopen error [Errno -5] No address associated with hostname&gt;</code></pre>
 <div class="figure">
-<img src="01-build_the_data_files/01-build_the_data_80_1.png" alt="" />
+<img src="01-build_the_data_files/01-build_the_data_75_1.png" alt="" />
 <p class="caption">png</p>
 </div>
 <pre class="python"><code># Import numpy for array processing
