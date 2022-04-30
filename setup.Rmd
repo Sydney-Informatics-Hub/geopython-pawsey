@@ -9,19 +9,27 @@ output:
 
 We will be connecting to Jupyter Notebook Servers hosted on Pawsey's Nimbus Cloud. 
 Each server has been pre-configured with the data and code ready to run through these tutorials.
-Everyone will be issued with a unique web address.
+Everyone will be issued with a unique web address and password.
 **Go to the address you are given and you are ready to go!**
-
-If you are arriving here in the future or would like to set up the environment on your local machine instead, follow these instructions:
-
-# 1. Download the data
-
-or clone the repo and get the data from the data directory.
-
 
 <br>
 
-# 2. Get a Python client
+If you are arriving here in the future or would like to set up the environment on your local machine instead, follow these instructions:
+
+
+## 1. Download the data
+
+Grab a copy from: https://github.com/Sydney-Informatics-Hub/geopython-pawsey/tree/main/_ipynb/data
+
+Or clone the repo and get the notebooks and data from the ```_ipynb``` directory:
+
+```
+git clone https://github.com/Sydney-Informatics-Hub/geopython-pawsey
+```
+
+<br>
+
+## 2. Get a Python client
 
 We generally use and recommend Miniconda Python distribution: [https://docs.conda.io/en/latest/miniconda.html](https://docs.conda.io/en/latest/miniconda.html). But feel free to use whatever one works for you (and the course materials). We will be using Miniconda3-py39_4.11.0.
 
@@ -40,7 +48,7 @@ Once installed, launch an "Anaconda Prompt" from the Start Menu / Applications F
 <br>
 
 
-# 3. Setup your Python environment (install required packages and libraries)
+## 3. Setup your Python environment (install required packages and libraries)
 
 Next we need to set up an environment with all the additional packages and libraries we will be using throughout the course.
 
@@ -49,12 +57,14 @@ conda install -c conda-forge scikit-learn seaborn
 pip install jupyterlab
 ```
 
-This should install other key libraries e.g. ```numpy, matplotlib, pandas``` as dependencies.
+This should install other key libraries e.g. ```numpy, matplotlib, pandas, pyshp``` as dependencies.
 
 
 <br>
 
-# To setup the Jupyter Notebook server (unsecured) on a Pawsey instance
+# DEVS: To setup the (relatively unsecure) Jupyter Notebook server on a Pawsey Nimbus Cloud instance
+
+These are the instructions we used to provide the notebook instance as a weblink.
 
 ```
 jupyter notebook --generate-config

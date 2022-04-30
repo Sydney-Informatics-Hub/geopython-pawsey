@@ -1247,9 +1247,9 @@ x2,y2,z2,originx2,originy2,pixelx2,pixely2 = readnc(&quot;data/sa-mag-tmi.nc&quo
 x3,y3,z3,originx3,originy3,pixelx3,pixely3 = readnc(&quot;data/sa-grav.nc&quot;)</code></pre>
 <pre><code>Loaded data/sa-dem.nc in 0.02s
 Spacing x 0.01 y 0.01 Shape: (1208, 1201) Min x: 129.005 Max x: 141.005 Min y: -38.065 Max y -25.99
-Loaded data/sa-mag-tmi.nc in 0.02s
+Loaded data/sa-mag-tmi.nc in 0.01s
 Spacing x 0.01 y 0.01 Shape: (1208, 1201) Min x: 129.005 Max x: 141.005 Min y: -38.065 Max y -25.99
-Loaded data/sa-grav.nc in 0.02s
+Loaded data/sa-grav.nc in 0.01s
 Spacing x 0.01 y 0.01 Shape: (1208, 1201) Min x: 129.005 Max x: 141.005 Min y: -38.065 Max y -25.99</code></pre>
 <pre class="python"><code>fig = plt.figure(figsize=(8,8))
 ax = plt.axes()
@@ -1311,8 +1311,8 @@ for i,field in enumerate(geolshape.fields):
 <pre class="python"><code>fig = plt.figure(figsize=(8,8))
 ax = plt.axes()
 
-#index of the geology unit 
-geoindex = 23
+#index of the geology unit #4 #10 #12
+geoindex = 4
 #Gather all the unique Major Geology unit numbers
 labs=[]
 for i in recsArch:
@@ -2245,11 +2245,11 @@ def shapeExplore(lon,lat,shapes,recs,record):
         if Point((lon,lat)).within(shape(boundary)):
             return(recs[i][record])
     #if you have been through the loop with no result
-    return(-9999.)</code></pre>
+    return(&#39;-9999&#39;)</code></pre>
 <pre class="python"><code>%%time
-geoindex = 23
+geoindex = 4
 td1[&#39;geol&#39;]=td1.apply(lambda x: shapeExplore(x.LONGITUDE, x.LATITUDE, shapesArch,recsArch,geoindex), axis=1)</code></pre>
-<pre><code>Wall time: 28.5 s</code></pre>
+<pre><code>Wall time: 12.6 s</code></pre>
 <pre class="python"><code>td1</code></pre>
 <div>
 <style scoped>
@@ -2283,7 +2283,7 @@ res
 faults
 </th>
 <th>
-dem
+…
 </th>
 <th>
 mag
@@ -2293,6 +2293,9 @@ grav
 </th>
 <th>
 geol
+</th>
+<th>
+deposit
 </th>
 </tr>
 </thead>
@@ -2314,7 +2317,7 @@ geol
 0.010691
 </td>
 <td>
-187.297424
+…
 </td>
 <td>
 -118.074890
@@ -2323,7 +2326,10 @@ geol
 1.852599
 </td>
 <td>
-19214
+Crustal element Muloorina
+</td>
+<td>
+1
 </td>
 </tr>
 <tr>
@@ -2343,7 +2349,7 @@ geol
 0.103741
 </td>
 <td>
-179.499237
+…
 </td>
 <td>
 -209.410507
@@ -2352,7 +2358,10 @@ geol
 -12.722121
 </td>
 <td>
-19218
+Crustal element Adelaide
+</td>
+<td>
+1
 </td>
 </tr>
 <tr>
@@ -2372,7 +2381,7 @@ geol
 0.006659
 </td>
 <td>
-398.336823
+…
 </td>
 <td>
 -159.566422
@@ -2381,7 +2390,10 @@ geol
 -6.249788
 </td>
 <td>
-19218
+Crustal element Adelaide
+</td>
+<td>
+1
 </td>
 </tr>
 <tr>
@@ -2401,7 +2413,7 @@ geol
 0.013925
 </td>
 <td>
-335.983429
+…
 </td>
 <td>
 -131.176437
@@ -2410,7 +2422,10 @@ geol
 -11.665316
 </td>
 <td>
-19218
+Crustal element Adelaide
+</td>
+<td>
+1
 </td>
 </tr>
 <tr>
@@ -2430,7 +2445,7 @@ geol
 0.007356
 </td>
 <td>
-554.278198
+…
 </td>
 <td>
 -192.363297
@@ -2439,13 +2454,19 @@ geol
 -1.025702
 </td>
 <td>
-19218
+Crustal element Adelaide
+</td>
+<td>
+1
 </td>
 </tr>
 <tr>
 <th>
 …
 </th>
+<td>
+…
+</td>
 <td>
 …
 </td>
@@ -2488,7 +2509,7 @@ geol
 0.526835
 </td>
 <td>
-45.866119
+…
 </td>
 <td>
 -244.067841
@@ -2497,7 +2518,10 @@ geol
 11.410070
 </td>
 <td>
-18032
+Cleve, Spencer, Olympic Domains
+</td>
+<td>
+1
 </td>
 </tr>
 <tr>
@@ -2517,7 +2541,7 @@ geol
 0.002451
 </td>
 <td>
-145.452789
+…
 </td>
 <td>
 -203.566940
@@ -2526,7 +2550,10 @@ geol
 18.458364
 </td>
 <td>
-19226
+Crustal element Kanmantoo SW
+</td>
+<td>
+1
 </td>
 </tr>
 <tr>
@@ -2546,7 +2573,7 @@ geol
 0.027837
 </td>
 <td>
-276.489319
+…
 </td>
 <td>
 -172.889587
@@ -2555,7 +2582,10 @@ geol
 -1.714886
 </td>
 <td>
-19220
+Crustal element Kanmantoo Main
+</td>
+<td>
+1
 </td>
 </tr>
 <tr>
@@ -2575,7 +2605,7 @@ geol
 0.670323
 </td>
 <td>
-162.431747
+…
 </td>
 <td>
 569.713684
@@ -2584,7 +2614,10 @@ geol
 15.066316
 </td>
 <td>
-17934
+Cleve Domain
+</td>
+<td>
+1
 </td>
 </tr>
 <tr>
@@ -2604,7 +2637,7 @@ geol
 0.776152
 </td>
 <td>
-89.274399
+…
 </td>
 <td>
 64.385925
@@ -2613,13 +2646,16 @@ geol
 24.267015
 </td>
 <td>
-18040
+Cleve Domain
+</td>
+<td>
+1
 </td>
 </tr>
 </tbody>
 </table>
 <p>
-115 rows × 8 columns
+115 rows × 9 columns
 </p>
 </div>
 <p><strong>Congrats, you now have an ML dataset ready to go!</strong></p>
@@ -2679,7 +2715,7 @@ td2[&#39;grav&#39;] = rastersearch(td2,z3,originx3,originy3,pixelx3,pixely3)
 
 #Geology
 td2[&#39;geol&#39;]=td2.apply(lambda x: shapeExplore(x.LONGITUDE, x.LATITUDE, shapesArch,recsArch,geoindex), axis=1)</code></pre>
-<pre><code>Wall time: 1min 3s</code></pre>
+<pre><code>Wall time: 33.3 s</code></pre>
 <pre class="python"><code>#Add flag indicating classification label
 td1[&#39;deposit&#39;]=1
 td2[&#39;deposit&#39;]=0</code></pre>
@@ -2760,7 +2796,7 @@ deposit
 1.852599
 </td>
 <td>
-19214.0
+Crustal element Muloorina
 </td>
 <td>
 1
@@ -2792,7 +2828,7 @@ deposit
 -12.722121
 </td>
 <td>
-19218.0
+Crustal element Adelaide
 </td>
 <td>
 1
@@ -2824,7 +2860,7 @@ deposit
 -6.249788
 </td>
 <td>
-19218.0
+Crustal element Adelaide
 </td>
 <td>
 1
@@ -2856,7 +2892,7 @@ deposit
 -11.665316
 </td>
 <td>
-19218.0
+Crustal element Adelaide
 </td>
 <td>
 1
@@ -2888,7 +2924,7 @@ deposit
 -1.025702
 </td>
 <td>
-19218.0
+Crustal element Adelaide
 </td>
 <td>
 1
@@ -2931,28 +2967,28 @@ deposit
 225
 </th>
 <td>
-132.788709
+140.421524
 </td>
 <td>
--36.869374
+-34.069037
 </td>
 <td>
--0.5332
+1.8906
 </td>
 <td>
-2.990363
+0.045492
 </td>
 <td>
 …
 </td>
 <td>
-0.000000
+29.806763
 </td>
 <td>
-0.000000
+-36.272560
 </td>
 <td>
--9999.0
+Crustal element Glenelg
 </td>
 <td>
 0
@@ -2963,28 +2999,28 @@ deposit
 226
 </th>
 <td>
-130.538900
+138.979006
 </td>
 <td>
--30.898734
+-37.648744
 </td>
 <td>
-1.7892
+-0.2206
 </td>
 <td>
-0.073726
+1.166620
 </td>
 <td>
 …
 </td>
 <td>
-176.828751
+0.000000
 </td>
 <td>
--55.351192
+0.000000
 </td>
 <td>
-14546.0
+-9999
 </td>
 <td>
 0
@@ -2995,28 +3031,28 @@ deposit
 227
 </th>
 <td>
-140.829910
+130.239881
 </td>
 <td>
--29.794947
+-36.827560
 </td>
 <td>
-1.8930
+-0.5218
 </td>
 <td>
-0.305424
+4.277106
 </td>
 <td>
 …
 </td>
 <td>
--23.717085
+0.000000
 </td>
 <td>
--5.648320
+0.000000
 </td>
 <td>
-19216.0
+-9999
 </td>
 <td>
 0
@@ -3027,16 +3063,16 @@ deposit
 228
 </th>
 <td>
-130.045784
+130.768591
 </td>
 <td>
--35.619533
+-34.504096
 </td>
 <td>
--0.5223
+-0.5421
 </td>
 <td>
-3.560801
+2.352863
 </td>
 <td>
 …
@@ -3048,7 +3084,7 @@ deposit
 0.000000
 </td>
 <td>
--9999.0
+-9999
 </td>
 <td>
 0
@@ -3059,28 +3095,28 @@ deposit
 229
 </th>
 <td>
-134.424751
+130.717957
 </td>
 <td>
--32.627550
+-36.000290
 </td>
 <td>
-2.6836
+-0.5222
 </td>
 <td>
-0.695349
+3.333726
 </td>
 <td>
 …
 </td>
 <td>
--98.837875
+0.000000
 </td>
 <td>
--5.774666
+0.000000
 </td>
 <td>
-18458.0
+-9999
 </td>
 <td>
 0
@@ -3109,13 +3145,13 @@ Data columns (total 9 columns):
  1   LATITUDE   230 non-null    float64
  2   res        230 non-null    float64
  3   faults     230 non-null    float64
- 4   dem        223 non-null    float64
- 5   mag        223 non-null    float64
- 6   grav       223 non-null    float64
- 7   geol       230 non-null    float64
+ 4   dem        226 non-null    float64
+ 5   mag        226 non-null    float64
+ 6   grav       226 non-null    float64
+ 7   geol       230 non-null    object 
  8   deposit    230 non-null    int64  
-dtypes: float64(8), int64(1)
-memory usage: 16.3 KB</code></pre>
+dtypes: float64(7), int64(1), object(1)
+memory usage: 16.3+ KB</code></pre>
 <pre class="python"><code># For nice easy data vis plots
 import seaborn as sns</code></pre>
 <pre class="python"><code>missingNo = fv.isnull().sum(axis = 0).sort_values(ascending = False)
@@ -3143,7 +3179,7 @@ upsetplot.plot(missing_counts);</code></pre>
 </div>
 <pre class="python"><code># Plot historgrams and scatter plots for each combination of features.
 sns.pairplot(fv,hue=&#39;deposit&#39;,palette=&quot;Set1&quot;,diag_kind=&quot;auto&quot;)</code></pre>
-<pre><code>&lt;seaborn.axisgrid.PairGrid at 0x1939d433648&gt;</code></pre>
+<pre><code>&lt;seaborn.axisgrid.PairGrid at 0x2101875bbc8&gt;</code></pre>
 <div class="figure">
 <img src="01-build_the_data_files/01-build_the_data_61_1.png" alt="" />
 <p class="caption">png</p>
@@ -3208,6 +3244,9 @@ features.columns</code></pre>
 <pre><code>Index([&#39;res&#39;, &#39;faults&#39;, &#39;dem&#39;, &#39;mag&#39;, &#39;grav&#39;, &#39;geol&#39;], dtype=&#39;object&#39;)</code></pre>
 <pre class="python"><code>numfts = [&#39;res&#39;, &#39;faults&#39;, &#39;dem&#39;, &#39;mag&#39;, &#39;grav&#39;]
 catfts = [&#39;geol&#39;]</code></pre>
+<pre class="python"><code>for i in features.geol:
+    if not isinstance(i, str):
+        print(i)</code></pre>
 <pre class="python"><code>#Create the ML classifier with numerical and categorical data
 #Scale, and replace missing values
 numeric_transformer = Pipeline(steps=[
@@ -3227,8 +3266,8 @@ preprocessor = ColumnTransformer(transformers=[
 # Append classifier to preprocessing pipeline.
 # Now we have a full prediction pipeline.
 rf = Pipeline(steps=[(&#39;preprocessor&#39;, preprocessor),
-                #(&#39;classifier&#39;, RandomForestClassifier(random_state=1))])
-                (&#39;classifier&#39;, MLPClassifier(solver=&#39;adam&#39;, alpha=0.001, max_iter=10000))])
+                (&#39;classifier&#39;, RandomForestClassifier(random_state=1))])
+                #(&#39;classifier&#39;, MLPClassifier(solver=&#39;adam&#39;, alpha=0.001, max_iter=10000))])
 </code></pre>
 <pre class="python"><code>print(&#39;Tranining the Clasifier...&#39;)
 rf.fit(features,targets)
@@ -3246,17 +3285,17 @@ plt.ylabel(&quot;Target/Prediction&quot;)
 plt.legend(loc=7)</code></pre>
 <pre><code>Tranining the Clasifier...
 Done RF. Now scoring...
-RF 5-fold cross validation Scores: [0.911 0.978 0.956 0.864 0.795]
-SCORE Mean: 0.90 STD: 0.07 
+RF 5-fold cross validation Scores: [1.         0.95555556 0.91111111 0.93333333 0.82222222]
+SCORE Mean: 0.92 STD: 0.06 
 
 
 
 
 
 
-&lt;matplotlib.legend.Legend at 0x193a99478c8&gt;</code></pre>
+&lt;matplotlib.legend.Legend at 0x21028d29d48&gt;</code></pre>
 <div class="figure">
-<img src="01-build_the_data_files/01-build_the_data_70_2.png" alt="" />
+<img src="01-build_the_data_files/01-build_the_data_71_2.png" alt="" />
 <p class="caption">png</p>
 </div>
 <pre class="python"><code>print(&quot;Features:&quot;,np.shape(features),&quot;Targets:&quot;,np.shape(targets))
@@ -3270,9 +3309,9 @@ print(&quot;Targets (expected result):&quot;)
 print(targets.values)
 print(&quot;Prediction (actual result):&quot;)
 print(rf.predict(features))</code></pre>
-<pre><code>Features: (223, 6) Targets: (223,)
-RF CV-Scores:  [0.933 0.978 0.933 0.932 0.773]
-CV-SCORE Mean: 0.91 STD: 0.07
+<pre><code>Features: (226, 6) Targets: (226,)
+RF CV-Scores:  [1.         0.95555556 0.91111111 0.93333333 0.82222222]
+CV-SCORE Mean: 0.92 STD: 0.06
 Targets (expected result):
 [1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
  1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
@@ -3280,15 +3319,15 @@ Targets (expected result):
  1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
  0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
  0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
- 0]
+ 0 0 0 0]
 Prediction (actual result):
 [1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
  1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
- 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 0
- 1 1 1 1 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
- 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1
- 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
- 0]</code></pre>
+ 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+ 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+ 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+ 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+ 0 0 0 0]</code></pre>
 <pre class="python"><code># Gather the importance measures
 ft_imp=[]
 ft_lab=[]
@@ -3296,18 +3335,6 @@ ft_lab=[]
 for i,lab in enumerate(np.append(numfts,rf[&#39;preprocessor&#39;].transformers_[1][1][&#39;onehot&#39;].get_feature_names(catfts))):
     ft_imp.append(rf.steps[-1][1].feature_importances_[i])
     ft_lab.append(lab)</code></pre>
-<pre><code>---------------------------------------------------------------------------
-
-AttributeError                            Traceback (most recent call last)
-
-&lt;ipython-input-93-5b7f99162420&gt; in &lt;module&gt;
-      4 
-      5 for i,lab in enumerate(np.append(numfts,rf[&#39;preprocessor&#39;].transformers_[1][1][&#39;onehot&#39;].get_feature_names(catfts))):
-----&gt; 6     ft_imp.append(rf.steps[-1][1].feature_importances_[i])
-      7     ft_lab.append(lab)
-
-
-AttributeError: &#39;MLPClassifier&#39; object has no attribute &#39;feature_importances_&#39;</code></pre>
 <pre class="python"><code>#Make the bar plot
 ft_imps, ft_labs = (list(t) for t in zip(*sorted(zip(ft_imp,ft_lab))))
 datalength=len(ft_imp)
@@ -3324,171 +3351,98 @@ print(&quot;From the Random Forest ML algorithm,&quot;)
 print(&quot;these are the the most significant features for predicting the target bins\n&quot;)
 
 plt.show()</code></pre>
+<pre><code>From the Random Forest ML algorithm,
+these are the the most significant features for predicting the target bins</code></pre>
+<div class="figure">
+<img src="01-build_the_data_files/01-build_the_data_74_1.png" alt="" />
+<p class="caption">png</p>
+</div>
 </div>
 </div>
 <div id="find-where-to-dig" class="section level1">
 <h1>Find where to dig!</h1>
 <p>Now we have a trained model we can pass it NEW data, that is values for all the geopysical parameters, and it will give us a prediction for whether there is a deposit there or not. Simple.</p>
+<pre class="python"><code>res1= [2.2,2.2]
+faults1 = [0.01,2.2]
+dem1 = [187,2.2]
+mag1= [-118,2.2]
+grav = [1.8,2.2]
+geol = [&#39;Crustal element Muloorina&#39;,&#39;Crustal element Muloorina&#39;]
+
+targets = pd.DataFrame({&#39;res&#39;:res1,&#39;faults&#39;:faults1,&#39;dem&#39;:dem1,&#39;mag&#39;:mag1,&#39;grav&#39;:grav,&#39;geol&#39;:geol})
+print(targets)
+#print(targets.reshape(1, -11))
+rf.predict_proba(targets)</code></pre>
+<pre><code>   res  faults    dem    mag  grav                       geol
+0  2.2    0.01  187.0 -118.0   1.8  Crustal element Muloorina
+1  2.2    2.20    2.2    2.2   2.2  Crustal element Muloorina
+
+
+
+
+
+array([[0.09, 0.91],
+       [0.81, 0.19]])</code></pre>
+<pre class="python"><code>#100x100 takes about 1 hour! 10x10 takes about 1 minute
+# Make a grid of target locations
+grid_x, grid_y = np.mgrid[130:140:100j,-36:-26:100j]</code></pre>
+<pre class="python"><code>%%time
+
+tdf = pd.DataFrame({&#39;LONGITUDE&#39;: grid_x.reshape(grid_x.size), &#39;LATITUDE&#39;: grid_y.reshape(grid_y.size)})
+                   
+# Res
+indexes = tdf.apply(
+    lambda x: coregPoint(treeres,np.array([x.LONGITUDE, x.LATITUDE]),10,retval=&#39;index&#39;), axis=1)
+
+tdf[&#39;res&#39;] = data_res.loc[indexes].resistivity.values
+print(&quot;Done res&quot;)
+
+# Faults
+tdf[&#39;faults&#39;] = tdf.apply(
+    lambda x: coregPoint(treefaults,np.array([x.LONGITUDE, x.LATITUDE]),100,retval=&#39;dists&#39;), axis=1)
+print(&quot;Done faults&quot;)
+
+# Geophys
+tdf[&#39;dem&#39;] = rastersearch(tdf,z1,originx1,originy1,pixelx1,pixely1)
+tdf[&#39;mag&#39;] = rastersearch(tdf,z2,originx2,originy2,pixelx2,pixely2)
+tdf[&#39;grav&#39;] = rastersearch(tdf,z3,originx3,originy3,pixelx3,pixely3)
+print(&quot;Done rasters&quot;)
+
+# Geology
+tdf[&#39;geol&#39;]=tdf.apply(lambda x: shapeExplore(x.LONGITUDE, x.LATITUDE, shapesArch,recsArch,geoindex), axis=1)
+print(&quot;Done!&quot;)</code></pre>
+<pre><code>Wall time: 1h 17min 3s</code></pre>
 <pre class="python"><code>#Apply the trained ML to our gridded data to determine the probabilities at each of the points
 print(&#39;RF...&#39;)
-pRF_map=np.array(rf.predict_proba(target_data))
+pRF_map=np.array(rf.predict_proba(tdf.iloc[:,2:]))
 print(&quot;Done RF&quot;)</code></pre>
 <pre><code>RF...
-
-
-
----------------------------------------------------------------------------
-
-NameError                                 Traceback (most recent call last)
-
-&lt;ipython-input-95-f57524338a16&gt; in &lt;module&gt;
-      1 #Apply the trained ML to our gridded data to determine the probabilities at each of the points
-      2 print(&#39;RF...&#39;)
-----&gt; 3 pRF_map=np.array(rf.predict_proba(target_data))
-      4 print(&quot;Done RF&quot;)
-
-
-NameError: name &#39;target_data&#39; is not defined</code></pre>
-<pre class="python"><code>#Create a meshgrid from our xyz list of points
-gridX,gridY,gridZ=grid(target_data.lon, target_data.lat,pRF_map[:,1])</code></pre>
-<pre><code>/usr/local/lib/python3.6/dist-packages/ipykernel_launcher.py:67: MatplotlibDeprecationWarning: The griddata function was deprecated in Matplotlib 2.2 and will be removed in 3.1. Use scipy.interpolate.griddata instead.</code></pre>
-<pre class="python"><code>#Save the csv grid of targets
-targetCu = {&#39;Longitude&#39;: target_data.lon, &#39;Latitude&#39;: target_data.lat, &#39;Prediction&#39;: pRF_map[:,1]}
-targetCu=pd.DataFrame(targetCu)
-targetCu.to_csv(&#39;Targets-&#39;+commname+&#39;.csv&#39;,header=0,index=False)</code></pre>
-<pre class="python"><code>#Plot the final target map
-fig = plt.figure(figsize=(10,10),dpi=300)
-
-#Make a map projection to plot on.
-ax = plt.axes(projection=ccrs.LambertAzimuthalEqualArea(central_longitude=135.0, central_latitude=-31.0))
-       
-#Set the extent of interest
-img_extent = [min(df.LONGITUDE)+1.5,  max(df.LONGITUDE)-3.0, min(df.LATITUDE)+5,max(df.LATITUDE)-1]
-ax.set_extent(img_extent)
-
-#Put down a base map
-ax.coastlines(resolution=&#39;10m&#39;, color=&#39;gray&#39;,)
-tiler = Stamen(&#39;terrain-background&#39;)
-mercator = tiler.crs
-ax.add_image(tiler, 6)
-
-#Make the gridlines
-gl = ax.gridlines(crs=ccrs.PlateCarree(), draw_labels=True,
-                  linewidth=0.3, color=&#39;gray&#39;, alpha=0.5, linestyle=&#39;-&#39;)
-gl.top_labels = False
-gl.bottom_labels = True
-gl.right_labels = False
-gl.left_labels = True
-#gl.xlines = False
-gl.xlocator = mticker.FixedLocator(list(np.linspace(np.floor(min(df.LONGITUDE))+1,np.ceil(max(df.LONGITUDE))-1,num=5)))
-gl.ylocator = mticker.FixedLocator(list(np.linspace(np.floor(min(df.LATITUDE))+1,np.ceil(max(df.LATITUDE))-1,num=5)))
-gl.xlocator = mticker.FixedLocator([141,138,135,132,129])
-gl.ylocator = mticker.FixedLocator([-38,-34,-31,-28,-26])
-#gl.ylocator = mticker.FixedLocator(list(np.linspace(-28,-35,num=3)))
-gl.xlabel_style = {&#39;size&#39;: 10, &#39;color&#39;: &#39;gray&#39;}
-gl.ylabel_style = {&#39;size&#39;: 10, &#39;color&#39;: &#39;gray&#39;}
-#gl.xlabel_style = {&#39;color&#39;: &#39;red&#39;, &#39;weight&#39;: &#39;bold&#39;}
-gl.xformatter = LONGITUDE_FORMATTER
-gl.yformatter = LATITUDE_FORMATTER
-
-#Create a patch of the gawler region where the data is
-path=Path(list(zip(xval, yval)))
-patch = PathPatch(path, facecolor=&#39;none&#39;,transform = ccrs.PlateCarree(),linestyle=&#39;--&#39;,linewidth=0.5)
-plt.gca().add_patch(patch)
-
-#Plot the main map
-im=ax.contourf(gridX,gridY,gridZ,cmap=plt.cm.coolwarm,transform = ccrs.PlateCarree(),vmin=0,vmax=1)
-#im = ax.imshow(gridZ, interpolation=&#39;bicubic&#39;, cmap=plt.cm.bwr,
-#                origin=&#39;lower&#39;, extent=[np.min(gridX),np.max(gridX),np.min(gridY),np.max(gridY)],
-#                clip_path=patch, clip_on=True,zorder=1,transform = ccrs.PlateCarree())
-for c in im.collections:
-    c.set_clip_path(patch)
-    
-# l5=ax.scatter(commall.LONGITUDE, commall.LATITUDE, 
-#               edgecolor=&#39;k&#39;,s=10,marker=&#39;d&#39;, linewidths=0.5,label=&quot;&quot;,
-#               c=&#39;r&#39;,cmap=plt.cm.bwr,vmin=0,vmax=1,zorder=2,transform = ccrs.PlateCarree())
-
-#Add the deposits coloured by their classification score
-l4=ax.scatter(training_data.lon[training_data.deposit==0], training_data.lat[training_data.deposit==0],
-               edgecolor=&#39;k&#39;,s=20,marker=&#39;s&#39;, linewidths=1,label=&quot;&quot;,
-               c=pRF[lendep:,1],cmap=plt.cm.bwr,vmin=0,vmax=1,zorder=3,transform = ccrs.PlateCarree())
-
-l3=ax.scatter(training_data.lon[training_data.deposit==1], training_data.lat[training_data.deposit==1], 
-              edgecolor=&#39;k&#39;,s=20,marker=&#39;o&#39;, linewidths=1,label=&quot;&quot;,
-              c=pRF[:lendep,1],cmap=plt.cm.bwr,vmin=0,vmax=1,zorder=2,transform = ccrs.PlateCarree())
-
-#Plot the outline of the Gawler region
-ax.plot(xval,yval,&#39;k--&#39;,label=&#39;Gawler Target Region&#39;,linewidth=0.2)
-ax.plot(0,0,&#39;r.&#39;,label=&#39;Known &#39;+commname+&#39; deposits for training&#39;,zorder=3,transform = ccrs.PlateCarree())
-ax.plot(0,0,&#39;b.&#39;,label=&#39;Non-Deposits for training&#39;,zorder=3,transform = ccrs.PlateCarree())
-#ax.plot(0,0,&#39;rd&#39;,label=&#39;All other Au deposits (not used for training)&#39;,zorder=3,transform = ccrs.PlateCarree())
-
-# ax.plot(xlons,xlats,&#39;y-&#39;,label=&#39;Central Gawler Au Province&#39;,zorder=3,transform = ccrs.PlateCarree())
-# ax.plot(xlons2,xlats2,&#39;g-&#39;,label=&#39;Olympic IOCG Province&#39;,zorder=3,transform = ccrs.PlateCarree())
-
-# ax.plot(xval,yval,&#39;k--&#39;,label=&#39;Gawler Target Region&#39;,linewidth=0.5,zorder=2,transform = ccrs.PlateCarree())
-
-# Add a map title, legend, colorbar
-#plt.title(&#39;Known deposits and predictive map for Gawler region, SA&#39;)
-ax.legend(loc=2,fontsize=12)
-#plt.xlabel(&#39;Longitude&#39;)
-#plt.ylabel(&#39;Latitude&#39;)
-
-#Make a Colorbar
-# cbaxes = fig.add_axes([0.16, 0.27, 0.25, 0.015])
-# cbar = plt.colorbar(l3, cax = cbaxes,orientation=&quot;horizontal&quot;)
-# cbar.set_label(commname+&#39; prediction&#39;)
-
-cbaxes = fig.add_axes([0.20, 0.22, 0.1, 0.015])
-cbar = plt.colorbar(im, cax = cbaxes,orientation=&quot;horizontal&quot;, ticks=[0.0,0.5,1])
-# # #cbar.ax.set_xticklabels([&#39;Medium&#39;,&#39;High&#39;],fontsize=8)
-cbar.set_label(commname+&#39; Prediction Score&#39;, labelpad=10,fontsize=12)
-cbar.ax.xaxis.set_label_position(&#39;top&#39;)
-
-plt.show()</code></pre>
-<pre><code>&lt;urlopen error [Errno -5] No address associated with hostname&gt;
-&lt;urlopen error [Errno -5] No address associated with hostname&gt;&lt;urlopen error [Errno -5] No address associated with hostname&gt;
-&lt;urlopen error [Errno -5] No address associated with hostname&gt;
-&lt;urlopen error [Errno -5] No address associated with hostname&gt;
-&lt;urlopen error [Errno -5] No address associated with hostname&gt;</code></pre>
-<div class="figure">
-<img src="01-build_the_data_files/01-build_the_data_78_1.png" alt="" />
-<p class="caption">png</p>
-</div>
-<pre class="python"><code># Import numpy for array processing
-import numpy as np
-
-df[&#39;SIZE_VAL_cat&#39;]=df.SIZE_VAL.astype(&#39;category&#39;).cat.codes
-# print(df.SIZE_VAL.astype(&#39;category&#39;).cat.categories)
-df.SIZE_VAL_cat.plot.hist()
-
-# Lets categorise each of the mineral occurences. We can use these as our targets
-df[&#39;SIZE_VAL_cat&#39;] = np.where(df[&#39;SIZE_VAL&#39;]==&#39;&#39;, 0, df[&#39;SIZE_VAL_cat&#39;])
-df[&#39;SIZE_VAL_cat&#39;] = np.where(df[&#39;SIZE_VAL&#39;]==&#39;Low Significance&#39;, 0, df[&#39;SIZE_VAL_cat&#39;])
-df[&#39;SIZE_VAL_cat&#39;] = np.where(df[&#39;SIZE_VAL&#39;]==&#39;Locally Significant&#39;, 1, df[&#39;SIZE_VAL_cat&#39;])
-df[&#39;SIZE_VAL_cat&#39;] = np.where(df[&#39;SIZE_VAL&#39;]==&#39;Significant to Australia&#39;, 1, df[&#39;SIZE_VAL_cat&#39;])
-df[&#39;SIZE_VAL_cat&#39;] = np.where(df[&#39;SIZE_VAL&#39;]==&#39;Significant to SA&#39;, 1, df[&#39;SIZE_VAL_cat&#39;])
-df[&#39;SIZE_VAL_cat&#39;] = np.where(df[&#39;SIZE_VAL&#39;]==&#39;World-wide Significance&#39;, 1, df[&#39;SIZE_VAL_cat&#39;])
-
-
-import matplotlib.pyplot as plt
-fig = plt.figure(figsize=(8,8))
+Done RF</code></pre>
+<pre class="python"><code>#X, Y = np.meshgrid(xi, yi)
+gridZ = scipy.interpolate.griddata((tdf.LONGITUDE, tdf.LATITUDE), pRF_map[:,1], (grid_x, grid_y),method=&#39;linear&#39;)</code></pre>
+<pre class="python"><code>fig = plt.figure(figsize=(8,8))
 ax = plt.axes()
-im=ax.scatter(df.LONGITUDE,df.LATITUDE,s=5+df.SIZE_VAL_cat.astype(float)*5,c=df.SIZE_VAL_cat,cmap=&#39;bwr&#39;)
+im=plt.pcolormesh(grid_x,grid_y,gridZ,cmap=&#39;bwr&#39;,shading=&#39;auto&#39;)
 ax.plot(xval,yval,&#39;grey&#39;,linestyle=&#39;--&#39;,linewidth=1,label=&#39;SA&#39;)
-#ax.plot(comm.LONGITUDE, comm.LATITUDE, marker=&#39;o&#39;, linestyle=&#39;&#39;,markersize=5, color=&#39;y&#39;,label=commname+&quot; Deposits&quot;)
+ax.plot(fv[fv.deposit==1].LONGITUDE, fv[fv.deposit==1].LATITUDE, 
+        marker=&#39;x&#39;, linestyle=&#39;&#39;,markersize=5, color=&#39;y&#39;,label=commname+&quot; Deposits&quot;)
+ax.plot(fv[fv.deposit==0].LONGITUDE, fv[fv.deposit==0].LATITUDE, 
+        marker=&#39;.&#39;, linestyle=&#39;&#39;,markersize=1, color=&#39;b&#39;,label=&quot;Random Samples&quot;)
 
 plt.xlim(128.5,141.5)
 plt.ylim(-38.5,-25.5)
 plt.legend(loc=3)
 
 cbaxes = fig.add_axes([0.40, 0.18, 0.2, 0.015])
-cbar = plt.colorbar(im, cax = cbaxes,orientation=&quot;horizontal&quot;,extend=&#39;neither&#39;)
-cbar.set_label(&#39;Mines and Minerals Significance&#39;, labelpad=10)
+cbar = plt.colorbar(im, cax = cbaxes,orientation=&quot;horizontal&quot;)
+cbar.set_label(&#39;Probability of Mineral Depost&#39;, labelpad=10)
 cbar.ax.xaxis.set_label_position(&#39;top&#39;)
-cbar.ax.set_xticklabels([&#39;Low&#39;,&#39;&#39;,&#39;High&#39;],fontsize=8)
 
 plt.show()</code></pre>
+<div class="figure">
+<img src="01-build_the_data_files/01-build_the_data_81_0.png" alt="" />
+<p class="caption">png</p>
+</div>
 </div>
 
 

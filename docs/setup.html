@@ -334,15 +334,18 @@ $(document).ready(function () {
 </div>
 
 
-<p>We will be connecting to Jupyter Notebook Servers hosted on Pawsey’s Nimbus Cloud. Each server has been pre-configured with the data and code ready to run through these tutorials. Everyone will be issued with a unique web address. <strong>Go to the address you are given and you are ready to go!</strong></p>
+<p>We will be connecting to Jupyter Notebook Servers hosted on Pawsey’s Nimbus Cloud. Each server has been pre-configured with the data and code ready to run through these tutorials. Everyone will be issued with a unique web address and password. <strong>Go to the address you are given and you are ready to go!</strong></p>
+<p><br></p>
 <p>If you are arriving here in the future or would like to set up the environment on your local machine instead, follow these instructions:</p>
-<div id="download-the-data" class="section level1">
-<h1>1. Download the data</h1>
-<p>or clone the repo and get the data from the data directory.</p>
+<div id="download-the-data" class="section level2">
+<h2>1. Download the data</h2>
+<p>Grab a copy from: <a href="https://github.com/Sydney-Informatics-Hub/geopython-pawsey/tree/main/_ipynb/data" class="uri">https://github.com/Sydney-Informatics-Hub/geopython-pawsey/tree/main/_ipynb/data</a></p>
+<p>Or clone the repo and get the notebooks and data from the <code>_ipynb</code> directory:</p>
+<pre><code>git clone https://github.com/Sydney-Informatics-Hub/geopython-pawsey</code></pre>
 <p><br></p>
 </div>
-<div id="get-a-python-client" class="section level1">
-<h1>2. Get a Python client</h1>
+<div id="get-a-python-client" class="section level2">
+<h2>2. Get a Python client</h2>
 <p>We generally use and recommend Miniconda Python distribution: <a href="https://docs.conda.io/en/latest/miniconda.html">https://docs.conda.io/en/latest/miniconda.html</a>. But feel free to use whatever one works for you (and the course materials). We will be using Miniconda3-py39_4.11.0.</p>
 <p>You can get this specific version here for:</p>
 <ul>
@@ -353,16 +356,17 @@ $(document).ready(function () {
 <p>Follow the prompts (the default recommendations in the installer are generally fine.) Once installed, launch an “Anaconda Prompt” from the Start Menu / Applications Folder to begin your Python adventure.</p>
 <p><br></p>
 </div>
-<div id="setup-your-python-environment-install-required-packages-and-libraries" class="section level1">
-<h1>3. Setup your Python environment (install required packages and libraries)</h1>
+<div id="setup-your-python-environment-install-required-packages-and-libraries" class="section level2">
+<h2>3. Setup your Python environment (install required packages and libraries)</h2>
 <p>Next we need to set up an environment with all the additional packages and libraries we will be using throughout the course.</p>
 <pre><code>conda install -c conda-forge scikit-learn seaborn
 pip install jupyterlab</code></pre>
-<p>This should install other key libraries e.g. <code>numpy, matplotlib, pandas</code> as dependencies.</p>
+<p>This should install other key libraries e.g. <code>numpy, matplotlib, pandas, pyshp</code> as dependencies.</p>
 <p><br></p>
 </div>
-<div id="to-setup-the-jupyter-notebook-server-unsecured-on-a-pawsey-instance" class="section level1">
-<h1>To setup the Jupyter Notebook server (unsecured) on a Pawsey instance</h1>
+<div id="devs-to-setup-the-relatively-unsecure-jupyter-notebook-server-on-a-pawsey-nimbus-cloud-instance" class="section level1">
+<h1>DEVS: To setup the (relatively unsecure) Jupyter Notebook server on a Pawsey Nimbus Cloud instance</h1>
+<p>These are the instructions we used to provide the notebook instance as a weblink.</p>
 <pre><code>jupyter notebook --generate-config</code></pre>
 <p>Use Python to set and generate a password hashed password</p>
 <pre><code>python -c &quot;from notebook.auth import passwd; print(passwd())&quot;</code></pre>
