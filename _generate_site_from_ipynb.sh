@@ -9,3 +9,4 @@ Rscript --vanilla siterender.R
 # GitHub website
 cp -r docs/*files .
 cp -r figs docs/
+zip -r docs/data.zip _ipynb/data
