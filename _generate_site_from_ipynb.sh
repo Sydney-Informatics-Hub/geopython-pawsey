@@ -10,3 +10,4 @@ Rscript --vanilla siterender.R
 cp -r docs/*files .
 cp -r figs docs/
 zip -r docs/data.zip _ipynb/data
+tar -czf docs/data.tar.gz _ipynb/data
