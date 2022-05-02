@@ -408,12 +408,6 @@ div.tocify {
     <li>
       <a href="01-build_the_data.html">Building an ML dataset</a>
     </li>
-    <li>
-      <a href="02-explore_the_data.html">Exploring the data</a>
-    </li>
-    <li>
-      <a href="03a-MachineLearing.html">Machine Learning</a>
-    </li>
   </ul>
 </li>
       </ul>
@@ -1245,11 +1239,11 @@ x1,y1,z1,originx1,originy1,pixelx1,pixely1 = readnc(&quot;data/sa-dem.nc&quot;)
 x2,y2,z2,originx2,originy2,pixelx2,pixely2 = readnc(&quot;data/sa-mag-tmi.nc&quot;)
 # Gravity
 x3,y3,z3,originx3,originy3,pixelx3,pixely3 = readnc(&quot;data/sa-grav.nc&quot;)</code></pre>
-<pre><code>Loaded data/sa-dem.nc in 0.02s
+<pre><code>Loaded data/sa-dem.nc in 0.03s
 Spacing x 0.01 y 0.01 Shape: (1208, 1201) Min x: 129.005 Max x: 141.005 Min y: -38.065 Max y -25.99
-Loaded data/sa-mag-tmi.nc in 0.01s
+Loaded data/sa-mag-tmi.nc in 0.02s
 Spacing x 0.01 y 0.01 Shape: (1208, 1201) Min x: 129.005 Max x: 141.005 Min y: -38.065 Max y -25.99
-Loaded data/sa-grav.nc in 0.01s
+Loaded data/sa-grav.nc in 0.02s
 Spacing x 0.01 y 0.01 Shape: (1208, 1201) Min x: 129.005 Max x: 141.005 Min y: -38.065 Max y -25.99</code></pre>
 <pre class="python"><code>fig = plt.figure(figsize=(8,8))
 ax = plt.axes()
@@ -2249,7 +2243,7 @@ def shapeExplore(lon,lat,shapes,recs,record):
 <pre class="python"><code>%%time
 geoindex = 4
 td1[&#39;geol&#39;]=td1.apply(lambda x: shapeExplore(x.LONGITUDE, x.LATITUDE, shapesArch,recsArch,geoindex), axis=1)</code></pre>
-<pre><code>Wall time: 12.6 s</code></pre>
+<pre><code>Wall time: 14.2 s</code></pre>
 <pre class="python"><code>td1</code></pre>
 <div>
 <style scoped>
@@ -2283,7 +2277,7 @@ res
 faults
 </th>
 <th>
-…
+dem
 </th>
 <th>
 mag
@@ -2293,9 +2287,6 @@ grav
 </th>
 <th>
 geol
-</th>
-<th>
-deposit
 </th>
 </tr>
 </thead>
@@ -2317,7 +2308,7 @@ deposit
 0.010691
 </td>
 <td>
-…
+187.297424
 </td>
 <td>
 -118.074890
@@ -2327,9 +2318,6 @@ deposit
 </td>
 <td>
 Crustal element Muloorina
-</td>
-<td>
-1
 </td>
 </tr>
 <tr>
@@ -2349,7 +2337,7 @@ Crustal element Muloorina
 0.103741
 </td>
 <td>
-…
+179.499237
 </td>
 <td>
 -209.410507
@@ -2359,9 +2347,6 @@ Crustal element Muloorina
 </td>
 <td>
 Crustal element Adelaide
-</td>
-<td>
-1
 </td>
 </tr>
 <tr>
@@ -2381,7 +2366,7 @@ Crustal element Adelaide
 0.006659
 </td>
 <td>
-…
+398.336823
 </td>
 <td>
 -159.566422
@@ -2391,9 +2376,6 @@ Crustal element Adelaide
 </td>
 <td>
 Crustal element Adelaide
-</td>
-<td>
-1
 </td>
 </tr>
 <tr>
@@ -2413,7 +2395,7 @@ Crustal element Adelaide
 0.013925
 </td>
 <td>
-…
+335.983429
 </td>
 <td>
 -131.176437
@@ -2423,9 +2405,6 @@ Crustal element Adelaide
 </td>
 <td>
 Crustal element Adelaide
-</td>
-<td>
-1
 </td>
 </tr>
 <tr>
@@ -2445,7 +2424,7 @@ Crustal element Adelaide
 0.007356
 </td>
 <td>
-…
+554.278198
 </td>
 <td>
 -192.363297
@@ -2456,17 +2435,11 @@ Crustal element Adelaide
 <td>
 Crustal element Adelaide
 </td>
-<td>
-1
-</td>
 </tr>
 <tr>
 <th>
 …
 </th>
-<td>
-…
-</td>
 <td>
 …
 </td>
@@ -2509,7 +2482,7 @@ Crustal element Adelaide
 0.526835
 </td>
 <td>
-…
+45.866119
 </td>
 <td>
 -244.067841
@@ -2519,9 +2492,6 @@ Crustal element Adelaide
 </td>
 <td>
 Cleve, Spencer, Olympic Domains
-</td>
-<td>
-1
 </td>
 </tr>
 <tr>
@@ -2541,7 +2511,7 @@ Cleve, Spencer, Olympic Domains
 0.002451
 </td>
 <td>
-…
+145.452789
 </td>
 <td>
 -203.566940
@@ -2551,9 +2521,6 @@ Cleve, Spencer, Olympic Domains
 </td>
 <td>
 Crustal element Kanmantoo SW
-</td>
-<td>
-1
 </td>
 </tr>
 <tr>
@@ -2573,7 +2540,7 @@ Crustal element Kanmantoo SW
 0.027837
 </td>
 <td>
-…
+276.489319
 </td>
 <td>
 -172.889587
@@ -2583,9 +2550,6 @@ Crustal element Kanmantoo SW
 </td>
 <td>
 Crustal element Kanmantoo Main
-</td>
-<td>
-1
 </td>
 </tr>
 <tr>
@@ -2605,7 +2569,7 @@ Crustal element Kanmantoo Main
 0.670323
 </td>
 <td>
-…
+162.431747
 </td>
 <td>
 569.713684
@@ -2615,9 +2579,6 @@ Crustal element Kanmantoo Main
 </td>
 <td>
 Cleve Domain
-</td>
-<td>
-1
 </td>
 </tr>
 <tr>
@@ -2637,7 +2598,7 @@ Cleve Domain
 0.776152
 </td>
 <td>
-…
+89.274399
 </td>
 <td>
 64.385925
@@ -2648,14 +2609,11 @@ Cleve Domain
 <td>
 Cleve Domain
 </td>
-<td>
-1
-</td>
 </tr>
 </tbody>
 </table>
 <p>
-115 rows × 9 columns
+115 rows × 8 columns
 </p>
 </div>
 <p><strong>Congrats, you now have an ML dataset ready to go!</strong></p>
@@ -2715,7 +2673,7 @@ td2[&#39;grav&#39;] = rastersearch(td2,z3,originx3,originy3,pixelx3,pixely3)
 
 #Geology
 td2[&#39;geol&#39;]=td2.apply(lambda x: shapeExplore(x.LONGITUDE, x.LATITUDE, shapesArch,recsArch,geoindex), axis=1)</code></pre>
-<pre><code>Wall time: 33.3 s</code></pre>
+<pre><code>Wall time: 36.5 s</code></pre>
 <pre class="python"><code>#Add flag indicating classification label
 td1[&#39;deposit&#39;]=1
 td2[&#39;deposit&#39;]=0</code></pre>
@@ -2967,28 +2925,28 @@ Crustal element Adelaide
 225
 </th>
 <td>
-140.421524
+140.015646
 </td>
 <td>
--34.069037
+-26.952893
 </td>
 <td>
-1.8906
+1.9913
 </td>
 <td>
-0.045492
+0.175686
 </td>
 <td>
 …
 </td>
 <td>
-29.806763
+-92.202660
 </td>
 <td>
--36.272560
+-21.609657
 </td>
 <td>
-Crustal element Glenelg
+Crustal element Thomson
 </td>
 <td>
 0
@@ -2999,28 +2957,28 @@ Crustal element Glenelg
 226
 </th>
 <td>
-138.979006
+133.168672
 </td>
 <td>
--37.648744
+-32.163427
 </td>
 <td>
--0.2206
+2.8571
 </td>
 <td>
-1.166620
+1.166542
 </td>
 <td>
 …
 </td>
 <td>
-0.000000
+56.713612
 </td>
 <td>
-0.000000
+-56.476437
 </td>
 <td>
--9999
+Nuyts Domain
 </td>
 <td>
 0
@@ -3031,16 +2989,16 @@ Crustal element Glenelg
 227
 </th>
 <td>
-130.239881
+134.865749
 </td>
 <td>
--36.827560
+-37.682400
 </td>
 <td>
--0.5218
+-0.5675
 </td>
 <td>
-4.277106
+1.953335
 </td>
 <td>
 …
@@ -3063,16 +3021,16 @@ Crustal element Glenelg
 228
 </th>
 <td>
-130.768591
+131.935066
 </td>
 <td>
--34.504096
+-37.214056
 </td>
 <td>
--0.5421
+-0.5275
 </td>
 <td>
-2.352863
+3.870085
 </td>
 <td>
 …
@@ -3095,16 +3053,16 @@ Crustal element Glenelg
 229
 </th>
 <td>
-130.717957
+130.972723
 </td>
 <td>
--36.000290
+-37.098576
 </td>
 <td>
--0.5222
+-0.5227
 </td>
 <td>
-3.333726
+4.106530
 </td>
 <td>
 …
@@ -3128,6 +3086,8 @@ Crustal element Glenelg
 230 rows × 9 columns
 </p>
 </div>
+<pre class="python"><code># Save all our hard work to a csv file for more hacking to come!
+fv.to_csv(&#39;data/fv.csv&#39;,index=False)</code></pre>
 </div>
 </div>
 <div id="explatory-data-analysis" class="section level1">
@@ -3162,7 +3122,7 @@ sns.barplot(missingNo.values, missingNo.index);</code></pre>
 <pre><code>c:\users\nbutter\miniconda3\envs\geopy\lib\site-packages\seaborn\_decorators.py:43: FutureWarning: Pass the following variables as keyword args: x, y. From version 0.12, the only valid positional argument will be `data`, and passing other arguments without an explicit keyword will result in an error or misinterpretation.
   FutureWarning</code></pre>
 <div class="figure">
-<img src="01-build_the_data_files/01-build_the_data_58_1.png" alt="" />
+<img src="01-build_the_data_files/01-build_the_data_59_1.png" alt="" />
 <p class="caption">png</p>
 </div>
 <pre class="python"><code>import upsetplot</code></pre>
@@ -3174,14 +3134,14 @@ missing_counts = (fv.loc[:, missing_cols]
 
 upsetplot.plot(missing_counts);</code></pre>
 <div class="figure">
-<img src="01-build_the_data_files/01-build_the_data_60_0.png" alt="" />
+<img src="01-build_the_data_files/01-build_the_data_61_0.png" alt="" />
 <p class="caption">png</p>
 </div>
 <pre class="python"><code># Plot historgrams and scatter plots for each combination of features.
 sns.pairplot(fv,hue=&#39;deposit&#39;,palette=&quot;Set1&quot;,diag_kind=&quot;auto&quot;)</code></pre>
 <pre><code>&lt;seaborn.axisgrid.PairGrid at 0x2101875bbc8&gt;</code></pre>
 <div class="figure">
-<img src="01-build_the_data_files/01-build_the_data_61_1.png" alt="" />
+<img src="01-build_the_data_files/01-build_the_data_62_1.png" alt="" />
 <p class="caption">png</p>
 </div>
 <pre class="python"><code>#Plot a heatmap for how correlated each of the features are
@@ -3194,30 +3154,30 @@ sns.heatmap(corr,
             xticklabels=True, yticklabels=True,
             );</code></pre>
 <div class="figure">
-<img src="01-build_the_data_files/01-build_the_data_62_0.png" alt="" />
+<img src="01-build_the_data_files/01-build_the_data_63_0.png" alt="" />
 <p class="caption">png</p>
 </div>
 <pre class="python"><code>for i in [&#39;res&#39;, &#39;faults&#39;, &#39;dem&#39;, &#39;mag&#39;, &#39;grav&#39;]:
     ax = sns.boxplot(x=&#39;deposit&#39;,y=i, data=fv)
     plt.show()</code></pre>
 <div class="figure">
-<img src="01-build_the_data_files/01-build_the_data_63_0.png" alt="" />
+<img src="01-build_the_data_files/01-build_the_data_64_0.png" alt="" />
 <p class="caption">png</p>
 </div>
 <div class="figure">
-<img src="01-build_the_data_files/01-build_the_data_63_1.png" alt="" />
+<img src="01-build_the_data_files/01-build_the_data_64_1.png" alt="" />
 <p class="caption">png</p>
 </div>
 <div class="figure">
-<img src="01-build_the_data_files/01-build_the_data_63_2.png" alt="" />
+<img src="01-build_the_data_files/01-build_the_data_64_2.png" alt="" />
 <p class="caption">png</p>
 </div>
 <div class="figure">
-<img src="01-build_the_data_files/01-build_the_data_63_3.png" alt="" />
+<img src="01-build_the_data_files/01-build_the_data_64_3.png" alt="" />
 <p class="caption">png</p>
 </div>
 <div class="figure">
-<img src="01-build_the_data_files/01-build_the_data_63_4.png" alt="" />
+<img src="01-build_the_data_files/01-build_the_data_64_4.png" alt="" />
 <p class="caption">png</p>
 </div>
 </div>
@@ -3285,17 +3245,17 @@ plt.ylabel(&quot;Target/Prediction&quot;)
 plt.legend(loc=7)</code></pre>
 <pre><code>Tranining the Clasifier...
 Done RF. Now scoring...
-RF 5-fold cross validation Scores: [1.         0.95555556 0.91111111 0.93333333 0.82222222]
-SCORE Mean: 0.92 STD: 0.06 
+RF 5-fold cross validation Scores: [0.88636364 0.93181818 0.90909091 0.88636364 0.75      ]
+SCORE Mean: 0.87 STD: 0.06 
 
 
 
 
 
 
-&lt;matplotlib.legend.Legend at 0x21028d29d48&gt;</code></pre>
+&lt;matplotlib.legend.Legend at 0x1ee83980d48&gt;</code></pre>
 <div class="figure">
-<img src="01-build_the_data_files/01-build_the_data_71_2.png" alt="" />
+<img src="01-build_the_data_files/01-build_the_data_72_2.png" alt="" />
 <p class="caption">png</p>
 </div>
 <pre class="python"><code>print(&quot;Features:&quot;,np.shape(features),&quot;Targets:&quot;,np.shape(targets))
@@ -3309,25 +3269,23 @@ print(&quot;Targets (expected result):&quot;)
 print(targets.values)
 print(&quot;Prediction (actual result):&quot;)
 print(rf.predict(features))</code></pre>
-<pre><code>Features: (226, 6) Targets: (226,)
-RF CV-Scores:  [1.         0.95555556 0.91111111 0.93333333 0.82222222]
-CV-SCORE Mean: 0.92 STD: 0.06
+<pre><code>Features: (220, 6) Targets: (220,)
+RF CV-Scores:  [0.88636364 0.93181818 0.90909091 0.88636364 0.75      ]
+CV-SCORE Mean: 0.87 STD: 0.06
 Targets (expected result):
 [1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
  1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
  1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
  1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
  0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
- 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
- 0 0 0 0]
+ 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0]
 Prediction (actual result):
 [1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
  1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
  1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
  1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
  0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
- 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
- 0 0 0 0]</code></pre>
+ 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0]</code></pre>
 <pre class="python"><code># Gather the importance measures
 ft_imp=[]
 ft_lab=[]
@@ -3354,7 +3312,7 @@ plt.show()</code></pre>
 <pre><code>From the Random Forest ML algorithm,
 these are the the most significant features for predicting the target bins</code></pre>
 <div class="figure">
-<img src="01-build_the_data_files/01-build_the_data_74_1.png" alt="" />
+<img src="01-build_the_data_files/01-build_the_data_75_1.png" alt="" />
 <p class="caption">png</p>
 </div>
 </div>
@@ -3381,8 +3339,8 @@ rf.predict_proba(targets)</code></pre>
 
 
 
-array([[0.09, 0.91],
-       [0.81, 0.19]])</code></pre>
+array([[0.17, 0.83],
+       [0.71, 0.29]])</code></pre>
 <pre class="python"><code>#100x100 takes about 1 hour! 10x10 takes about 1 minute
 # Make a grid of target locations
 grid_x, grid_y = np.mgrid[130:140:100j,-36:-26:100j]</code></pre>
@@ -3411,7 +3369,13 @@ print(&quot;Done rasters&quot;)
 # Geology
 tdf[&#39;geol&#39;]=tdf.apply(lambda x: shapeExplore(x.LONGITUDE, x.LATITUDE, shapesArch,recsArch,geoindex), axis=1)
 print(&quot;Done!&quot;)</code></pre>
-<pre><code>Wall time: 1h 17min 3s</code></pre>
+<pre><code>Done res
+Done faults
+Done rasters
+Done!
+Wall time: 35min 34s</code></pre>
+<pre class="python"><code># Save all our hard work to a csv file for more hacking to come!
+tdf.to_csv(&#39;data/tdf_100.csv&#39;,index=False)</code></pre>
 <pre class="python"><code>#Apply the trained ML to our gridded data to determine the probabilities at each of the points
 print(&#39;RF...&#39;)
 pRF_map=np.array(rf.predict_proba(tdf.iloc[:,2:]))
@@ -3440,9 +3404,10 @@ cbar.ax.xaxis.set_label_position(&#39;top&#39;)
 
 plt.show()</code></pre>
 <div class="figure">
-<img src="01-build_the_data_files/01-build_the_data_81_0.png" alt="" />
+<img src="01-build_the_data_files/01-build_the_data_83_0.png" alt="" />
 <p class="caption">png</p>
 </div>
+<pre class="python"><code></code></pre>
 </div>
 
 
