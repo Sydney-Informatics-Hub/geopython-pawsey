@@ -14,7 +14,6 @@ navbar:
       href: 00-intro.html
     - text: "Building an ML dataset"
       href: 01-build_the_data.html
-    - text: "Exploring the data"
 
 
 
