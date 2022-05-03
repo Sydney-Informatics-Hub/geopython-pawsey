@@ -435,7 +435,7 @@ div.tocify {
 <div id="goal-create-a-table-of-data-containing-targets-and-predictor-variables" class="section level1">
 <h1>Goal: Create a table of data containing “targets” and “predictor variables”</h1>
 <p>The targets in an ML context can be a simple binary 1 or 0, or could be some category (classification), or the value of a particular parameter (regression problems). It is the “feature” of a dataset that we want to learn something about!</p>
-<p>The “predictor/feature variables” are the quatities/parameters that may have some causal relationship with the the target.</p>
+<p>The “predictor/feature variables” are the qualities/parameters that may have some causal relationship with the the target.</p>
 <div id="step-1---what-is-our-target-variable" class="section level2">
 <h2>Step 1 - What is our target variable?</h2>
 <p>Are we classifying something?</p>
@@ -1239,11 +1239,11 @@ x1,y1,z1,originx1,originy1,pixelx1,pixely1 = readnc(&quot;data/sa-dem.nc&quot;)
 x2,y2,z2,originx2,originy2,pixelx2,pixely2 = readnc(&quot;data/sa-mag-tmi.nc&quot;)
 # Gravity
 x3,y3,z3,originx3,originy3,pixelx3,pixely3 = readnc(&quot;data/sa-grav.nc&quot;)</code></pre>
-<pre><code>Loaded data/sa-dem.nc in 0.03s
+<pre><code>Loaded data/sa-dem.nc in 0.01s
 Spacing x 0.01 y 0.01 Shape: (1208, 1201) Min x: 129.005 Max x: 141.005 Min y: -38.065 Max y -25.99
-Loaded data/sa-mag-tmi.nc in 0.02s
+Loaded data/sa-mag-tmi.nc in 0.00s
 Spacing x 0.01 y 0.01 Shape: (1208, 1201) Min x: 129.005 Max x: 141.005 Min y: -38.065 Max y -25.99
-Loaded data/sa-grav.nc in 0.02s
+Loaded data/sa-grav.nc in 0.01s
 Spacing x 0.01 y 0.01 Shape: (1208, 1201) Min x: 129.005 Max x: 141.005 Min y: -38.065 Max y -25.99</code></pre>
 <pre class="python"><code>fig = plt.figure(figsize=(8,8))
 ax = plt.axes()
@@ -2243,7 +2243,8 @@ def shapeExplore(lon,lat,shapes,recs,record):
 <pre class="python"><code>%%time
 geoindex = 4
 td1[&#39;geol&#39;]=td1.apply(lambda x: shapeExplore(x.LONGITUDE, x.LATITUDE, shapesArch,recsArch,geoindex), axis=1)</code></pre>
-<pre><code>Wall time: 14.2 s</code></pre>
+<pre><code>CPU times: user 9.63 s, sys: 11.8 ms, total: 9.64 s
+Wall time: 9.65 s</code></pre>
 <pre class="python"><code>td1</code></pre>
 <div>
 <style scoped>
@@ -2673,7 +2674,8 @@ td2[&#39;grav&#39;] = rastersearch(td2,z3,originx3,originy3,pixelx3,pixely3)
 
 #Geology
 td2[&#39;geol&#39;]=td2.apply(lambda x: shapeExplore(x.LONGITUDE, x.LATITUDE, shapesArch,recsArch,geoindex), axis=1)</code></pre>
-<pre><code>Wall time: 36.5 s</code></pre>
+<pre><code>CPU times: user 22.7 s, sys: 23.8 ms, total: 22.8 s
+Wall time: 22.8 s</code></pre>
 <pre class="python"><code>#Add flag indicating classification label
 td1[&#39;deposit&#39;]=1
 td2[&#39;deposit&#39;]=0</code></pre>
@@ -2925,28 +2927,28 @@ Crustal element Adelaide
 225
 </th>
 <td>
-140.015646
+141.316422
 </td>
 <td>
--26.952893
+-28.535431
 </td>
 <td>
-1.9913
+1.9873
 </td>
 <td>
-0.175686
+0.318785
 </td>
 <td>
 …
 </td>
 <td>
--92.202660
+NaN
 </td>
 <td>
--21.609657
+NaN
 </td>
 <td>
-Crustal element Thomson
+-9999
 </td>
 <td>
 0
@@ -2957,28 +2959,28 @@ Crustal element Thomson
 226
 </th>
 <td>
-133.168672
+135.352957
 </td>
 <td>
--32.163427
+-37.255236
 </td>
 <td>
-2.8571
+-0.5148
 </td>
 <td>
-1.166542
+1.402739
 </td>
 <td>
 …
 </td>
 <td>
-56.713612
+0.000000
 </td>
 <td>
--56.476437
+0.000000
 </td>
 <td>
-Nuyts Domain
+-9999
 </td>
 <td>
 0
@@ -2989,28 +2991,28 @@ Nuyts Domain
 227
 </th>
 <td>
-134.865749
+140.865975
 </td>
 <td>
--37.682400
+-34.989399
 </td>
 <td>
--0.5675
+2.0438
 </td>
 <td>
-1.953335
+0.945575
 </td>
 <td>
 …
 </td>
 <td>
-0.000000
+-63.256947
 </td>
 <td>
-0.000000
+-20.687813
 </td>
 <td>
--9999
+Crustal element Glenelg
 </td>
 <td>
 0
@@ -3021,16 +3023,16 @@ Nuyts Domain
 228
 </th>
 <td>
-131.935066
+130.191418
 </td>
 <td>
--37.214056
+-32.579327
 </td>
 <td>
--0.5275
+-0.7268
 </td>
 <td>
-3.870085
+0.992523
 </td>
 <td>
 …
@@ -3042,7 +3044,7 @@ Nuyts Domain
 0.000000
 </td>
 <td>
--9999
+?Fowler Domain
 </td>
 <td>
 0
@@ -3053,28 +3055,28 @@ Nuyts Domain
 229
 </th>
 <td>
-130.972723
+137.454301
 </td>
 <td>
--37.098576
+-31.160760
 </td>
 <td>
--0.5227
+1.9846
 </td>
 <td>
-4.106530
+0.585865
 </td>
 <td>
 …
 </td>
 <td>
-0.000000
+21.408169
 </td>
 <td>
-0.000000
+-20.863804
 </td>
 <td>
--9999
+Cleve, Spencer, Olympic Domains
 </td>
 <td>
 0
@@ -3090,8 +3092,8 @@ Nuyts Domain
 fv.to_csv(&#39;data/fv.csv&#39;,index=False)</code></pre>
 </div>
 </div>
-<div id="explatory-data-analysis" class="section level1">
-<h1>Explatory Data Analysis</h1>
+<div id="exploratory-data-analysis" class="section level1">
+<h1>Exploratory Data Analysis</h1>
 <p>This is often the point you recieve the data in (if you are using any well-formed datasets). But in reality 90% of the time is doing weird data wrangling steps like what we have done. Then 9% is spent exploring your dataset and understanding it more, dealing with missing data, observing correlations. This is often an iterative process. Let’s do some simple visualisations.</p>
 <p>Note: the last 1% of time is actually applying the ML algorithms!</p>
 <pre class="python"><code>#Get information about index type and column types, non-null values and memory usage.
@@ -3105,9 +3107,9 @@ Data columns (total 9 columns):
  1   LATITUDE   230 non-null    float64
  2   res        230 non-null    float64
  3   faults     230 non-null    float64
- 4   dem        226 non-null    float64
- 5   mag        226 non-null    float64
- 6   grav       226 non-null    float64
+ 4   dem        225 non-null    float64
+ 5   mag        225 non-null    float64
+ 6   grav       225 non-null    float64
  7   geol       230 non-null    object 
  8   deposit    230 non-null    int64  
 dtypes: float64(7), int64(1), object(1)
@@ -3119,8 +3121,8 @@ missingNo = missingNo[missingNo.values  &gt; 0]
 missingNo
 
 sns.barplot(missingNo.values, missingNo.index);</code></pre>
-<pre><code>c:\users\nbutter\miniconda3\envs\geopy\lib\site-packages\seaborn\_decorators.py:43: FutureWarning: Pass the following variables as keyword args: x, y. From version 0.12, the only valid positional argument will be `data`, and passing other arguments without an explicit keyword will result in an error or misinterpretation.
-  FutureWarning</code></pre>
+<pre><code>/home/ubuntu/miniconda3/lib/python3.9/site-packages/seaborn/_decorators.py:36: FutureWarning: Pass the following variables as keyword args: x, y. From version 0.12, the only valid positional argument will be `data`, and passing other arguments without an explicit keyword will result in an error or misinterpretation.
+  warnings.warn(</code></pre>
 <div class="figure">
 <img src="01-build_the_data_files/01-build_the_data_59_1.png" alt="" />
 <p class="caption">png</p>
@@ -3139,7 +3141,7 @@ upsetplot.plot(missing_counts);</code></pre>
 </div>
 <pre class="python"><code># Plot historgrams and scatter plots for each combination of features.
 sns.pairplot(fv,hue=&#39;deposit&#39;,palette=&quot;Set1&quot;,diag_kind=&quot;auto&quot;)</code></pre>
-<pre><code>&lt;seaborn.axisgrid.PairGrid at 0x2101875bbc8&gt;</code></pre>
+<pre><code>&lt;seaborn.axisgrid.PairGrid at 0x7f325381e190&gt;</code></pre>
 <div class="figure">
 <img src="01-build_the_data_files/01-build_the_data_62_1.png" alt="" />
 <p class="caption">png</p>
@@ -3245,15 +3247,15 @@ plt.ylabel(&quot;Target/Prediction&quot;)
 plt.legend(loc=7)</code></pre>
 <pre><code>Tranining the Clasifier...
 Done RF. Now scoring...
-RF 5-fold cross validation Scores: [0.88636364 0.93181818 0.90909091 0.88636364 0.75      ]
-SCORE Mean: 0.87 STD: 0.06 
+RF 5-fold cross validation Scores: [0.93333333 0.97777778 0.91111111 0.88888889 0.73333333]
+SCORE Mean: 0.89 STD: 0.08 
 
 
 
 
 
 
-&lt;matplotlib.legend.Legend at 0x1ee83980d48&gt;</code></pre>
+&lt;matplotlib.legend.Legend at 0x7f3251577a60&gt;</code></pre>
 <div class="figure">
 <img src="01-build_the_data_files/01-build_the_data_72_2.png" alt="" />
 <p class="caption">png</p>
@@ -3269,23 +3271,25 @@ print(&quot;Targets (expected result):&quot;)
 print(targets.values)
 print(&quot;Prediction (actual result):&quot;)
 print(rf.predict(features))</code></pre>
-<pre><code>Features: (220, 6) Targets: (220,)
-RF CV-Scores:  [0.88636364 0.93181818 0.90909091 0.88636364 0.75      ]
-CV-SCORE Mean: 0.87 STD: 0.06
+<pre><code>Features: (225, 6) Targets: (225,)
+RF CV-Scores:  [0.93333333 0.97777778 0.91111111 0.88888889 0.73333333]
+CV-SCORE Mean: 0.89 STD: 0.08
 Targets (expected result):
 [1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
  1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
  1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
  1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
  0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
- 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0]
+ 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+ 0 0 0]
 Prediction (actual result):
 [1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
  1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
  1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
  1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
  0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
- 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0]</code></pre>
+ 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+ 0 0 0]</code></pre>
 <pre class="python"><code># Gather the importance measures
 ft_imp=[]
 ft_lab=[]
@@ -3339,8 +3343,8 @@ rf.predict_proba(targets)</code></pre>
 
 
 
-array([[0.17, 0.83],
-       [0.71, 0.29]])</code></pre>
+array([[0.13, 0.87],
+       [0.79, 0.21]])</code></pre>
 <pre class="python"><code>#100x100 takes about 1 hour! 10x10 takes about 1 minute
 # Make a grid of target locations
 grid_x, grid_y = np.mgrid[130:140:100j,-36:-26:100j]</code></pre>
@@ -3373,7 +3377,8 @@ print(&quot;Done!&quot;)</code></pre>
 Done faults
 Done rasters
 Done!
-Wall time: 35min 34s</code></pre>
+CPU times: user 24min 55s, sys: 1.32 s, total: 24min 56s
+Wall time: 24min 57s</code></pre>
 <pre class="python"><code># Save all our hard work to a csv file for more hacking to come!
 tdf.to_csv(&#39;data/tdf_100.csv&#39;,index=False)</code></pre>
 <pre class="python"><code>#Apply the trained ML to our gridded data to determine the probabilities at each of the points

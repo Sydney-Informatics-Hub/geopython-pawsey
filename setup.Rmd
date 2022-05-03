@@ -10,7 +10,9 @@ output:
 We will be connecting to Jupyter Notebook Servers hosted on Pawsey's Nimbus Cloud. 
 Each server has been pre-configured with the data and code ready to run through these tutorials.
 Everyone will be issued with a unique web address and password.
+
 **Go to the address you are given and you are ready to go!**
+
 
 <br>
 
@@ -19,7 +21,7 @@ If you are arriving here in the future or would like to set up the environment o
 
 ## 1. Download the data
 
-Grab a copy from: https://github.com/Sydney-Informatics-Hub/geopython-pawsey/tree/main/_ipynb/data
+Grab a copy from [here.](https://sydney-informatics-hub.github.io/geopython-pawsey/data.tar.gz)
 
 Or clone the repo and get the notebooks and data from the ```_ipynb``` directory:
 
@@ -53,11 +55,11 @@ Once installed, launch an "Anaconda Prompt" from the Start Menu / Applications F
 Next we need to set up an environment with all the additional packages and libraries we will be using throughout the course.
 
 ```
-conda install -c conda-forge scikit-learn seaborn
-pip install jupyterlab
+conda install -c defaults -c conda-forge python=3.9 scikit-learn=0.23.2 seaborn=0.11.2 numpy=1.20.3 pandas=1.2.3 scipy=1.5.3 
+pip install jupyterlab==3.3.3 pyshp==2.1.3 shapely==1.8.1 upsetplot==0.6.0
 ```
 
-This should install other key libraries e.g. ```numpy, matplotlib, pandas, pyshp``` as dependencies.
+This should install other key libraries e.g. ```numpy, matplotlib, pandas``` as dependencies.
 
 
 <br>
@@ -82,14 +84,15 @@ vi ~/.jupyter/jupyter_notebook_config.py
 
 Set these lines
 ```
+c.NotebookApp.allow_password_change = True
 c.NotebookApp.ip = '*'
-
 c.NotebookApp.password = 'PASSWORDHERE'
 ```
 
 Launch the notebook server
 ```
-nohup jupyter notebook &
+cd /home/ubuntu/geopython-pawsey/_ipynb
+nohup jupyter notebook > ~/notebook.log &
 ```
 
 If you later want to kill the server, log back in, determine the id of the process and kill it.
